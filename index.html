@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#142620"><title>敲麻 · 上海四人联机桌</title><style>:root{--paper:#f5f3ed;--ink:#24342e;--muted:#839088;--green:#215943;--gold:#cdb885;--border:#e3e6de;--white:#fffef9;font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;font-synthesis:none;color:var(--ink);background:var(--paper)}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:0;transition:background .15s,transform .15s}button:disabled{cursor:default;opacity:.42}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e5bc60;outline-offset:3px}button:hover:not(:disabled){filter:brightness(1.06)}button:active:not(:disabled){transform:translateY(1px)}[hidden]{display:none!important}a{color:inherit;text-decoration:none}.topbar{height:86px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--border);background:#faf9f5}.brand{display:flex;gap:13px;align-items:center}.brand-mark{font-family:serif;background:#1c3f30;color:#f1e6cb;font-size:30px;height:47px;width:43px;display:grid;place-items:center;border-radius:9px;box-shadow:0 3px 0 #b9bb9f}.brand strong{font-size:19px;letter-spacing:3px;display:block}.brand small{display:block;font-size:11px;letter-spacing:2px;color:#7c8880;margin-top:5px}.top-middle{font-size:12px;color:#65756b;display:flex;align-items:center;gap:10px}.live-dot{width:6px;height:6px;border-radius:50%;background:#5f9976;display:inline-block}.divider{height:15px;width:1px;background:#d7ddd3;margin:0 12px}.topbar nav{display:flex;align-items:center;gap:14px}.ghost,.icon-button{background:transparent;color:#657267;padding:9px 10px;font-size:12px}.icon-button{font-size:20px}.light-button{background:#e8eddf;color:#31523c;padding:12px 18px;border-radius:7px;font-size:12px;font-weight:600;display:flex;gap:25px;align-items:center}.workspace{max-width:1560px;margin:auto;padding:26px 36px 30px;display:grid;grid-template-columns:minmax(670px,1fr) 300px;gap:25px}.table-toolbar{height:61px;display:flex;align-items:flex-start;justify-content:space-between}.eyebrow{font-size:9px;letter-spacing:2px;font-weight:600;color:#8a998d}.table-toolbar h1{font-size:19px;letter-spacing:1px;margin:7px 0 0;font-weight:500}.table-controls{display:flex;align-items:center;gap:10px;margin-top:8px}.small-button{font-size:11px;color:#6e7a6f;background:#ecefe6;padding:8px 11px;border-radius:5px;white-space:nowrap}.mode-chip{font-size:10px;border:1px solid #dde3d6;border-radius:20px;padding:7px 11px;color:#7a887b}.mahjong-table{height:680px;position:relative;border-radius:22px;background:radial-gradient(ellipse at 50% 46%,#28634f,#184633 74%,#143e2c);box-shadow:inset 0 0 0 8px #284d3b,inset 0 0 0 9px #526947,0 7px 0 #153624,0 15px 25px #163d211b;overflow:hidden;color:#edeee1}.table-grain{position:absolute;inset:8px;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.7' filter='url(%23n)'/%3E%3C/svg%3E")}.table-line{position:absolute;inset:25px;border:1px solid #96ab6b25;border-radius:12px;pointer-events:none}.seat{position:absolute;z-index:3}.north{top:26px;left:22%;right:22%;text-align:center}.west{top:200px;left:26px;width:105px}.east{top:200px;right:26px;width:105px}.south{bottom:22px;left:25px;right:25px}.player-head{display:flex;align-items:center;gap:9px;white-space:nowrap}.north .player-head{justify-content:center}.avatar{height:30px;width:30px;border:1px solid #afba9f45;border-radius:50%;display:grid;place-items:center;font-family:serif;background:#8daf7730;color:#dbdfbb;font-size:13px}.avatar.you{background:#cbb884;color:#3d4e34;border-color:#ddcd9b}.player-name{font-size:12px;letter-spacing:1px;display:flex;align-items:center;gap:6px}.player-role{font-size:9px;color:#b0bfb2;margin-top:4px}.seat-tag{font-size:9px;background:#cdb885;color:#32462c;border-radius:3px;padding:2px 5px;letter-spacing:0}.seat-tag.qiao{background:#3a7457;color:#e5ead6;border:1px solid #aabb8060}.seat-tag.penalty{background:#854c3e;color:#ffe8d7}.hand-backs{display:flex;gap:2px;margin-top:11px;justify-content:center}.back-tile{width:19px;height:29px;border-radius:3px;background:linear-gradient(135deg,#84a584,#5c8864);border:1px solid #adc1a077;box-shadow:0 2px 0 #ced2b5}.back-tile:after{content:'';display:block;margin:5px 4px;height:16px;border:1px solid #b4c8a242;border-radius:1px}.west .hand-backs,.east .hand-backs{flex-wrap:wrap;width:70px;justify-content:flex-start;margin:14px 0}.west .player-head,.east .player-head{gap:7px;flex-wrap:wrap}.west .player-role,.east .player-role{font-size:8px}.flowers-row{display:flex;gap:3px;align-items:center;flex-wrap:wrap;margin-top:8px;min-height:12px}.north .flowers-row{justify-content:center}.flower-chip{font-size:9px;border:1px solid #b1bbaa45;color:#c9d2bb;padding:2px 4px;border-radius:3px}.flower-label{font-size:9px;color:#9eb2a0}.melds-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.north .melds-row{justify-content:center}.meld-group{display:flex;gap:1px;position:relative;padding-bottom:12px}.meld-caption{position:absolute;bottom:0;left:0;font-size:8px;color:#abbea9;white-space:nowrap}.field{position:absolute;left:17%;right:17%;top:138px;bottom:195px}.wall-strip{position:absolute;display:flex;gap:2px;z-index:0;align-items:center;justify-content:center}.wall-top{top:0;left:10%;right:10%}.wall-bottom{bottom:0;left:10%;right:10%}.wall-left{left:0;top:26px;bottom:26px;flex-direction:column}.wall-right{right:0;top:26px;bottom:26px;flex-direction:column}.wall-stack{height:10px;width:15px;position:relative;border-radius:2px;border:1px solid #b3c1a273;background:#82a37d;box-shadow:0 3px 0 #638960}.wall-stack.empty{opacity:.1;box-shadow:none}.wall-stack.half{box-shadow:none;opacity:.6}.wall-stack.head{background:#e0c78e;border-color:#f2dfad;box-shadow:0 3px 0 #af996a}.wall-stack.tail{background:#a1cfd7;border-color:#c0e4e8;box-shadow:0 3px 0 #699bac}.wall-stack.head:after,.wall-stack.tail:after{position:absolute;font-size:8px;top:-16px;color:#e6d9b4;white-space:nowrap}.wall-top .head:after{content:'头'}.wall-top .tail:after{content:'尾';color:#bddde2}.river{position:absolute;z-index:1;display:grid;grid-template-columns:repeat(6,24px);gap:3px}.river-north{top:26px;left:50%;transform:translateX(-50%)}.river-south{bottom:26px;left:50%;transform:translateX(-50%)}.river-west{top:50%;left:23px;transform:translateY(-50%);grid-template-columns:repeat(3,24px)}.river-east{top:50%;right:23px;transform:translateY(-50%);grid-template-columns:repeat(3,24px)}.river-label{position:absolute;color:#8baa93;font-size:8px;top:-15px;letter-spacing:2px}.table-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:142px;height:150px;border:1px solid #8cab7152;border-radius:13px;background:#194734e0;box-shadow:0 0 35px #153c3025;display:flex;align-items:center;flex-direction:column;padding-top:12px;z-index:2}.center-emblem{font-size:26px;font-family:serif;color:#adba85;line-height:29px}.remaining{font-size:9px;color:#aabb9b;letter-spacing:1px;margin-top:5px}.remaining b{font-size:18px;font-weight:500;color:#e1e4cc;margin-right:4px}.compass{display:grid;grid-template-columns:repeat(3,21px);grid-template-rows:repeat(3,17px);font-size:10px;margin-top:5px;color:#8ca990;text-align:center}.compass span:nth-child(1){grid-column:2}.compass span:nth-child(2){grid-column:1;grid-row:2}.compass span:nth-child(3){grid-column:2;grid-row:2;color:#e6d097}.compass span:nth-child(4){grid-column:3;grid-row:2}.compass span:nth-child(5){grid-column:2;grid-row:3}.last-event{font-size:8px;max-width:130px;color:#b3c49e;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;position:absolute;bottom:9px}.next-button{background:#cdb885;color:#24402b;border-radius:5px;padding:6px 8px;font-size:9px;position:absolute;bottom:8px}.tile{width:45px;height:62px;border:1px solid #e2dfc9;border-radius:5px;background:linear-gradient(120deg,#fffef6,#efeddf);color:#294b36;box-shadow:0 4px 0 #b5b996,0 5px 3px #122b3235;padding:3px;display:inline-flex;justify-content:center;align-items:center;vertical-align:top;position:relative;flex-shrink:0}.tile svg{display:block;width:100%;height:100%}.tile.small{width:24px;height:32px;border-radius:3px;box-shadow:0 2px 0 #a6b18e;padding:2px;pointer-events:none}.tile.meld{width:22px;height:30px;border-radius:3px;box-shadow:0 2px 0 #adb596;padding:1px}.tile.discarded{opacity:.27;box-shadow:none}.tile.last{outline:2px solid #e0c78c;outline-offset:2px}.tile.qiao-discard:after{content:'';position:absolute;bottom:-4px;left:2px;right:2px;height:3px;background:#dabf76}.tile.selected{transform:translateY(-12px);outline:2px solid #d2b56c;outline-offset:2px;box-shadow:0 5px 0 #a9af87,0 8px 14px #10271960}.tile.drawn{margin-left:13px}.tile.playable:hover{transform:translateY(-7px);background:#fffaf0}.tile.selected:hover{transform:translateY(-12px)}.tile.dim{opacity:.55}.tile.recommended:before{content:'';position:absolute;top:-8px;left:50%;height:4px;width:4px;border-radius:50%;background:#d1b574}.hand-row{display:flex;gap:4px;margin-top:15px;justify-content:center;min-height:67px;align-items:flex-start}.human .player-head{justify-content:space-between}.human .identity{display:flex;gap:10px;align-items:center}.human-meta{display:flex;gap:10px;align-items:center}.human .flowers-row{margin:0}.human .melds-row{margin:5px 0 0;justify-content:flex-end}.human .meld-group{padding-bottom:10px}.human .meld-caption{font-size:8px}.decision-bar{margin-top:21px;padding:15px 19px;min-height:76px;background:#fffefa;border:1px solid #e5e8dc;border-radius:10px;display:flex;gap:10px;align-items:center;justify-content:space-between}.decision-copy{display:flex;gap:12px;align-items:center;min-width:0}.status-dot{height:7px;width:7px;border-radius:50%;background:#5f8c6a;flex-shrink:0}.status-dot.wait{background:#b5bbac}.decision-copy strong{font-size:12px;font-weight:500;display:block}.decision-copy span:not(.status-dot){font-size:10px;color:#8a9487;display:block;margin-top:7px}.action-buttons{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.action-button{background:#edf0e6;color:#57704b;font-size:12px;border-radius:5px;padding:11px 16px;white-space:nowrap}.action-button.primary{background:#31583e;color:#fff5d6}.action-button.gold{background:#d7c48f;color:#3d5134}.action-button.danger{background:#f3e9df;color:#9b6950}.bottom-note{display:flex;gap:14px;justify-content:space-between;font-size:9px;color:#95a08d;margin:18px 2px 0}.bottom-note button{font-size:9px;padding:0;background:none;color:#677d60}.replay-bar{display:flex;gap:9px;padding:13px;background:#edeede;margin-top:12px;border-radius:8px;align-items:center;font-size:10px}.replay-bar input{flex:1;min-width:50px;accent-color:#416a47}.sidebar{display:flex;flex-direction:column;gap:17px;padding-top:61px}.side-card{border:1px solid var(--border);border-radius:11px;background:#fffefa;overflow:hidden}.card-heading{display:flex;align-items:center;justify-content:space-between;padding:19px 20px 0;gap:6px}.card-heading h2{font-weight:500;font-size:13px;margin:4px 0;letter-spacing:1px}.mini-tag{font-size:9px;color:#8b977d;border:1px solid #e2e6d9;padding:4px 6px;border-radius:4px;white-space:nowrap}.analysis-content{min-height:224px;padding:22px 20px}.analysis-symbol{font-size:40px;color:#899f7e;line-height:45px;font-weight:200}.analysis-content h3{font-size:13px;font-weight:400;letter-spacing:1px;margin:13px 0 10px}.analysis-content p{font-size:11px;color:#87937f;line-height:1.9;margin:0 0 19px}.outline-button{border:1px solid #c9d5bd;color:#506e42;background:transparent;border-radius:6px;width:100%;padding:11px 13px;display:flex;justify-content:space-between;font-size:11px}.analysis-foot{font-size:9px;color:#98a28e;padding:11px 19px;background:#f7f8f0;border-top:1px solid #ecefe2}.scoreboard-card{padding-bottom:12px}.score-row{display:flex;gap:9px;align-items:center;padding:12px 20px;font-size:11px}.score-row .score-avatar{height:23px;width:23px;border-radius:50%;display:grid;place-items:center;background:#edf1e5;color:#6a8059;font-size:9px}.score-row.you{color:#355d39;background:#f4f6eb;margin-top:12px}.score-row .score-name{flex:1}.score-row .score-number{font-size:12px;font-variant-numeric:tabular-nums}.score-row .score-number.pos{color:#54805b}.score-row .score-number.neg{color:#ac826d}.relations{font-size:9px;color:#8c957e;padding:8px 20px 0;border-top:1px dashed #e3e7d9;margin:0 15px}.log-card{flex:1;min-height:175px}.muted{font-size:9px;color:#929d88}.event-log{height:174px;overflow:auto;padding:14px 20px}.log-entry{font-size:10px;color:#8b9581;margin:0 0 13px;display:flex;gap:8px;line-height:1.5}.log-entry b{font-weight:400;color:#617958;white-space:nowrap}.log-entry .log-point{width:4px;height:4px;margin-top:6px;background:#bdc6ad;border-radius:50%;flex-shrink:0}.sidebar-foot{font-size:9px;color:#929e87;display:flex;gap:7px;justify-content:center;padding:0 0 5px}.analysis-table{width:100%;border-collapse:collapse;font-size:10px;margin-top:10px}.analysis-table th{font-size:9px;text-align:left;color:#9aa48d;font-weight:400;padding:7px 0;border-bottom:1px solid #e5e9dc}.analysis-table td{padding:10px 0;border-bottom:1px solid #edf0e7}.analysis-table tr.best td{color:#467242}.analysis-table button{background:transparent;padding:0;color:inherit}.wait-pills{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0}.wait-pill{font-size:10px;background:#edf2e4;padding:5px 7px;border-radius:3px;color:#628152}.analysis-title{display:flex;justify-content:space-between;font-size:12px;align-items:center}.analysis-title button{font-size:10px;color:#7c8d6c;background:none}.analysis-note{font-size:9px!important;margin-top:12px!important;line-height:1.8!important}.analysis-content.active{padding-top:17px}.reveal-control{display:flex;gap:7px;align-items:center;font-size:10px;color:#798d6b;margin:12px 0}.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:100;background:#213c2f;color:#faf7e6;border:1px solid #5e7857;border-radius:8px;padding:14px 23px;font-size:12px;box-shadow:0 5px 30px #0002;max-width:90vw}dialog{border:1px solid #dfe4d5;border-radius:15px;padding:24px 28px;max-width:650px;width:calc(100% - 40px);color:var(--ink);background:#fafbf5;box-shadow:0 20px 100px #0004}dialog::backdrop{background:#10281fc4;backdrop-filter:blur(3px)}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:19px}.modal-head h2{font-size:18px;font-weight:500;letter-spacing:2px;margin:0}.modal-copy{font-size:12px;line-height:2;color:#66755e}.modal-copy h3{font-size:13px;color:#354e32;margin:20px 0 7px}.modal-copy p{margin:6px 0}.modal-copy ul{padding-left:19px}.wall-map{display:grid;grid-template-columns:repeat(18,minmax(10px,1fr));gap:4px;margin:15px 0}.wall-map-stack{background:#dce6d4;display:flex;flex-direction:column;gap:2px;padding:3px;border-radius:3px;text-align:center}.wall-map-tile{font-size:8px;line-height:18px;background:#88a281;color:#eef3df;border-radius:2px}.wall-map-tile.gone{opacity:.18}.wall-map-tile.head{background:#c7a95e}.wall-map-tile.tail{background:#69a1a8}.wall-map-caption{font-size:10px;margin-top:14px;color:#687e59}.wall-legend{display:flex;gap:16px;font-size:10px;color:#81916f}.setting-row{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid #e1e8d5;font-size:12px;gap:15px}.setting-row input[type=text]{padding:9px 10px;border:1px solid #d6dfcd;border-radius:4px;max-width:190px;background:#fffef9;font-size:11px}.setting-row input[type=range]{accent-color:#587845;width:170px}.modal-buttons{margin-top:22px;display:flex;justify-content:flex-end;gap:10px}.result-title{font-size:26px;font-family:serif;color:#476941;margin:10px 0 18px}.result-line{display:flex;justify-content:space-between;font-size:12px;margin:12px 0;padding-bottom:12px;border-bottom:1px solid #e5eadb}.result-tags{font-size:11px;color:#7b8e6b;line-height:2}.error-banner{color:#a24631;background:#fce8da;padding:10px;font-size:12px}.opponent .revealed-hand{display:flex;flex-wrap:wrap;gap:2px;margin-top:10px}.north .revealed-hand{justify-content:center}.active-seat .avatar{outline:2px solid #d6bb7a;outline-offset:3px}.active-seat .player-name{color:#f2dfb0}@media(min-width:1400px){.mahjong-table{height:720px}.tile{width:49px;height:67px}.field{bottom:205px}.river{grid-template-columns:repeat(6,27px)}.river-west,.river-east{grid-template-columns:repeat(3,27px)}.tile.small{width:27px;height:36px}.wall-stack{width:18px;height:11px}}@media(max-width:1180px){.workspace{padding:22px 20px;grid-template-columns:minmax(620px,1fr) 255px;gap:17px}.topbar{padding:0 23px}.top-middle{display:none}.mode-chip{display:none}.sidebar .card-heading{padding:15px 15px 0}.analysis-content{padding:18px 15px}.score-row{padding:11px 15px}.field{left:18%;right:18%}.river-west{left:16px}.river-east{right:16px}.tile{width:39px;height:57px}.hand-row{gap:3px}}@media(max-width:950px){.workspace{display:flex;flex-direction:column;padding:20px 16px}.sidebar{padding-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:15px}.log-card{grid-column:1/-1}.sidebar-foot{grid-column:1/-1}.mahjong-table{height:650px}.field{left:19%;right:19%;bottom:190px}.west{left:22px}.east{right:22px}.analysis-content{min-height:200px}.event-log{height:115px}.topbar{height:75px}.topbar nav{gap:5px}.topbar .light-button{gap:10px}.table-toolbar h1{font-size:18px}.tile{width:43px;height:60px}}@media(max-width:640px){.topbar{padding:0 15px}.brand strong{font-size:15px;letter-spacing:2px}.brand small{font-size:9px}.brand-mark{height:39px;width:35px;font-size:25px}.topbar .ghost{padding:8px 4px;font-size:10px}.topbar .light-button{padding:10px;font-size:10px}.topbar .light-button span{display:none}.brand{gap:8px}.workspace{padding:17px 9px}.table-toolbar{padding:0 5px;height:60px}.table-toolbar h1{font-size:16px}.eyebrow{font-size:8px;letter-spacing:1.2px}.small-button{font-size:10px;padding:8px}.table-controls{gap:5px}.mahjong-table{height:610px;border-radius:17px}.north{left:17%;right:17%;top:25px}.west,.east{width:64px;top:210px}.west{left:16px}.east{right:16px}.west .avatar,.east .avatar{height:25px;width:25px}.west .hand-backs,.east .hand-backs{width:47px;gap:3px}.back-tile{width:14px;height:23px}.west .back-tile,.east .back-tile{width:12px;height:19px}.player-name{font-size:10px;letter-spacing:0}.west .player-head,.east .player-head{display:block}.west .player-name,.east .player-name{margin-top:7px;flex-wrap:wrap;gap:4px}.west .player-role,.east .player-role{display:none}.field{top:140px;bottom:174px;left:21%;right:21%}.wall-stack{width:8px;height:8px}.wall-strip{gap:2px}.wall-top,.wall-bottom{left:4%;right:4%}.wall-left,.wall-right{top:20px;bottom:20px}.river{gap:2px;grid-template-columns:repeat(6,17px)}.river-west,.river-east{grid-template-columns:repeat(2,17px)}.river-west{left:12px}.river-east{right:12px}.tile.small{width:17px;height:24px;padding:1px;box-shadow:0 1px 0 #a6b18e}.table-center{width:97px;height:127px;border-radius:9px;padding-top:9px}.center-emblem{font-size:22px;line-height:24px}.remaining b{font-size:16px}.remaining{font-size:8px}.compass{grid-template-columns:repeat(3,17px);grid-template-rows:repeat(3,15px);font-size:9px;margin-top:4px}.last-event{font-size:7px;max-width:85px}.south{bottom:23px;left:13px;right:13px}.tile{width:calc((100vw - 57px)/14);max-width:35px;height:48px;padding:1px;border-radius:3px}.tile.drawn{margin-left:5px}.hand-row{gap:2px;min-height:53px;margin-top:17px}.human .avatar{width:27px;height:27px}.human-meta{max-width:56%;flex-wrap:wrap;justify-content:flex-end;gap:4px}.flower-chip{font-size:8px;padding:1px 3px}.tile.meld{width:17px;height:24px}.melds-row{gap:4px}.west .melds-row,.east .melds-row{max-width:60px}.meld-group{flex-wrap:wrap}.decision-bar{padding:12px 13px;align-items:flex-start;flex-direction:column;margin-top:18px;min-height:102px}.action-buttons{align-self:flex-end}.action-button{font-size:11px;padding:9px 12px}.decision-copy span:not(.status-dot){font-size:9px}.bottom-note{font-size:8px;gap:4px;padding:0 4px}.bottom-note #save-status{display:none}.sidebar{gap:10px}.side-card .card-heading h2{font-size:12px}.mini-tag{font-size:8px}.analysis-content h3{font-size:12px}.analysis-content p{font-size:10px}.outline-button{font-size:10px}.analysis-foot{padding:10px 12px;font-size:8px}.score-row{font-size:10px}.replay-bar{flex-wrap:wrap}.replay-bar input{width:45%}.replay-bar #replay-label{font-size:9px}.next-button{font-size:8px}.tile.selected{transform:translateY(-9px)}.player-role{font-size:8px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* Physical numbering is from the seated player's right toward their left. */
+.wall-bottom{flex-direction:row-reverse}.wall-left{flex-direction:column-reverse}
+.wall-stack.head:after{content:'头'}.wall-stack.tail:after{content:'尾';color:#bddde2}
+.wall-left .head:after,.wall-left .tail:after{left:-17px;top:-1px}
+.wall-right .head:after,.wall-right .tail:after{right:-17px;top:-1px}
+
+/* Minimal theme: neutral chrome, colour lives only on the tiles. */
+:root{--paper:#f5f5f3;--ink:#1b1b1b;--muted:#8a8a86;--border:#e4e4e0;--white:#fff;--green:#1b1b1b;--gold:#1b1b1b;--edge:#cfcfc8}
+body{background:var(--paper)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline-color:var(--ink)}
+.topbar{background:#fff;border-bottom-color:var(--border)}
+.brand-mark{background:var(--ink);color:#fff;box-shadow:none}
+.brand small,.top-middle,.eyebrow{color:var(--muted)}
+.live-dot{background:var(--ink)}.divider{background:var(--border)}
+.ghost,.icon-button{color:#555}
+.light-button{background:var(--ink);color:#fff}
+.small-button{background:#fff;color:#444;border:1px solid var(--border)}
+.mode-chip{border-color:var(--border);color:var(--muted)}
+
+/* Table: three rows, opponents around a square field. */
+.mahjong-table{height:auto;background:#ebebe8;box-shadow:none;border-radius:18px;color:var(--ink);overflow:visible;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-rows:auto auto auto;align-items:center;gap:16px 18px;padding:22px 26px 24px}
+.table-grain,.table-line,.wall-strip{display:none}
+.seat{position:static;width:auto;min-width:0}
+.north{grid-column:1/-1;grid-row:1;justify-self:center;text-align:center}
+.west{grid-column:1;grid-row:2;justify-self:start}
+.east{grid-column:3;grid-row:2;justify-self:end}
+.south{grid-column:1/-1;grid-row:3}
+.field{position:relative;inset:auto;grid-column:2;grid-row:2;--rw:26px;--rh:35px;--g:2px;--pad:8px;--W:calc(6*var(--rw) + 5*var(--g));--H:calc(4*var(--rh) + 3*var(--g));width:calc(2*var(--H) + var(--W) + 2*var(--pad));height:calc(2*var(--H) + var(--W) + 2*var(--pad))}
+/* Each river is laid out as if in front of you, then turned to face its owner. */
+.river{position:absolute;inset:auto;display:grid;grid-template-columns:repeat(6,var(--rw));grid-auto-rows:var(--rh);gap:var(--g);width:var(--W);height:var(--H);align-content:start;transform-origin:50% 50%}
+.river-south{left:calc(var(--H) + var(--pad));top:calc(var(--H) + var(--W) + 2*var(--pad));transform:none}
+.river-north{left:calc(var(--H) + var(--pad));top:0;transform:rotate(180deg)}
+.river-west{left:calc(var(--H)/2 - var(--W)/2);top:calc(var(--H)/2 + var(--W)/2 + var(--pad));transform:rotate(90deg)}
+.river-east{left:calc(1.5*var(--H) + var(--W)/2 + 2*var(--pad));top:calc(var(--H)/2 + var(--W)/2 + var(--pad));transform:rotate(-90deg)}
+.river .tile,.river .tile.small{width:var(--rw);height:var(--rh);padding:1px;border-radius:3px}
+.river-north .tile{transform:rotate(180deg)}
+.river-label{display:none}
+.table-center{left:calc(var(--H) + var(--pad));top:calc(var(--H) + var(--pad));width:var(--W);height:var(--W);transform:none;background:#fff;border:1px solid var(--border);box-shadow:none;border-radius:12px;padding:0 0 14px;justify-content:center}
+.center-emblem{color:var(--ink)}.remaining{color:var(--muted)}.remaining b{color:var(--ink)}
+.compass{color:#b4b4af}.compass span:nth-child(3){color:var(--ink);font-weight:600}
+.last-event{color:var(--muted)}.next-button{background:var(--ink);color:#fff}
+
+/* Seats */
+.player-name{color:var(--ink)}.player-role{color:var(--muted)}
+.avatar{background:#fff;border:1px solid var(--border);color:var(--ink)}
+.avatar.you{background:var(--ink);color:#fff;border-color:var(--ink)}
+.active-seat .avatar{outline:2px solid var(--ink)}.active-seat .player-name{color:var(--ink);font-weight:600}
+.seat-tag{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.seat-tag.qiao{background:var(--ink);color:#fff;border:1px solid var(--ink)}
+.seat-tag.penalty{background:#fff;color:#555;border:1px dashed #555}
+.flower-label,.meld-caption{color:var(--muted)}
+.flower-chip{border-color:var(--border);color:#555;background:#fff}
+.flowers-row{gap:3px}
+.seat-body{display:flex;gap:10px;align-items:flex-end;margin-top:10px}
+.seat-body .hand-backs,.seat-body .melds-row,.seat-body .revealed-hand{margin:0}
+.north .seat-body{flex-direction:row-reverse;justify-content:center}
+.north .player-head{justify-content:center}
+.west .seat-body{flex-direction:column;align-items:flex-start}
+.east .seat-body{flex-direction:column-reverse;align-items:flex-end}
+.east .player-head{flex-direction:row-reverse;text-align:right}
+.east .player-name{justify-content:flex-end}
+.east .flowers-row{justify-content:flex-end}
+.west .flowers-row,.east .flowers-row{max-width:120px}
+.west .hand-backs,.east .hand-backs,.west .revealed-hand,.east .revealed-hand{flex-direction:column;flex-wrap:nowrap;width:auto;gap:2px}
+.west .melds-row,.east .melds-row{flex-direction:column;align-items:flex-start;gap:6px}
+.east .melds-row{align-items:flex-end}
+.west .meld-group,.east .meld-group{flex-direction:column;gap:1px}
+/* Side seats see tiles from the side: rotate, and swap the layout box to match. */
+.west .tile.meld,.east .tile.meld{width:20px;height:27px;margin:-3.5px 3.5px;transform:rotate(90deg)}
+.east .tile.meld{transform:rotate(-90deg)}
+.east .meld-caption{left:auto;right:0}
+
+/* Tiles: the only coloured objects. */
+.tile{border-color:#dcdcd5;background:#fffdf7;box-shadow:0 3px 0 var(--edge),0 4px 3px #0000000f}
+.tile.small,.tile.meld{box-shadow:0 2px 0 var(--edge)}
+.tile.mini{width:17px;height:23px;padding:1px;border-radius:2px;box-shadow:0 1px 0 var(--edge);pointer-events:none}
+.tile.discarded{opacity:.3}
+.tile.last{outline:2px solid var(--ink)}
+.tile.selected{outline:2px solid var(--ink);box-shadow:0 5px 0 var(--edge),0 8px 14px #00000026}
+.tile.playable:hover{background:#fff}
+.tile.qiao-discard:after,.tile.recommended:before{background:var(--ink)}
+.back-tile{width:16px;height:24px;background:linear-gradient(180deg,#3d7c63,#2b604c);border:1px solid #234f3e;box-shadow:0 2px 0 var(--edge)}
+.back-tile:after{margin:4px 3px;height:14px;border-color:#ffffff26}
+.west .back-tile,.east .back-tile{width:24px;height:16px}
+.west .back-tile:after,.east .back-tile:after{margin:3px 4px;height:8px}
+
+/* Panels */
+.decision-bar,.side-card,.replay-bar{background:#fff;border:1px solid var(--border)}
+.status-dot{background:var(--ink)}.status-dot.wait{background:#c8c8c3}
+.decision-copy span:not(.status-dot){color:var(--muted)}
+.action-button{background:#fff;color:var(--ink);border:1px solid var(--border)}
+.action-button.primary,.action-button.gold{background:var(--ink);color:#fff;border-color:var(--ink)}
+.action-button.danger{background:#fff;color:#666;border:1px dashed #b5b5b0}
+.bottom-note,.sidebar-foot,.muted{color:var(--muted)}.bottom-note button{color:var(--ink)}
+.replay-bar input,.setting-row input[type=range]{accent-color:var(--ink)}
+.mini-tag{color:var(--muted);border-color:var(--border)}
+.analysis-symbol{color:var(--ink)}.analysis-content p{color:var(--muted)}
+.outline-button{border-color:var(--border);color:var(--ink)}
+.analysis-foot{background:#fafaf8;border-top-color:var(--border);color:var(--muted)}
+.score-row .score-avatar{background:#f1f1ee;color:#555}
+.score-row.you{background:#f6f6f4;color:var(--ink)}
+.score-row .score-number.pos{color:var(--ink);font-weight:600}.score-row .score-number.neg{color:var(--muted)}
+.relations{color:var(--muted);border-top-color:var(--border)}
+.log-entry{color:var(--muted)}.log-entry b{color:var(--ink)}.log-entry .log-point{background:#c8c8c3}
+.analysis-table th{color:var(--muted);border-bottom-color:var(--border)}.analysis-table td{border-bottom-color:#efefec}
+.analysis-table tr.best td{color:var(--ink);font-weight:600}
+.wait-pill{background:#f1f1ee;color:var(--ink)}
+.analysis-title button,.reveal-control{color:var(--muted)}
+.toast{background:var(--ink);color:#fff;border-color:var(--ink)}
+dialog{background:#fff;border-color:var(--border)}dialog::backdrop{background:#0000004d;backdrop-filter:none}
+.modal-copy{color:#555}.modal-copy h3{color:var(--ink)}
+.wall-map-stack{background:#f1f1ee}.wall-map-tile{background:#d3d3ce;color:#444}
+.wall-map-tile.head{background:var(--ink);color:#fff}.wall-map-tile.tail{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.wall-map-caption,.wall-legend{color:var(--muted)}
+.setting-row{border-bottom-color:var(--border)}.setting-row input[type=text]{border-color:var(--border);background:#fff}
+.result-title{color:var(--ink)}.result-line{border-bottom-color:var(--border)}.result-tags{color:var(--muted)}
+
+@media(max-width:640px){
+.mahjong-table{padding:14px 8px 16px;gap:10px 6px}
+.field{--rw:15px;--rh:20px;--pad:5px}
+.table-center{border-radius:8px}
+.center-emblem{font-size:16px;line-height:18px}.remaining b{font-size:13px}
+.compass{grid-template-rows:repeat(3,11px);font-size:8px;margin-top:2px}
+.back-tile{width:10px;height:15px}.back-tile:after{display:none}
+.west .back-tile,.east .back-tile{width:15px;height:10px}
+.west .tile.meld,.east .tile.meld{width:13px;height:18px;margin:-2.5px 2.5px}
+.tile.meld{width:15px;height:21px}
+.tile.mini{width:12px;height:17px}
+.west .player-head,.east .player-head{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.east .player-head{align-items:flex-end}
+.west .player-name,.east .player-name{font-size:0;flex-direction:column;gap:2px;margin:0}
+.seat-tag{font-size:8px}
+.west .flowers-row,.east .flowers-row{max-width:40px}
+.flower-label{font-size:8px}
+}
+
+.south .seat-body{justify-content:center;align-items:flex-end;gap:16px;margin-top:14px}
+.south .hand-row{margin:0}
+.human .melds-row{margin:0;flex-wrap:nowrap}
+@media(max-width:640px){.south .seat-body{flex-direction:column-reverse;align-items:center;gap:8px}}
+
+/* Knock shout */
+.mahjong-table{position:relative}
+.shout{position:absolute;left:0;top:0;z-index:30;pointer-events:none;will-change:transform,opacity}
+.shout-body{position:relative;transform:translate(-50%,-42px);display:flex;flex-direction:column;align-items:center;gap:10px}
+.shout-seal{position:relative;z-index:1;width:84px;height:84px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:'Songti SC','STSong','Noto Serif CJK SC',serif;font-weight:700;font-size:50px;line-height:1;box-shadow:0 0 0 4px #fff,0 0 0 6px var(--ink),0 14px 32px #00000047}
+.shout-seal:before,.shout-seal:after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ink);animation:shout-ring .9s ease-out .2s both}
+.shout-seal:after{animation-delay:.45s}
+.shout-lines{position:absolute;left:50%;top:42px;width:190px;height:64px;transform-origin:100% 50%;transform:translate(-100%,-50%) rotate(var(--a));background:repeating-linear-gradient(to bottom,transparent 0 8px,var(--ink) 8px 10px);-webkit-mask:linear-gradient(to left,#000 20%,transparent);mask:linear-gradient(to left,#000 20%,transparent);animation:shout-lines .7s ease-out both}
+.shout-text{position:relative;z-index:1;background:#fff;color:var(--ink);font-size:13px;font-weight:600;letter-spacing:2px;padding:6px 13px;border-radius:999px;border:1px solid var(--ink);white-space:nowrap;box-shadow:0 6px 18px #0000001f}
+@keyframes shout-ring{from{transform:scale(1);opacity:.75}to{transform:scale(2.4);opacity:0}}
+@keyframes shout-lines{0%{opacity:0;clip-path:inset(0 0 0 100%)}35%{opacity:.9;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+.shout-flash .avatar{animation:seat-flash .9s ease-out 2}
+@keyframes seat-flash{0%{box-shadow:0 0 0 0 #1b1b1b99}100%{box-shadow:0 0 0 16px #1b1b1b00}}
+@media(max-width:640px){.shout-body{transform:translate(-50%,-29px)}.shout-seal{width:58px;height:58px;font-size:34px}.shout-lines{top:29px;width:120px;height:44px}.shout-text{font-size:11px;padding:5px 10px}}
+@media(prefers-reduced-motion:reduce){.shout-seal:before,.shout-seal:after,.shout-lines{animation:none!important;opacity:0}.shout-flash .avatar{animation:none}}
+
+/* 补花 animation */
+.fx-tile{position:fixed;z-index:60;pointer-events:none;margin:0;padding:2px}
+.fx-back{position:fixed;z-index:59;pointer-events:none;border-radius:4px;background:linear-gradient(180deg,#3d7c63,#2b604c);border:1px solid #234f3e;box-shadow:0 4px 10px #00000033}
+.fx-back span{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;line-height:1;background:var(--ink);color:#fff;padding:3px 5px;border-radius:3px;white-space:nowrap}
+.tile.fx-pop{animation:fx-pop .38s cubic-bezier(.3,.7,.2,1) backwards}
+@keyframes fx-pop{from{transform:translateY(-18px);opacity:0}to{transform:none;opacity:1}}
+
+/* Online play */
+body.guest .host-only{display:none!important}
+.live-dot.on{background:#3f9a62}.live-dot.wait{background:#d49a2a}.live-dot.off{background:#c8c8c3}
+.invite-link{display:flex;gap:8px;margin:12px 0}.invite-link input{flex:1;min-width:0;padding:9px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fafaf8}
+.invite-code{font-family:ui-monospace,Menlo,monospace;font-size:26px;letter-spacing:6px;text-align:center;margin:8px 0 4px;color:var(--ink)}
+.join-row{display:flex;gap:8px;margin:14px 0 4px}.join-row input{flex:1;padding:10px;border:1px solid var(--border);border-radius:6px}
+</style></head>
+<body>
+<header class="topbar"><a class="brand" href="#" aria-label="敲麻练习桌"><span class="brand-mark">敲</span><span><strong>上海敲麻</strong><small>两人联机 · 两位 Bot</small></span></a><div class="top-middle"><span class="live-dot" id="net-dot"></span><span id="net-status">本地牌桌</span><span class="divider"></span><span id="round-label">第 01 局</span></div><nav><button id="invite-button" class="ghost host-only">邀请好友</button><button id="wall-button" class="ghost">牌墙</button><button id="rules-button" class="ghost">桌规</button><button id="settings-button" class="icon-button host-only" aria-label="设置">⚙</button><button id="new-button" class="light-button host-only">新开一桌 <span>↗</span></button></nav></header>
+<main class="workspace">
+<section class="game-column" aria-label="四人麻将牌桌">
+<div class="table-toolbar"><div><span class="eyebrow">SHANGHAI MAHJONG</span><h1>练牌，也练判断。</h1></div><div class="table-controls"><button id="pause-button" class="small-button host-only">Ⅱ 暂停</button><button id="replay-button" class="small-button host-only">↶ 复盘</button><span class="mode-chip" id="mode-chip">真人 × 1 · Bot × 3</span></div></div>
+<div class="mahjong-table" id="table">
+<div class="table-grain"></div><div class="table-line"></div>
+<div id="north-seat" class="seat opponent north"></div>
+<div id="west-seat" class="seat opponent west"></div>
+<div id="east-seat" class="seat opponent east"></div>
+<div class="field">
+<div id="wall-top" class="wall-strip wall-top"></div><div id="wall-left" class="wall-strip wall-left"></div><div id="wall-right" class="wall-strip wall-right"></div><div id="wall-bottom" class="wall-strip wall-bottom"></div>
+<div id="river-north" class="river river-north"></div><div id="river-west" class="river river-west"></div><div id="river-east" class="river river-east"></div><div id="river-south" class="river river-south"></div>
+<div class="table-center"><span class="center-emblem">敲</span><span id="remaining" class="remaining"><b>—</b> 张余牌</span><div class="compass"><span>对</span><span>上</span><span id="turn-marker">东</span><span>下</span><span>你</span></div><span id="last-event" class="last-event">开局补花</span><button id="next-button" class="next-button" hidden>开始下一局 →</button></div>
+</div>
+<div id="south-seat" class="seat human south"></div>
+</div>
+<div class="decision-bar"><div class="decision-copy"><span id="decision-dot" class="status-dot"></span><div><strong id="decision-title">正在准备牌桌</strong><span id="decision-subtitle">按已确认的上海敲麻桌规练习</span></div></div><div id="actions" class="action-buttons"></div></div>
+<div class="replay-bar" id="replay-bar" hidden><button id="replay-prev" class="small-button">←</button><input id="replay-slider" type="range" min="0" max="0" value="0" aria-label="复盘动作"><span id="replay-label"></span><button id="replay-next" class="small-button">→</button><button id="branch-button" class="small-button">从这里重打</button><button id="replay-exit" class="small-button">返回牌桌</button></div>
+<div class="bottom-note"><span>先敲后胡 · 无荒番 · 不封顶</span><span id="save-status" class="host-only">自动保存于本机</span><button id="export-button" class="host-only">导出牌谱 ↗</button></div>
+</section>
+<aside class="sidebar">
+<section class="side-card analysis-card"><div class="card-heading"><div><span class="eyebrow">YOUR NEXT MOVE</span><h2>决策参考</h2></div><span class="mini-tag">按需开启</span></div><div id="analysis-content" class="analysis-content"><div class="analysis-symbol">◎</div><h3>先打自己的判断</h3><p>需要时查看候选舍牌、听口与未知剩余张数。</p><button id="analyze-button" class="outline-button">分析当前手牌 <span>↗</span></button></div><div class="analysis-foot">基础牌效参考，不代表唯一最优。</div></section>
+<section class="side-card scoreboard-card"><div class="card-heading"><h2>本桌积分</h2><span class="mini-tag">每花 10 分</span></div><div id="scoreboard"></div><div class="relations" id="relations"></div></section>
+<section class="side-card log-card"><div class="card-heading"><h2>牌局记录</h2><span id="log-count" class="muted">实时</span></div><div id="event-log" class="event-log" aria-live="polite"></div></section>
+<div class="sidebar-foot"><span class="live-dot"></span><span id="foot-note">房主浏览器运行牌局 · 好友点对点连入</span></div>
+</aside>
+</main>
+<dialog id="modal"><div class="modal-head"><h2 id="modal-title"></h2><button id="modal-close" class="icon-button" aria-label="关闭对话框">×</button></div><div id="modal-body"></div></dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>/* Shanghai knocking mahjong — all mutations enter Game.act/advance. */
+const MJ = (() => {
+'use strict';
+const RULE_VERSION='qiaoma-tournament-v1.77';
+const LABELS=Array.from({length:42},(_,t)=>t<27?`${t%9+1}${['万','筒','条'][Math.floor(t/9)]}`:['东','南','西','北','中','发','白','春','夏','秋','冬','梅','兰','竹','菊'][t-27]);
+const isFlower=t=>t>=31;
+function rng(seed){let x=2166136261;for(const c of String(seed))x=Math.imul(x^c.charCodeAt(0),16777619);return ()=>{x+=0x6D2B79F5;let n=x;n=Math.imul(n^n>>>15,n|1);n^=n+Math.imul(n^n>>>7,n|61);return ((n^n>>>14)>>>0)/4294967296;};}
+const counts=ts=>{let c=Array(31).fill(0);for(const t of ts)if(t<31)c[t]++;return c;};
+const decompCache=new Map(), distanceCache=new Map();
+function decompositions(c,m=0){const key=m+':'+c.join('');if(decompCache.has(key))return decompCache.get(key);let out=[];if(c.some(n=>n>4)||c.reduce((a,b)=>a+b,0)!==(4-m)*3+2)return out;
+ function groups(a,acc,pair){let t=a.findIndex(n=>n>0);if(t<0){out.push({pair,melds:acc.map(g=>g.slice())});return;}
+ if(a[t]>=3){a[t]-=3;groups(a,[...acc,[t,t,t]],pair);a[t]+=3;}
+ if(t<27&&t%9<7&&a[t+1]&&a[t+2]){a[t]--;a[t+1]--;a[t+2]--;groups(a,[...acc,[t,t+1,t+2]],pair);a[t]++;a[t+1]++;a[t+2]++;}}
+ for(let p=0;p<31;p++)if(c[p]>=2){c[p]-=2;groups(c,[],p);c[p]+=2;}
+ if(decompCache.size>30000)decompCache.clear();decompCache.set(key,out);return out;
+}
+function waits(tiles,melds=[]){const c=counts(tiles),own=c.slice();for(const m of melds)for(const t of m.types)own[t]++;let out=[];for(let t=0;t<31;t++)if(own[t]<4){c[t]++;let ds=decompositions(c,melds.length);if(ds.length)out.push({tile:t,ds});c[t]--;}return out;}
+function shanten(tiles,m=0){let c=counts(tiles),key=m+':'+c.join('');if(distanceCache.has(key))return distanceCache.get(key);let best=8;
+ function dfs(start,a,b,p){let i=start;while(i<31&&!c[i])i++;if(i===31){best=Math.min(best,8-2*(a+m)-Math.min(b,4-a-m)-p);return;}
+ if(a+m>4)return;
+ if(c[i]>=3){c[i]-=3;dfs(i,a+1,b,p);c[i]+=3;}
+ if(i<27&&i%9<7&&c[i+1]&&c[i+2]){c[i]--;c[i+1]--;c[i+2]--;dfs(i,a+1,b,p);c[i]++;c[i+1]++;c[i+2]++;}
+ if(c[i]>=2){c[i]-=2;if(!p)dfs(i,a,b,1);if(a+b+m<4)dfs(i,a,b+1,p);c[i]+=2;}
+ if(i<27&&a+b+m<4){for(const d of [1,2])if(i%9+d<9&&c[i+d]){c[i]--;c[i+d]--;dfs(i,a,b+1,p);c[i]++;c[i+d]++;}}
+ c[i]--;dfs(i,a,b,p);c[i]++;
+ }
+ dfs(0,0,0,0);if(distanceCache.size>15000)distanceCache.clear();distanceCache.set(key,best);return best;
+}
+// After 敲 a kong is legal only if it leaves the hand's shape alone: with every copy of the tile moved
+// into the kong, what remains must still be ready and wait on exactly the same tiles as when the player knocked.
+function preserveKong(p,t,hand){if(!p.lock?.length)return false;const before=p.lock.map(w=>w.tile),rest=hand.filter(x=>x!==t);
+ const melds=p.melds.map(m=>m.kind==='pon'&&m.types[0]===t?{...m,types:[t,t,t,t]}:m);if(!p.melds.some(m=>m.kind==='pon'&&m.types[0]===t))melds.push({kind:'kong',types:[t,t,t,t]});
+ const after=waits(rest,melds).map(w=>w.tile);return after.length===before.length&&before.every(x=>after.includes(x));}
+function evaluate(p,types,context={}){let ds=decompositions(counts(types),p.melds.length),best=null;
+ for(const d of ds){let h=p.flowers.length,groups=[...p.melds.map(m=>m.types),...d.melds];for(const g of groups){let t=g[0];if(g.every(x=>x===t)){if(g.length===4){let fixed=p.melds.find(m=>m.types===g);h+=t>=27?(fixed?.kind==='ankan'?3:2):(fixed?.kind==='ankan'?2:1);}else if(t>=27)h++;}}
+ let tags=[],f=0;const add=(name,n)=>{tags.push({name,fan:n});f+=n;};
+ if(!p.open)add('门清',1);
+ const all=types.concat(p.melds.flatMap(m=>m.types)),suits=new Set(all.filter(t=>t<27).map(t=>Math.floor(t/9))),honor=all.some(t=>t>=27);
+ if(suits.size===1)add(honor?'混一色':'清一色',honor?1:2);
+ if(groups.every(g=>g.every(t=>t===g[0])))add('碰碰胡',1);
+ if(p.tian)add('天敲',1);if(context.replacement)add('杠开',1);if(p.melds.length===4)add('大吊车',1);
+ const qual=h===0?10:h;if(f===0&&qual<(context.mode==='self'?2:3))continue;
+ const base=h===0?100:10*(h+1),value=base*2**f;
+ if(!best||value>best.value)best={h,qual,f,tags,value,decomposition:d};
+ }return best;
+}
+function makeWall(seed,dealer){let random=rng(seed),tiles=[],id=0;for(let t=0;t<42;t++)for(let n=0;n<(t<34?4:1);n++)tiles.push({id:id++,t});for(let i=tiles.length-1;i>0;i--){let j=Math.floor(random()*(i+1));[tiles[i],tiles[j]]=[tiles[j],tiles[i]];}
+ const dice=[1+Math.floor(random()*6),1+Math.floor(random()*6)],sum=dice[0]+dice[1],cutSeat=(dealer+sum-1)%4;
+ // Physical wall order clockwise, seats themselves numbered counterclockwise.
+ const wallSeats=[0,3,2,1],cutWall=wallSeats.indexOf(cutSeat),cut=(cutWall*18+sum)%72;
+ for(let n=0;n<144;n++){tiles[n].id=n;const stack=Math.floor(n/2);tiles[n].seat=wallSeats[Math.floor(stack/18)];tiles[n].stack=stack%18;tiles[n].layer=n%2===0?'上':'下';}
+ const order=[];for(let i=0;i<72;i++){let stack=(cut+i)%72;order.push(tiles[stack*2].id,tiles[stack*2+1].id);}
+ return {tiles,available:order,dice,cutSeat,cutStack:sum,initial:order.slice()};
+}
+function wallTake(w,source){if(!w.available.length)return null;let i=0;if(source==='tail'){const last=w.available.at(-1),tile=w.tiles[last];i=w.available.length-1;if(i>0){const prev=w.tiles[w.available[i-1]];if(prev.seat===tile.seat&&prev.stack===tile.stack)i--;}}
+ return w.available.splice(i,1)[0];}
+class Game{
+ constructor(seed='上海·练习001',dealer=0,scores=[0,0,0,0],round=1){this.s={version:RULE_VERSION,seed,dealer,round,scores:scores.slice(),wall:makeWall(seed,dealer),players:Array.from({length:4},()=>({hand:[],melds:[],flowers:[],river:[],open:false,qiao:false,tian:false,first:true,passedWin:false,passedKong:false,passedPung:[],lock:null,buhuaDone:false})),claims:Array.from({length:4},()=>[0,0,0,0]),relations:[],phase:'opening',actor:dealer,opening:0,drawn:null,source:'deal',lastDiscard:null,pending:null,response:null,result:null,log:[],serial:0};this.history=[];
+ const s=this.s;for(let r=0;r<3;r++)for(let o=0;o<4;o++)for(let n=0;n<4;n++)s.players[(dealer+o)%4].hand.push(wallTake(s.wall,'head'));
+ const end=s.wall.available.slice(0,5);s.wall.available.splice(0,5);s.players[dealer].hand.push(end[0],end[4]);for(let o=1;o<4;o++)s.players[(dealer+o)%4].hand.push(end[o]);s.drawn=end[4];
+ // Only the dealer replaces flowers now; everyone else does it when their first turn arrives.
+ this.note('开局',`骰子 ${s.wall.dice.join(' + ')} · 庄家先补花`);this.initialBuhua(dealer);s.drawn=s.players[dealer].hand.at(-1);s.phase='turn';this.record('开局发牌');
+ }
+ t(id){return this.s.wall.tiles[id].t;}
+ types(p){return p.hand.map(id=>this.t(id));}
+ note(kind,text,seat=null){this.s.log.push({kind,text,seat});}
+ record(label){this.s.serial++;this.assert();this.history.push({label,state:JSON.parse(JSON.stringify(this.s))});}
+ take(seat,source){let id=wallTake(this.s.wall,source);if(id!==null){let x=this.s.wall.tiles[id];this.note('摸牌',`${source==='head'?'牌头摸牌':'牌尾补牌'} · ${x.seat+1}号墙第${x.stack+1}墩${x.layer}层`,seat);}return id;}
+ replaceOne(seat){let p=this.s.players[seat],id;while((id=this.take(seat,'tail'))!==null){if(isFlower(this.t(id))){p.flowers.push(id);this.note('补花',LABELS[this.t(id)],seat);}else{p.hand.push(id);return id;}}return null;}
+ initialBuhua(seat){let p=this.s.players[seat];if(p.buhuaDone!==false)return true;p.buhuaDone=true;for(const id of p.hand.slice())if(isFlower(this.t(id))){p.hand.splice(p.hand.indexOf(id),1);p.flowers.push(id);this.note('补花',LABELS[this.t(id)],seat);if(this.replaceOne(seat)===null)return false;}return true;}
+ declare(seat,tian=false){let p=this.s.players[seat];p.qiao=true;p.tian=tian;p.lock=waits(this.types(p),p.melds);this.note(tian?'天敲':'敲',tian?'起手听牌，天敲':'声明听牌',seat);}
+ canWin(seat,id,mode){let p=this.s.players[seat];if(!p.qiao||p.passedWin||p.passedKong)return null;let types=this.types(p);if(mode!=='self')types.push(this.t(id));return evaluate(p,types,{mode,replacement:mode==='self'&&this.s.source==='tail'});}
+ kongOptions(seat){const p=this.s.players[seat],c=counts(this.types(p)),opts=[];
+ for(let t=0;t<31;t++){if(p.qiao&&c[t]&&!preserveKong(p,t,this.types(p)))continue;if(c[t]===4)opts.push({kind:'ankan',t});if((!p.qiao||p.open)&&c[t]===1&&p.melds.some(m=>m.kind==='pon'&&m.types[0]===t))opts.push({kind:'kakan',t});}
+ return opts;
+ }
+ actions(seat=this.s.actor){const s=this.s,p=s.players[seat];if(s.result)return [];
+ if(s.phase==='predraw'){return seat===s.actor?[{kind:'tian'},{kind:'draw'}]:[];}
+ if(s.phase==='opening'){if(seat!==s.actor)return[];let a=[{kind:'start'}];if(!p.qiao&&p.hand.length===13-3*p.melds.length&&waits(this.types(p),p.melds).length)a.unshift({kind:'tian'});if(!p.qiao)for(const k of this.kongOptions(seat))a.unshift(k);return a;}
+ if(s.phase==='response'){return this.responseActions(seat);}
+ if(s.phase!=='turn'||seat!==s.actor)return [];
+ let win=this.canWin(seat,s.drawn,'self'),ks=this.kongOptions(seat);if(win)return[{kind:'win'},{kind:'passwin'}];
+ if(p.qiao&&ks.length)return [...ks,{kind:'passkong'}];
+ let a=[...ks];const hand=p.qiao?p.hand.filter(id=>id===s.drawn):p.hand;
+ for(const id of hand){a.push({kind:'discard',id});if(!p.qiao){const rest=p.hand.filter(x=>x!==id);if(waits(rest.map(x=>this.t(x)),p.melds).length)a.push({kind:'qiao',id});}}
+ return a;
+ }
+ responseActions(seat){const s=this.s,r=s.response,p=s.players[seat];if(!r||seat===r.from)return[];let a=[{kind:'pass'}];if(this.canWin(seat,r.id,r.mode))return[{kind:'win'},{kind:'passwin'}];if(r.mode==='rob'||!s.wall.available.length)return a;
+ const t=this.t(r.id),c=counts(this.types(p));if(p.qiao){if(p.open&&c[t]===3&&preserveKong(p,t,this.types(p)))a.unshift({kind:'daiminkan',t});return a;}
+ if(c[t]>=2&&!p.passedPung.includes(t))a.unshift({kind:'pon',t});if(c[t]===3)a.unshift({kind:'daiminkan',t});
+ if(seat===(r.from+1)%4&&t<27)for(let start=t-2;start<=t;start++)if(start>=0&&Math.floor(start/9)===Math.floor(t/9)&&start%9<=6){let need=[start,start+1,start+2];need.splice(need.indexOf(t),1);if(need.every(x=>c[x]>0))a.unshift({kind:'chi',need,t});}return a;
+ }
+ advance(){let s=this.s;if(s.result)return;if(s.phase==='opening'){return;}if(s.phase==='draw'){let p=s.players[s.actor];if(!this.initialBuhua(s.actor)){this.finish([],null,'draw');return;}if(p.first&&!p.open&&!p.qiao&&!p.preDrawOffered&&waits(this.types(p),p.melds).length){s.phase='predraw';this.record('首次摸牌前');return;}p.passedPung=[];p.first=false;let id=this.take(s.actor,'head');if(id===null){this.finish([],null,'draw');return;}s.source='head';if(isFlower(this.t(id))){p.flowers.push(id);this.note('补花',LABELS[this.t(id)],s.actor);id=this.replaceOne(s.actor);s.source='tail';}else p.hand.push(id);
+ if(id===null){this.finish([],null,'draw');return;}s.drawn=id;s.phase='turn';this.record('摸牌');}}
+ act(a,seat=this.s.actor){let legal=this.actions(seat);if(!legal.some(x=>JSON.stringify(x)===JSON.stringify(a)))throw new Error('非法动作');let s=this.s,p=s.players[seat];
+ if(s.phase==='response'){this.resolveResponses({[seat]:a});return;}
+ if(s.phase==='predraw'){if(a.kind==='tian')this.declare(seat,true);p.preDrawOffered=true;s.phase='draw';this.record('首次摸牌前决策');return;}
+ if(a.kind==='start'||a.kind==='tian'){if(a.kind==='tian')this.declare(seat,true);s.opening++;if(s.opening===4){s.actor=s.dealer;s.phase='turn';}else{s.actor=(s.dealer+s.opening)%4;}this.record(a.kind==='tian'?'天敲声明':'开局继续');return;}
+ if(a.kind==='win'){this.finish([seat],seat,'self');return;}
+ if(a.kind==='passwin'){p.passedWin=true;this.note('过胡','本局不能再胡',seat);this.record('过胡');return;}
+ if(a.kind==='passkong'){p.passedKong=true;this.note('过杠','本局不能再胡',seat);this.discard(seat,s.drawn);return;}
+ if(a.kind==='ankan'||a.kind==='kakan'){this.makeKong(seat,a,s.phase==='opening');return;}
+ if(a.kind==='discard'||a.kind==='qiao'){if(a.kind==='qiao'){p.hand.splice(p.hand.indexOf(a.id),1);this.declare(seat,p.first&&!p.open);p.hand.push(a.id);}this.discard(seat,a.id);}
+ }
+ discard(seat,id){let s=this.s,p=s.players[seat];p.hand.splice(p.hand.indexOf(id),1);p.river.push({id,claimed:false,qiao:p.qiao&&['敲','天敲'].includes(s.log.at(-1)?.kind)});p.first=false;p.passedPung=[];s.lastDiscard={id,seat};s.response={id,from:seat,mode:'discard'};s.phase='response';this.note('出牌',LABELS[this.t(id)],seat);this.record('出牌');}
+ makeKong(seat,a,opening=false){let s=this.s,p=s.players[seat];if(a.kind==='kakan'){const id=p.hand.find(x=>this.t(x)===a.t);s.pending={seat,id,t:a.t,opening};s.response={id,from:seat,mode:'rob'};s.phase='response';this.note('上杠',LABELS[a.t],seat);this.record('声明上杠');return;}
+ let ids=p.hand.filter(x=>this.t(x)===a.t);p.hand=p.hand.filter(x=>!ids.includes(x));p.melds.push({kind:'ankan',types:ids.map(x=>this.t(x)),ids,from:seat});this.note('暗杠',LABELS[a.t],seat);this.afterKong(seat,opening);}
+ afterKong(seat,opening=false){let s=this.s,id=this.replaceOne(seat);if(id===null){this.finish([],null,'draw');return;}s.actor=seat;s.drawn=id;s.source='tail';s.phase=opening?'opening':'turn';this.record('杠后补牌');}
+ claim(seat,from){let s=this.s;s.claims[seat][from]++;const pair=[seat,from].sort((a,b)=>a-b).join('-');if(s.claims[seat][from]>=3&&!s.relations.includes(pair)){s.relations.push(pair);this.note('三口',`与${['','下家','对家','上家'][(from-seat+4)%4]}成立包牌`,seat);}}
+ resolveResponses(overrides={}){let s=this.s,r=s.response,choices={},winners=[];for(let o=1;o<4;o++){let seat=(r.from+o)%4,actions=this.responseActions(seat);choices[seat]=overrides[seat]||bot(this,seat,actions);let a=choices[seat],p=s.players[seat];if(a.kind==='win')winners.push(seat);if(a.kind==='passwin'){p.passedWin=true;this.note('过胡','本局不能再胡',seat);}if(a.kind==='pass'&&actions.some(x=>x.kind==='pon'))p.passedPung.push(this.t(r.id));if(a.kind==='pass'&&p.qiao&&actions.some(x=>x.kind==='daiminkan')){p.passedKong=true;this.note('过杠','本局不能再胡',seat);}}
+ if(winners.length){this.finish(winners,r.from,r.mode==='rob'?'rob':'discard');return;}
+ if(r.mode==='rob'){let q=s.pending,p=s.players[q.seat];p.hand.splice(p.hand.indexOf(q.id),1);let m=p.melds.find(x=>x.kind==='pon'&&x.types[0]===q.t);m.kind='kakan';m.ids.push(q.id);m.types.push(q.t);s.pending=null;s.response=null;this.afterKong(q.seat,q.opening);return;}
+ if(!s.wall.available.length){this.finish([],null,'draw');return;}
+ let claim=null;for(const kind of ['daiminkan','pon','chi'])for(let o=1;o<4;o++){let seat=(r.from+o)%4;if(!claim&&choices[seat]?.kind===kind)claim={seat,a:choices[seat]};}
+ if(claim){let p=s.players[claim.seat],a=claim.a,need=a.kind==='chi'?a.need:Array(a.kind==='pon'?2:3).fill(this.t(r.id)),ids=[];for(const t of need){let i=p.hand.findIndex(id=>this.t(id)===t);ids.push(p.hand.splice(i,1)[0]);}ids.push(r.id);s.players[r.from].river.at(-1).claimed=true;p.melds.push({kind:a.kind,types:ids.map(id=>this.t(id)).sort((a,b)=>a-b),ids,from:r.from});p.open=true;p.first=false;this.claim(claim.seat,r.from);s.actor=claim.seat;s.response=null;this.note(a.kind==='chi'?'吃':a.kind==='pon'?'碰':'明杠',LABELS[this.t(r.id)],claim.seat);if(!this.initialBuhua(claim.seat)){this.finish([],null,'draw');return;}if(a.kind==='daiminkan')this.afterKong(claim.seat);else{s.drawn=null;s.source='claim';s.phase='turn';this.record('吃碰');}return;}
+ s.actor=(r.from+1)%4;s.response=null;s.phase='draw';this.record('无人响应');
+ }
+ finish(winners,from,mode){let s=this.s,details=[],delta=[0,0,0,0];let valuations=winners.map(seat=>({seat,v:this.canWin(seat,mode==='self'?s.drawn:s.response.id,mode==='self'?'self':mode)}));let flyId=null;if(valuations.some(x=>x.v?.f>0)&&s.wall.available.length)flyId=this.take(winners[0],'tail');
+ let fly=flyId===null?0:(this.t(flyId)<27?(this.t(flyId)%9+1)*10:50);
+ for(const {seat,v} of valuations){if(!v)throw new Error('胡牌无资格');let bonus=v.f?fly:0,u=(v.value+bonus)*(mode==='rob'?3:1),partners=s.relations.filter(pair=>pair.split('-').map(Number).includes(seat)).map(pair=>pair.split('-').map(Number).find(x=>x!==seat)),charges=Array(4).fill(0);
+ if(mode==='self'){for(const other of partners.length?partners:[0,1,2,3].filter(x=>x!==seat))charges[other]+=u*(partners.length?3:1);}else{charges[from]+=u;for(const other of partners)charges[other]+=u;}
+ for(let i=0;i<4;i++){delta[i]-=charges[i];delta[seat]+=charges[i];}details.push({seat,...v,fly:bonus,u,charges});}
+ for(let i=0;i<4;i++){s.scores[i]+=delta[i];if(!Number.isSafeInteger(s.scores[i]))throw new Error('积分超出安全整数');}
+ s.result={mode,winners,from,details,delta,flyId,nextDealer:winners.length===0?s.dealer:winners.length>1?from:winners[0]};s.phase='ended';s.response=null;s.pending=null;this.note('结算',winners.length?'本局已结算':'流局，不计荒番');this.record('本局结束');}
+ assert(){let s=this.s,ids=[...s.wall.available];for(const p of s.players){ids.push(...p.hand,...p.flowers,...p.melds.flatMap(m=>m.ids),...p.river.filter(r=>!r.claimed).map(r=>r.id));}if(s.result?.flyId!==null&&s.result?.flyId!==undefined)ids.push(s.result.flyId);
+ // A robbed added tile stays in declarer's concealed hand as the unique event owner.
+ if(ids.length!==144||new Set(ids).size!==144)throw new Error(`实体牌不守恒 ${ids.length}/${new Set(ids).size}`);
+ for(const p of s.players)if(p.buhuaDone!==false&&p.hand.some(id=>isFlower(this.t(id))))throw new Error('花混入暗手');if(s.result&&s.result.delta.reduce((a,b)=>a+b,0)!==0)throw new Error('积分不平衡');
+ }
+ observe(seat){let s=this.s,known=[...s.players[seat].hand];for(const p of s.players)known.push(...p.flowers,...p.melds.flatMap(m=>m.ids),...p.river.filter(r=>!r.claimed).map(r=>r.id));let seen=counts(known.map(id=>this.t(id)));return {seen,players:s.players.map((p,i)=>({hand:i===seat?this.types(p):[],melds:p.melds.map(m=>({kind:m.kind,types:m.types})),qiao:p.qiao,flowers:p.flowers.length,open:p.open})),relations:s.relations.slice()};}
+ static restore(data){let g=Object.create(Game.prototype);g.s=data.state;g.history=data.history||[];g.assert();return g;}
+}
+function analysis(game,seat){const p=game.s.players[seat],seen=game.observe(seat).seen,types=game.types(p),cache=new Map(),rows=[];
+ for(const id of p.hand){let t=game.t(id);if(cache.has(t))continue;let rest=types.slice();rest.splice(rest.indexOf(t),1);let ws=waits(rest,p.melds),dist=ws.length?0:shanten(rest,p.melds.length),eff=[],remaining=0;
+ for(let x=0;x<31;x++){let n=4-seen[x];if(n<=0)continue;if(ws.length){if(ws.some(w=>w.tile===x)){eff.push({t:x,n});remaining+=n;}}else{rest.push(x);let d=shanten(rest,p.melds.length);rest.pop();if(d<dist){eff.push({t:x,n});remaining+=n;}}}
+ const row={id,t,dist,waits:ws.map(w=>w.tile),eff,remaining};cache.set(t,row);rows.push(row);}
+ rows.sort((a,b)=>a.dist-b.dist||b.remaining-a.remaining||a.t-b.t);return rows;}
+// What the bot's own tiles invite: a one-suit hand (混一色/清一色) or an all-pungs hand (碰碰胡). Each is 0..1.
+function botPlans(game,seat){const p=game.s.players[seat],own=game.types(p).filter(t=>t<31),all=own.concat(p.melds.flatMap(m=>m.types)),sc=[0,0,0];let honor=0;
+ for(const t of all){if(t<27)sc[Math.floor(t/9)]++;else honor++;}
+ const dom=sc.indexOf(Math.max(...sc)),offMeld=p.melds.some(m=>m.types.some(t=>t<27&&Math.floor(t/9)!==dom)),clamp=x=>Math.min(1,Math.max(0,x));
+ const flush=offMeld?0:clamp(((sc[dom]+honor)/Math.max(1,all.length)-.62)/.28);
+ const c=counts(own);let pairs=0;for(let t=0;t<31;t++)if(c[t]>=2)pairs++;
+ const pung=p.melds.some(m=>m.kind==='chi')?0:clamp((pairs+p.melds.length-3)/2);
+ return {dom,flush,pung,offSuit:t=>t<27&&Math.floor(t/9)!==dom};}
+// Danger from players who have knocked, read only from public information: the log of knocks and discards.
+function botThreat(game,seat,obs){const safe={},locked=new Set();let knockDiscard=null;
+ for(const e of game.s.log){if(e.seat===null||e.seat===undefined)continue;
+  if((e.kind==='敲'||e.kind==='天敲')&&e.seat!==seat){safe[e.seat]=new Set();if(e.kind==='敲')knockDiscard=e.seat;continue;}
+  if(e.kind==='过胡'||e.kind==='过杠')locked.add(e.seat);
+  // A tile that went by after someone knocked, without them winning on it, is safe against them. Their own knock discard is not.
+  if(e.kind==='出牌'){if(knockDiscard===e.seat){knockDiscard=null;continue;}const t=LABELS.indexOf(e.text);for(const k in safe)safe[k].add(t);}}
+ const threats=Object.keys(safe).map(Number).filter(k=>!locked.has(k)),seen=obs.seen;
+ const one=(t,S)=>{if(S.has(t))return 0;if(t>=27)return seen[t]>=4?0:seen[t]===3?.25:.6;
+  const r=t%9,lo=r>=3&&S.has(t-3),hi=r<=5&&S.has(t+3);let d=r===0||r===8?.55:r===1||r===7?.8:1;
+  if(r<3?hi:r>5?lo:lo&&hi)d*=.4;else if(lo||hi)d*=.7;return d;};
+ return {active:threats.length>0,danger:t=>threats.reduce((sum,k)=>sum+one(t,safe[k]),0)};}
+function bot(game,seat,actions=game.actions(seat)){if(!actions.length)return null;for(const kind of ['win','tian']){let a=actions.find(x=>x.kind===kind);if(a)return a;}
+ let p=game.s.players[seat],obs=game.observe(seat);const ks=actions.filter(a=>['ankan','kakan','daiminkan'].includes(a.kind));if(p.qiao&&ks.length)return ks[0];
+ if(game.s.phase==='opening')return ks[0]||actions.find(a=>a.kind==='start');
+ const plan=botPlans(game,seat),threat=botThreat(game,seat,obs),big=Math.max(plan.flush,plan.pung)>=.7;
+ if(game.s.phase==='response'){if(ks.length&&p.open)return ks[0];const t=game.t(game.s.response.id);let old=shanten(game.types(p),p.melds.length);let best=null;
+  for(const a of actions.filter(x=>x.kind==='pon'||x.kind==='chi')){
+   // Claims that wreck the hand's plan, or give up 门清 for a small step, are passed.
+   if(plan.flush>=.5&&plan.offSuit(t))continue;if(a.kind==='chi'&&plan.pung>=.5)continue;
+   let rest=game.types(p),need=a.kind==='pon'?[a.t,a.t]:a.need;for(const x of need)rest.splice(rest.indexOf(x),1);let d=Infinity;for(let i=0;i<rest.length;i++)d=Math.min(d,shanten(rest.filter((_,j)=>i!==j),p.melds.length+1));
+   const fits=(plan.flush>=.5&&!plan.offSuit(t))||(a.kind==='pon'&&plan.pung>=.5);
+   if(!p.open&&d>1&&!fits)continue;if(threat.active&&d>=2)continue;
+   const rank=d-(fits?.5:0)-(a.kind==='pon'?.1:0);if(d<old&&(best===null||rank<best.rank))best={a,rank};}
+  return best?.a||actions.find(a=>a.kind==='pass')||actions[0];}
+ if(ks.length){let a=ks.find(x=>x.kind==='ankan'||!obs.players.some((q,i)=>i!==seat&&q.qiao));if(a)return a;}
+ let disc=actions.filter(a=>a.kind==='discard');if(!disc.length)return actions[0];if(p.qiao)return disc[0];
+ let seen=obs.seen,own=counts(game.types(p)),early=Math.min(1,game.s.wall.available.length/60),rows=[];
+ for(const a of disc){const t=game.t(a.id);let rest=game.types(p);rest.splice(rest.indexOf(t),1);let d=shanten(rest,p.melds.length),c=counts(rest),shape=0;for(let x=0;x<31;x++)if(c[x]){shape+=c[x]>=2?2:0;if(x<27){if(x%9<8&&c[x+1])shape+=2;if(x%9<7&&c[x+2])shape++;}}
+  let ws=waits(rest,p.melds),n=ws.reduce((sum,w)=>sum+Math.max(0,4-seen[w.tile]),0);
+  let lean=0;if(plan.flush&&t<27)lean+=(plan.offSuit(t)?8:-3)*plan.flush*early;
+  if(plan.pung)lean+=own[t]===1?5*plan.pung:own[t]===2?-5*plan.pung:0;
+  if(t>=27&&own[t]>=2)lean-=2;
+  rows.push({a,d,shape,n,lean,danger:threat.active?threat.danger(t):0});}
+ // How hard to fold depends on how far the hand is from ready, and how much it is worth.
+ const dmin=Math.min(...rows.map(r=>r.d)),fold=threat.active?(dmin>=2?150:dmin===1?55:18)*(big?.7:1):0;
+ for(const r of rows)r.score=-100*r.d+6*r.n+r.shape+r.lean-fold*r.danger;
+ rows.sort((a,b)=>b.score-a.score||game.t(a.a.id)-game.t(b.a.id));let chosen=rows[0].a,q=actions.find(a=>a.kind==='qiao'&&a.id===chosen.id);
+ // A knocked hand can no longer fold, so a thin wait under pressure stays unknocked.
+ if(q&&threat.active&&rows[0].n<=2&&!big)q=null;
+ return q||chosen;
+}
+return {Game,LABELS,isFlower,counts,decompositions,waits,shanten,preserveKong,evaluate,makeWall,wallTake,analysis,bot,RULE_VERSION};
+})();
+if(typeof module!=='undefined')module.exports=MJ;
+</script><script>(() => {
+'use strict';
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const NAMES=['房主','林先生','好友','陈师傅'],ROLES=['真人 · 房主','BOT 01 · 攻守随牌','BOT 02 · 暂代好友','BOT 03 · 攻守随牌'];
+const GUEST_SEAT=2,ROOM=new URLSearchParams(location.search).get('room'),IS_GUEST=!!ROOM,me=IS_GUEST?GUEST_SEAT:0;
+const rel=seat=>(seat-me+4)%4,seatName=seat=>seat===me?'你':NAMES[seat];
+const POS_=['south','east','north','west'],SEATNAME_=['你','下家','对家','上家'];
+const POS=new Proxy(POS_,{get:(o,k)=>/^\d$/.test(k)?o[rel(+k)]:o[k]}),SEATNAME=new Proxy(SEATNAME_,{get:(o,k)=>/^\d$/.test(k)?o[rel(+k)]:o[k]});
+let game,selected=null,armed=false,paused=false,timer=null,review=null,analyze=false,analysisSerial='',analysisRows=[],revealed=false,lastResultSerial=-1,seed=freshSeed(),delay=600,storageOK=true,toastTimer,archives=[];
+
+// ---------- Online play: host browser is authoritative, guest is a thin client over a WebRTC data channel ----------
+const Net=(()=>{let peer=null,conn=null,code=null,retry=null;const api={guestOnline:false,connected:false};
+ const status=(text,state)=>{$('net-status').textContent=text;$('net-dot').className='live-dot '+(state||'');};
+ const chip=()=>{$('mode-chip').textContent=api.guestOnline||IS_GUEST?'真人 × 2 · Bot × 2':'真人 × 1 · Bot × 3';};
+ const idFor=c=>'qiaoma-'+c.toLowerCase();
+ const link=()=>`${location.origin}${location.pathname}?room=${code}`;
+ // What the guest may know: their own hand, everything face-up, and the tile under contention. Hidden tiles keep their id but lose their face.
+ function viewFor(seat){const s=game.s;if(s.result)return s;const v=structuredClone(s),open=new Set(v.players[seat].hand);
+  for(const p of v.players){p.flowers.forEach(x=>open.add(x));p.melds.forEach(m=>m.ids.forEach(x=>open.add(x)));p.river.forEach(r=>open.add(r.id));}
+  if(v.response)open.add(v.response.id);if(v.pending)open.add(v.pending.id);
+  for(const t of v.wall.tiles)if(!open.has(t.id))t.t=-1;
+  // a knocked player's waits would reveal their hand
+  v.players.forEach((p,i)=>{if(i!==seat)p.lock=p.lock?[]:null;});return v;}
+ api.push=()=>{if(IS_GUEST||!conn?.open||!game)return;try{conn.send({type:'state',state:viewFor(GUEST_SEAT),names:NAMES.slice(),picked:picked(GUEST_SEAT)});}catch(e){console.warn(e);}};
+ api.send=m=>{if(conn?.open)conn.send(m);else notify('与房主的连接已断开，正在重连…');};
+ function newCode(){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789',n=new Uint32Array(5);crypto.getRandomValues(n);return [...n].map(x=>a[x%a.length]).join('');}
+ function attachHost(c){
+  // Only the link holder knows the room code, so a new connection is the friend coming back: it replaces the old one.
+  const old=conn;conn=c;if(old)try{old.close();}catch{}
+  c.on('data',m=>{if(!m||typeof m!=='object')return;c.seen=Date.now();if(m.type==='ping')return;
+   if(m.type==='hello'){NAMES[GUEST_SEAT]=String(m.name||'好友').slice(0,12)||'好友';ROLES[GUEST_SEAT]='真人 · 好友';api.guestOnline=true;chip();status(`${NAMES[GUEST_SEAT]} 已入座 · 房间 ${code}`,'on');notify(`${NAMES[GUEST_SEAT]} 已加入，坐你对家`);if($('modal').open&&$('modal-title').textContent==='邀请好友')$('modal').close();save();render();schedule();}
+   else if(m.type==='act'&&api.guestOnline&&m.a&&typeof m.a==='object'){if(m.serial!==game.s.serial){api.push();return;}humanAct(m.a,GUEST_SEAT);}
+   else if(m.type==='next'&&game.s.result){nextRound();}});
+  c.seen=Date.now();clearInterval(api.beat);api.beat=setInterval(()=>{if(conn===c&&api.guestOnline&&Date.now()-c.seen>8000){try{c.close();}catch{}c.emit?.('close');}},2000);
+  c.on('close',()=>{if(conn!==c)return;conn=null;api.guestOnline=false;ROLES[GUEST_SEAT]='BOT 02 · 暂代好友';chip();status(`房间 ${code} · 好友已离开，Bot 暂代`,'wait');notify('好友断线了，Bot 暂时替他出牌；好友重新打开链接即可回到座位');render();schedule();});
+  c.on('error',e=>console.warn(e));}
+ api.host=(want)=>{if(typeof Peer==='undefined'){notify('联机组件加载失败，请检查网络后刷新');return;}if(peer&&!peer.destroyed)return;code=want||newCode();status(`正在开房 ${code}…`,'wait');
+  peer=new Peer(idFor(code));
+  peer.on('open',()=>{localStorage.setItem('qiaoma.room',code);status(`房间 ${code} · 等待好友`,'wait');render();});
+  peer.on('connection',attachHost);
+  peer.on('disconnected',()=>{status(`房间 ${code} · 信令断开，重连中`,'wait');setTimeout(()=>peer&&!peer.destroyed&&peer.reconnect(),1500);});
+  peer.on('error',e=>{if(e.type==='unavailable-id'){peer.destroy();peer=null;if(want){notify('上次的房间号已被占用，已换一个新房间号');api.host();}else api.host();return;}console.warn(e);if(e.type==='network'||e.type==='server-error')status('联机服务暂不可用','off');});};
+ api.close=()=>{localStorage.removeItem('qiaoma.room');conn?.close();peer?.destroy();peer=null;conn=null;api.guestOnline=false;ROLES[GUEST_SEAT]='BOT 02 · 暂代好友';chip();status('本地牌桌','');render();schedule();};
+ api.invite=()=>{if(!peer||peer.destroyed)api.host();const body=()=>code&&peer?.open?`<div class="modal-copy"><p>把链接发给好友，打开即可坐到你对家。上下家仍由 Bot 坐。</p></div><div class="invite-code">${code}</div><div class="invite-link"><input id="invite-url" readonly value="${esc(link())}"><button id="invite-copy" class="action-button primary">复制链接</button></div><p class="modal-copy">${api.guestOnline?`${esc(NAMES[GUEST_SEAT])} 已在座。`:'好友进来之前，对家由 Bot 暂代。'}牌局在你的浏览器里运行，请保持这个页面开着。</p><div class="modal-buttons"><button id="room-close" class="action-button danger">关闭房间</button></div>`:'<p class="modal-copy">正在连接联机服务…</p>';
+  openModal('邀请好友',body());if(!(code&&peer?.open)){const wait=setInterval(()=>{if(!$('modal').open||$('modal-title').textContent!=='邀请好友'){clearInterval(wait);return;}if(peer?.open){clearInterval(wait);$('modal-body').innerHTML=body();}},300);}};
+ api.copy=async()=>{try{await navigator.clipboard.writeText(link());notify('链接已复制');}catch{$('invite-url').select();notify('请手动复制链接');}};
+ // ---- guest ----
+ function connect(){if(!peer||peer.destroyed)return;status(`正在连接房间 ${ROOM}…`,'wait');const c=peer.connect(idFor(ROOM),{reliable:true});conn=c;
+  c.on('open',()=>{api.connected=true;status(`已连入房间 ${ROOM.toUpperCase()}`,'on');c.send({type:'hello',name:localStorage.getItem('qiaoma.name')||'好友'});clearInterval(api.ping);api.ping=setInterval(()=>c.open&&c.send({type:'ping'}),2500);});
+  c.on('data',m=>{if(!m||typeof m!=='object')return;if(m.type==='full'){status('房间已满','off');$('decision-title').textContent='这张牌桌已经有人坐了';$('decision-subtitle').textContent='请向房主要一个新链接';clearTimeout(retry);retry='stop';return;}
+   if(m.type==='state'){const first=!game;if(Array.isArray(m.names))m.names.forEach((n,i)=>NAMES[i]=String(n).slice(0,12));ROLES[0]='真人 · 房主';ROLES[GUEST_SEAT]='真人 · 你';
+    if(game&&game.s.round!==m.state.round)lastResultSerial=-1;if(game)game.s=m.state;else{game=Object.create(MJ.Game.prototype);game.s=m.state;game.history=[];}if(!m.picked&&guestPicked===game.s.serial&&game.s.phase!=='response')guestPicked=-1;analysisSerial='';render();if(first&&$('modal').open)$('modal').close();}});
+  c.on('close',()=>{api.connected=false;if(retry==='stop')return;status('与房主断开，重连中…','wait');clearTimeout(retry);retry=setTimeout(connect,2500);});
+  c.on('error',e=>console.warn(e));}
+ api.join=(room)=>{chip();$('decision-title').textContent='正在加入牌桌';$('decision-subtitle').textContent=`房间 ${room.toUpperCase()}`;
+  const go=()=>{if(typeof Peer==='undefined'){status('联机组件加载失败','off');return;}peer=new Peer();peer.on('open',connect);
+   peer.on('disconnected',()=>setTimeout(()=>peer&&!peer.destroyed&&peer.reconnect(),1500));
+   peer.on('error',e=>{if(e.type==='peer-unavailable'){status('找不到房主','off');$('decision-title').textContent='房主不在线';$('decision-subtitle').textContent='请确认房主的牌桌页面还开着，几秒后自动重试';clearTimeout(retry);retry=setTimeout(connect,4000);}else console.warn(e);});};
+  openModal('加入牌桌',`<div class="modal-copy"><p>房主邀请你坐对家，上下家是 Bot。</p></div><div class="join-row"><input id="join-name" maxlength="12" placeholder="你的昵称" value="${esc(localStorage.getItem('qiaoma.name')||'')}"><button id="join-go" class="action-button primary">入座</button></div>`);
+  api.go=()=>{const n=$('join-name').value.trim();if(n)localStorage.setItem('qiaoma.name',n);$('modal').close();go();};};
+ api.leave=()=>{retry='stop';conn?.close();peer?.destroy();};
+ return api;})();
+if(IS_GUEST){document.body.classList.add('guest');addEventListener('pagehide',()=>{try{Net.leave?.();}catch{}});}
+function freshSeed(){const n=new Uint32Array(1);crypto.getRandomValues(n);return `上海·练习${n[0].toString(36).padStart(6,'0')}`;}
+function tileSvg(t){
+ // Traditional face layouts; drawn on a 40×56 grid.
+ const C={blue:'#25507a',green:'#23744d',red:'#b23a2c',ink:'#1f2d33',gold:'#8a6526'};
+ const idx=n=>`<text x="3.2" y="7.4" font-size="5.4" font-weight="700" font-family="system-ui,sans-serif" fill="#86907e">${n}</text>`;
+ const dot=(x,y,r,c)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${x}" cy="${y}" r="${r*.68}" fill="#fbf8ec"/><circle cx="${x}" cy="${y}" r="${r*.44}" fill="${c}"/><circle cx="${x}" cy="${y}" r="${r*.14}" fill="#fbf8ec"/>`;
+ const stick=(x,y,l,c,a=0)=>{const h=l/2,d=c===C.red?'#7c2219':'#134a30';return `<g transform="translate(${x} ${y}) rotate(${a})"><rect x="-2.6" y="${-h}" width="5.2" height="${l}" rx="2.4" fill="${c}"/><rect x="-.7" y="${-h+1.6}" width="1.1" height="${l-3.2}" rx=".5" fill="#ffffff" opacity=".35"/><rect x="-3.1" y="-.9" width="6.2" height="1.8" rx=".9" fill="${d}"/><rect x="-3.1" y="${-h}" width="6.2" height="1.7" rx=".85" fill="${d}"/><rect x="-3.1" y="${h-1.7}" width="6.2" height="1.7" rx=".85" fill="${d}"/></g>`;};
+ let s='';
+ if(t<9){const n=t+1;s=idx(n)+`<text x="20" y="25" text-anchor="middle" font-family="'Songti SC','STSong','Noto Serif CJK SC',serif" font-weight="700" font-size="21" fill="${C.ink}">${'一二三四五六七八九'[t]}</text><text x="20" y="50" text-anchor="middle" font-family="'Songti SC','STSong','Noto Serif CJK SC',serif" font-weight="700" font-size="22" fill="${C.red}">萬</text>`;}
+ else if(t<18){const n=t-8,B=C.blue,G=C.green,R=C.red;
+  if(n===1)s=`<circle cx="20" cy="28" r="15" fill="${G}"/><circle cx="20" cy="28" r="12.6" fill="#fbf8ec"/>`+[...Array(12)].map((_,i)=>{const a=i*Math.PI/6;return `<circle cx="${(20+10.4*Math.cos(a)).toFixed(2)}" cy="${(28+10.4*Math.sin(a)).toFixed(2)}" r="1.5" fill="${R}"/>`;}).join('')+`<circle cx="20" cy="28" r="7.6" fill="${B}"/><circle cx="20" cy="28" r="5.4" fill="#fbf8ec"/><circle cx="20" cy="28" r="3.6" fill="${R}"/><circle cx="20" cy="28" r="1.2" fill="#fbf8ec"/>`;
+  else{const L={2:[[20,16,8.2,G],[20,40,8.2,B]],3:[[10,12,6.6,B],[20,28,6.6,R],[30,44,6.6,G]],4:[[12,16,7.2,B],[28,16,7.2,G],[12,40,7.2,G],[28,40,7.2,B]],5:[[10.5,12.5,6,B],[29.5,12.5,6,G],[20,28,6,R],[10.5,43.5,6,G],[29.5,43.5,6,B]],6:[[12.5,11,5.6,G],[27.5,11,5.6,G],[12.5,31,5.6,R],[27.5,31,5.6,R],[12.5,45,5.6,R],[27.5,45,5.6,R]],7:[[10,10.5,4.4,G],[20,15,4.4,G],[30,19.5,4.4,G],[12.5,33,5.3,R],[27.5,33,5.3,R],[12.5,46,5.3,R],[27.5,46,5.3,R]],8:[9,21.7,34.3,47].flatMap(y=>[[12.5,y,5.3,B],[27.5,y,5.3,B]]),9:[[10,B],[28,R],[46,G]].flatMap(([y,c])=>[[9,y,5.2,c],[20,y,5.2,c],[31,y,5.2,c]])}[n];s=L.map(([x,y,r,c])=>dot(x,y,r,c)).join('');}
+  s=idx(n)+s;}
+ else if(t<27){const n=t-17,G=C.green,R=C.red;
+  if(n===1)s=`<path d="M25 40 Q34 47 33 53 Q27 48 22 46 Q24 51 20 54 Q19 48 18 44Z" fill="${C.blue}"/><path d="M18 44 Q10 40 11 30 Q12 22 19 21 Q17 15 21 11 Q26 8 29 12 Q31 16 28 20 Q31 26 30 33 Q29 41 22 45Z" fill="${G}"/><path d="M15 29 Q22 25 27 30 Q24 37 17 37 Q20 33 15 29Z" fill="${C.blue}"/><path d="M17 31 Q21 29 24 31 M18 34 Q21 32 23 33" stroke="#cfe2d4" stroke-width=".9" fill="none"/><path d="M28.6 13.2 L34.5 15 L28.8 16.9Z" fill="#c98a2a"/><circle cx="25.4" cy="13.6" r="1.6" fill="#fbf8ec"/><circle cx="25.6" cy="13.6" r=".8" fill="${C.ink}"/><path d="M21 11 Q19 6 22 4 M23 10 Q23 5 26 4" stroke="${R}" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M19 45 L17 51 M23 45 L24 51" stroke="#9a5a2c" stroke-width="1.5" stroke-linecap="round"/>`;
+  else{const A=18,L={2:[[20,16,A,G],[20,40,A,G]],3:[[20,16,A,G],[12,40,A,G],[28,40,A,G]],4:[[12,16,A,G],[28,16,A,G],[12,40,A,G],[28,40,A,G]],5:[[9,16,A,G],[31,16,A,G],[20,28,A,R],[9,40,A,G],[31,40,A,G]],6:[9,20,31].flatMap(x=>[[x,16,A,G],[x,40,A,G]]),7:[[20,10.5,12.5,R],...[9,20,31].flatMap(x=>[[x,25.5,13,G],[x,43,13,G]])],8:[[7.5,16,17,G],[15.6,16,17,G,15],[24.4,16,17,G,-15],[32.5,16,17,G],[7.5,40,17,G],[15.6,40,17,G,-15],[24.4,40,17,G,15],[32.5,40,17,G]],9:[10.5,28,45.5].flatMap(y=>[[10,y,14,G],[20,y,14,R],[30,y,14,G]])}[n];s=L.map(([x,y,l,c,a])=>stick(x,y,l,c,a)).join('');}
+  s=idx(n)+s;}
+ else if(t===33)s=`<rect x="8" y="10" width="24" height="36" rx="2.5" fill="none" stroke="${C.blue}" stroke-width="2.4"/><rect x="11.5" y="13.5" width="17" height="29" rx="1" fill="none" stroke="${C.blue}" stroke-width=".9"/>`;
+ else{const word=MJ.LABELS[t],serif="'Songti SC','STSong','Noto Serif CJK SC',serif";
+  if(t<34)s=`<text x="20" y="38.5" text-anchor="middle" font-family="${serif}" font-weight="700" font-size="28" fill="${t===31?C.red:t===32?C.green:C.ink}">${word}</text>`;
+  else{const k=t-34,plant=k>=4,ring=(cx,cy,n,rx,ry,c,o=0)=>[...Array(n)].map((_,i)=>`<ellipse cx="${cx}" cy="${cy-ry}" rx="${rx}" ry="${ry}" fill="${c}" transform="rotate(${o+i*360/n} ${cx} ${cy})"/>`).join(''),
+   blossom=(x,y,r,c)=>ring(x,y,5,r*.62,r*.62,c)+`<circle cx="${x}" cy="${y}" r="${r*.38}" fill="#f1c24b"/>`,
+   art=[
+   // 春 · sprout under a spring sun
+   `<circle cx="11" cy="13" r="4.2" fill="#e0703a"/><path d="M8 40 Q20 35 32 40" stroke="#8a5a2c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M20 39 Q19 30 21 21" stroke="#3f8a4a" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M21 27 Q29 18 34 21 Q29 30 21 27Z" fill="#4c9a52"/><path d="M20 31 Q11 24 7 28 Q12 35 20 31Z" fill="#6bb35c"/>`,
+   // 夏 · lotus on a pad
+   `<ellipse cx="20" cy="38" rx="14" ry="4.6" fill="#3f8a4a"/><path d="M20 38 L20 33.5" stroke="#2d6b38" stroke-width="1"/>${ring(20,30,5,3.4,8,'#e98aa5',-72)}${ring(20,30,3,3,7,'#d9577f',-60)}<circle cx="20" cy="29" r="2.4" fill="#f1c24b"/>`,
+   // 秋 · maple leaf
+   `<path d="M20 9 L23 17 L30 13 L28 21 L35 22 L29 27 L32 33 L24 31 L21 37 L19 37 L16 31 L8 33 L11 27 L5 22 L12 21 L10 13 L17 17Z" fill="#d6582c"/><path d="M20 15 L20 44 M20 26 L27 21 M20 26 L13 21 M20 31 L26 30 M20 31 L14 30" stroke="#9e3518" stroke-width="1" fill="none" stroke-linecap="round"/>`,
+   // 冬 · snowflake
+   `<g stroke="#3b78b5" stroke-width="2" stroke-linecap="round" fill="none">${[0,60,120].map(a=>`<path d="M20 12 L20 44 M16 15.5 L20 19 L24 15.5 M16 40.5 L20 37 L24 40.5" transform="rotate(${a} 20 28)"/>`).join('')}</g><circle cx="20" cy="28" r="2.4" fill="#3b78b5"/>`,
+   // 梅 · plum branch
+   `<path d="M7 44 Q15 36 18 27 Q21 18 32 11 M17 30 Q24 31 30 27" stroke="#5b3a24" stroke-width="2" fill="none" stroke-linecap="round"/>${blossom(25.5,14.5,6.4,'#d8445a')}${blossom(14,24,6,'#e86a7d')}${blossom(28,30,5.4,'#d8445a')}<circle cx="23" cy="20" r="1.6" fill="#e86a7d"/>`,
+   // 兰 · orchid leaves and bloom
+   `<g fill="none" stroke="#2f7d4a" stroke-linecap="round"><path d="M18 44 Q12 26 5 18" stroke-width="2"/><path d="M19 44 Q24 24 35 15" stroke-width="2"/><path d="M20 44 Q21 33 15 24" stroke-width="1.6"/></g>${ring(24,23,5,2.4,5.2,'#8b5fb8',0)}<circle cx="24" cy="23" r="1.8" fill="#f1c24b"/>`,
+   // 竹 · leafy bamboo stalk
+   `<g transform="rotate(-8 18 28)"><rect x="15.6" y="7" width="4.8" height="38" rx="2.2" fill="#3b8a50"/><rect x="15" y="17" width="6" height="1.6" fill="#22603a"/><rect x="15" y="29" width="6" height="1.6" fill="#22603a"/></g><path d="M20 17 Q28 11 35 12 Q29 19 20 17Z M21 18 Q27 21 32 25 Q24 25 21 18Z M18 29 Q10 25 5 27 Q11 33 18 29Z" fill="#4fa05f"/>`,
+   // 菊 · chrysanthemum
+   `<path d="M20 34 Q19 40 21 46" stroke="#3f8a4a" stroke-width="1.6" fill="none"/><path d="M20 41 Q27 37 30 40 Q25 44 20 41Z" fill="#4c9a52"/>${ring(20,23,16,1.9,9,'#e3a21a')}${ring(20,23,12,1.7,6,'#f2c230',15)}<circle cx="20" cy="23" r="3.4" fill="#c8741a"/>`][k];
+   s=`${art}<text x="35.5" y="8.6" text-anchor="end" font-size="6" font-weight="700" font-family="system-ui,sans-serif" fill="${plant?C.green:C.red}">${k%4+1}</text><text x="20" y="53.4" text-anchor="middle" font-family="'Songti SC','STSong','Noto Serif CJK SC',serif" font-weight="700" font-size="8.6" fill="${plant?C.green:C.red}">${MJ.LABELS[t]}</text>`;}}
+ return `<svg viewBox="0 0 40 56" aria-hidden="true">${s}</svg>`;
+}
+function tile(id,g,classes='',attrs=''){return `<button type="button" class="tile ${classes}" aria-label="${esc(MJ.LABELS[g.t(id)])}" title="${esc(MJ.LABELS[g.t(id)])}" ${attrs}>${tileSvg(g.t(id))}</button>`;}
+function current(){return review===null?game:MJ.Game.restore({state:structuredClone(game.history[review].state),history:[]});}
+function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3200);}
+function save(){if(IS_GUEST)return;Net.push();try{localStorage.setItem('qiaoma.table.v1',JSON.stringify({state:game.s,history:game.history,seed,delay,archives}));$('save-status').textContent='已自动保存于本机';storageOK=true;}catch{$('save-status').textContent='本机存储不可用，请导出牌谱';storageOK=false;}}
+function pretty(n){return n>0?'+'+n:n.toString();}
+function openModal(title,body){$('modal-title').textContent=title;$('modal-body').innerHTML=body;if(!$('modal').open)$('modal').showModal();}
+function renderSeat(seat,g){let s=g.s,p=s.players[seat],isYou=seat===me,turn=s.actor===seat&&!s.result,show=isYou||(s.result&&revealed)||(review!==null&&revealed),tags=`${s.dealer===seat?'<span class="seat-tag">庄</span>':''}${p.qiao?`<span class="seat-tag qiao">${p.tian?'天敲':'已敲'}</span>`:''}${p.passedWin||p.passedKong?'<span class="seat-tag penalty">停胡</span>':''}`;
+ const flowers=`<div class="flowers-row"><span class="flower-label">${p.flowers.length?p.flowers.length+' 花':'无亮花'}</span>${p.flowers.map(id=>tile(id,g,'mini','tabindex="-1"')).join('')}</div>`;
+ const melds=`<div class="melds-row">${p.melds.map(m=>`<div class="meld-group">${m.ids.map(id=>tile(id,g,'meld','tabindex="-1"')).join('')}<span class="meld-caption">${{chi:'吃',pon:'碰',daiminkan:'明杠',ankan:'暗杠',kakan:'上杠'}[m.kind]}${m.from!==seat?' · '+SEATNAME[m.from]:''}</span></div>`).join('')}</div>`;
+ let identity=`<span class="avatar ${isYou?'you':''}">${isYou?'我':esc(NAMES[seat][0])}</span><div><div class="player-name">${esc(seatName(seat))} ${tags}</div><div class="player-role">${esc(ROLES[seat])}</div></div>`;
+ let html;if(isYou){let legal=review===null&&!s.result?g.actions(me):[],allowed=new Set(legal.filter(a=>a.kind===(armed?'qiao':'discard')).map(a=>a.id));let sorted=p.hand.slice().sort((a,b)=>g.t(a)-g.t(b)||a-b);if(s.actor===me&&s.phase==='turn'&&s.drawn!==null&&p.hand.includes(s.drawn)){sorted=sorted.filter(id=>id!==s.drawn);sorted.push(s.drawn);}
+ html=`<div class="player-head"><div class="identity">${identity}</div><div class="human-meta">${flowers}<span class="flower-chip">${p.open?'已开门':'未开门'}</span></div></div><div class="seat-body"><div class="hand-row">${sorted.map(id=>tile(id,g,`${allowed.has(id)?'playable':''} ${selected===id?'selected':''} ${s.phase==='turn'&&s.actor===me&&id===s.drawn?'drawn':''} ${armed&&!allowed.has(id)?'dim':''} ${analyze&&analysisRows[0]?.t===g.t(id)?'recommended':''}`,`data-tile="${id}" ${allowed.has(id)?'':'aria-disabled="true"'}`)).join('')}</div>${melds}</div>`;
+ }else{let hand=show?`<div class="revealed-hand">${p.hand.slice().sort((a,b)=>g.t(a)-g.t(b)).map(id=>tile(id,g,'meld','tabindex="-1"')).join('')}</div>`:`<div class="hand-backs" aria-label="${p.hand.length}张隐藏手牌">${p.hand.map(()=>'<span class="back-tile"></span>').join('')}</div>`;html=`<div class="player-head">${identity}</div><div class="seat-body">${hand}${melds}</div>${flowers}`;}
+ let el=$(POS[seat]+'-seat');el.innerHTML=html;el.classList.toggle('active-seat',turn);
+ const river=$('river-'+POS[seat]);river.innerHTML=`<span class="river-label">${SEATNAME[seat]}牌河</span>${p.river.map(r=>tile(r.id,g,`small ${r.claimed?'discarded':''} ${s.lastDiscard?.id===r.id&&!r.claimed?'last':''} ${r.qiao?'qiao-discard':''}`,'tabindex="-1"')).join('')}`;
+}
+function wallMarkers(g){const w=g.s.wall;let head=w.available[0],tail=null;if(w.available.length){let last=w.tiles[w.available.at(-1)],prev=w.tiles[w.available.at(-2)];tail=prev&&prev.seat===last.seat&&prev.stack===last.stack?prev.id:last.id;}return {head,tail};}
+function renderWall(g){let w=g.s.wall,{head,tail}=wallMarkers(g),set=new Set(w.available);for(const [seat,pos] of [0,1,2,3].map(x=>[x,['bottom','right','top','left'][rel(x)]])){let stacks=[];for(let n=0;n<18;n++){let ids=w.tiles.filter(t=>t.seat===seat&&t.stack===n).map(t=>t.id),left=ids.filter(id=>set.has(id)).length;stacks.push(`<span class="wall-stack ${left===0?'empty':left===1?'half':''} ${ids.includes(head)?'head':''} ${ids.includes(tail)?'tail':''}" title="${SEATNAME[seat]}墙第${n+1}墩 · ${left}张${ids.includes(head)?' · 牌头':''}${ids.includes(tail)?' · 牌尾':''}"></span>`);}$( 'wall-'+pos).innerHTML=stacks.join('');}}
+function act(a){if(IS_GUEST){Net.send({type:'act',a,serial:game.s.serial});if(game.s.phase==='response')guestPicked=game.s.serial;selected=null;armed=false;analysisSerial='';render();return;}if(review!==null)return;humanAct(a,0);}
+// Host only. Responses to a discard are collected from every human who can respond before the engine resolves them.
+let picks={key:-1,by:{}},guestPicked=-1;
+function humanSeats(){return Net.guestOnline?[0,GUEST_SEAT]:[0];}
+function picked(seat){return picks.key===game.s.serial&&picks.by[seat]!==undefined;}
+function humanAct(a,seat){try{const s=game.s;if(s.result)return;if(!game.actions(seat).some(x=>JSON.stringify(x)===JSON.stringify(a)))throw new Error('非法动作');if(s.phase==='response'){if(picks.key!==s.serial)picks={key:s.serial,by:{}};picks.by[seat]=a;}else game.act(a,seat);if(seat===0){selected=null;armed=false;}analysisSerial='';save();render();schedule(s.phase==='response'?50:undefined);}catch(e){if(seat===0)fail(e);else{console.warn(e);Net.push();}}}
+function renderActions(g){const s=g.s,container=$('actions');let actions=review===null?g.actions(me):[];const button=(label,a,cls='')=>`<button class="action-button ${cls}" data-action="${esc(JSON.stringify(a))}">${label}</button>`;
+ let title=s.actor!==me&&!s.result&&s.phase!=='response'?`等待${seatName(s.actor)}`:'等待其他玩家',subtitle=Net.guestOnline||IS_GUEST?'两位真人对坐 · 上下家为 Bot':'对手仅依据自己的手牌与公开信息决策',html='';
+ if(review!==null){title='复盘 · '+game.history[review].label;subtitle='公平分析使用当时信息；可切换查看四家手牌';html='<button class="action-button" id="reveal-toggle">'+(revealed?'隐藏对手牌':'查看四家手牌')+'</button>';}
+ else if(s.result){title=s.result.winners.length?'本局结束':'本局流局';subtitle=IS_GUEST?'任意一方都可以开始下一局':'点击复盘回看判断，或开始下一局';html='<button class="action-button" id="result-button">结算详情</button><button class="action-button primary" id="next-inline">下一局 →</button>';}
+ else if(paused){title='牌桌已暂停';subtitle='点击继续，Bot 才会行动';html='<button class="action-button primary" id="resume-inline">继续牌局</button>';}
+ else if(actions.some(a=>a.kind!=='pass'&&a.kind!=='start')){
+ if(s.phase==='opening'||s.phase==='predraw'){title=s.phase==='predraw'?'首次摸牌前 · 可以天敲':'起手决策';subtitle='首次摸牌前可声明天敲；起手暗杠不影响天敲';for(const a of actions)html+=button(a.kind==='tian'?'天敲':a.kind==='start'?'继续':a.kind==='draw'?'直接摸牌':`暗杠 ${MJ.LABELS[a.t]}`,a,a.kind==='tian'?'gold':'');}
+ else if(s.phase==='response'&&(IS_GUEST?guestPicked===s.serial:picked(me))){title='已选择';subtitle='等待其他玩家响应…';}
+ else if(s.phase==='response'){title=actions.some(a=>a.kind==='win')?'可以胡牌':`可响应 ${MJ.LABELS[g.t(s.response.id)]}`;subtitle=s.response.mode==='rob'?'上杠可抢；合法胡必须胡':'先胡，再碰杠，最后吃';for(const a of actions){let label={win:'胡',pass:'过',passwin:'过胡',pon:'碰',daiminkan:'明杠'}[a.kind]||`吃 ${a.need?.map(t=>MJ.LABELS[t]).join('·')}`;html+=button(label,a,a.kind==='win'?'gold':a.kind==='passwin'?'danger':'');}}
+ else{title=s.players[me].qiao?'已敲 · 手牌锁定':'轮到你出牌';subtitle=s.players[me].qiao&&actions.length===1&&actions[0].kind==='discard'?`摸到 ${MJ.LABELS[g.t(actions[0].id)]} · 不能胡也不能杠，自动打出`:armed?'选择要打出的听牌舍牌，再确认敲':selected!==null?`已选 ${MJ.LABELS[g.t(selected)]} · 点击打出或按 Enter`:'点击选择手牌，再确认打出；双击可直接打出';let win=actions.find(a=>a.kind==='win'),ks=actions.filter(a=>a.kind==='ankan'||a.kind==='kakan');if(win){html+=button('胡',win,'gold')+button('过胡',{kind:'passwin'},'danger');subtitle='合法胡必须胡；放过后整局不能再胡';}
+ else if(s.players[me].qiao&&ks.length){title='有合法必杠';subtitle='已验证杠后听口不变；不杠则整局不能胡';for(const a of ks)html+=button(`${a.kind==='ankan'?'暗杠':'上杠'} ${MJ.LABELS[a.t]}`,a,'gold');html+=button('过杠',{kind:'passkong'},'danger');}
+ else{for(const a of ks)html+=button(`${a.kind==='ankan'?'暗杠':'上杠'} ${MJ.LABELS[a.t]}`,a);if(actions.some(a=>a.kind==='qiao'))html+=`<button id="arm-qiao" class="action-button ${armed?'gold':''}">${armed?'取消敲':'敲'}</button>`;let chosen=actions.find(a=>a.id===selected&&a.kind===(armed?'qiao':'discard'));html+=`<button class="action-button primary" id="discard-confirm" ${chosen?'':'disabled'}>${armed?'敲并打出':'打出'}${chosen?' '+MJ.LABELS[g.t(selected)]:''}</button>`;}}
+ }
+ $('decision-title').textContent=title;$('decision-subtitle').textContent=subtitle;container.innerHTML=html;$('decision-dot').classList.toggle('wait',!actions.length||paused);
+}
+function renderAnalysis(g){let area=$('analysis-content');area.classList.toggle('active',analyze);if(!analyze){area.innerHTML='<div class="analysis-symbol">◎</div><h3>先打自己的判断</h3><p>需要时查看候选舍牌、听口与未知剩余张数。</p><button id="analyze-button" class="outline-button">分析当前手牌 <span>↗</span></button>';analysisRows=[];return;}
+ let p=g.s.players[me],key=g.s.serial+':'+review;if(analysisSerial!==key){analysisSerial=key;analysisRows=[];if(p.hand.length===14-3*p.melds.length)analysisRows=MJ.analysis(g,me);}
+ let head='<div class="analysis-title"><span>当前牌效</span><button id="analysis-hide">收起</button></div>';
+ if(p.hand.length===13-3*p.melds.length){let ws=MJ.waits(g.types(p),p.melds),seen=g.observe(me).seen;area.innerHTML=head+(ws.length?`<h3>结构听牌${ws.every(w=>seen[w.tile]===4)?' · 死听':''}</h3><div class="wait-pills">${ws.map(w=>`<span class="wait-pill">${MJ.LABELS[w.tile]} · ${Math.max(0,4-seen[w.tile])}张</span>`).join('')}</div><p class="analysis-note">这里是未知剩余，不是实际牌墙张数。是否能胡仍受花数与处罚约束。</p>`:`<h3>${MJ.shanten(g.types(p),p.melds.length)} 向听</h3><p class="analysis-note">等待下一张摸牌后，可比较不同舍牌。</p>`);return;}
+ if(!analysisRows.length){area.innerHTML=head+'<p class="analysis-note">当前阶段没有可比较的舍牌。</p>';return;}
+ const legal=review===null?g.actions(me):[],allowed=new Set(legal.filter(a=>a.kind==='discard'||a.kind==='qiao').map(a=>g.t(a.id)));let rows=analysisRows.filter(r=>review!==null||allowed.size===0||allowed.has(r.t));area.innerHTML=head+`<table class="analysis-table"><thead><tr><th>舍牌</th><th>向听</th><th>进张</th></tr></thead><tbody>${rows.slice(0,5).map((r,i)=>`<tr class="${i===0?'best':''}"><td><button data-select-type="${r.t}">${MJ.LABELS[r.t]} ${i===0?'↗':''}</button></td><td>${r.dist===0?'听牌':r.dist}</td><td>${r.remaining} 张</td></tr>`).join('')}</tbody></table>${rows[0]?.waits.length?'<div class="wait-pills">'+rows[0].waits.map(t=>`<span class="wait-pill">听 ${MJ.LABELS[t]}</span>`).join('')+'</div>':''}<p class="analysis-note">进张按可见牌扣除后的未知张数计算。此处比较速度，尚未评估支付风险与期望净分。</p>`;
+}
+function render(){if(!game)return;let g=current(),s=g.s;$('round-label').textContent=`第 ${String(s.round).padStart(2,'0')} 局`;$('remaining').innerHTML=`<b>${s.wall.available.length}</b> 张余牌`;$('turn-marker').textContent=s.result?'终':SEATNAME[s.actor][0];$('last-event').textContent=s.log.at(-1)?.kind||'开局';$('next-button').hidden=!s.result||review!==null;
+ renderAnalysis(g);for(let i=0;i<4;i++)renderSeat(i,g);renderWall(g);renderActions(g);
+ $('pause-button').textContent=paused?'▶ 继续':'Ⅱ 暂停';$('pause-button').disabled=review!==null||!!s.result;
+ $('scoreboard').innerHTML=s.scores.map((n,i)=>`<div class="score-row ${i===me?'you':''}"><span class="score-avatar">${i===me?'我':esc(NAMES[i][0])}</span><span class="score-name">${esc(seatName(i))}${s.dealer===i?' · 庄':''}</span><span class="score-number ${n>0?'pos':n<0?'neg':''}">${pretty(n)}</span></div>`).join('');
+ $('relations').textContent=s.relations.length?'三口关系：'+s.relations.map(r=>r.split('-').map(i=>seatName(+i)).join(' ↔ ')).join(' / '):'尚无三口包牌关系';
+ let log=s.log.filter(e=>e.kind!=='摸牌').slice(-18).reverse();$('log-count').textContent=s.log.filter(e=>e.kind!=='摸牌').length+' 条';$('event-log').innerHTML=log.map(e=>`<div class="log-entry"><span class="log-point"></span><b>${e.seat!==null?esc(seatName(e.seat))+' · ':''}${e.kind}</b><span>${esc(e.text)}</span></div>`).join('');
+ $('replay-bar').hidden=review===null;if(review!==null){$('replay-slider').max=game.history.length-1;$('replay-slider').value=review;$('replay-label').textContent=`${review+1}/${game.history.length}`;$('branch-button').disabled=!!s.result;}
+ announce(g);animateBuhua(g);if(s.result&&review===null&&lastResultSerial!==s.serial){lastResultSerial=s.serial;resultModal(g);}
+}
+function fail(e){paused=true;clearTimeout(timer);console.error(e);notify('牌局校验暂停：'+e.message);$('decision-title').textContent='校验发现问题，牌桌已暂停';$('decision-subtitle').textContent=e.message;}
+// 补花 animation: the flower flies into the player's flower pile, then a replacement flies in from the wall tail.
+let fxGame=null,fxLog=0,fxHand=new Set(),holdUntil=0;
+function rectCenter(el){const r=el.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2,w:r.width,h:r.height};}
+function flyTile(html,cls,from,to,delay,duration,size){const el=document.createElement('div');el.className=cls;el.innerHTML=html;el.style.width=size.w+'px';el.style.height=size.h+'px';el.style.left=from.x-size.w/2+'px';el.style.top=from.y-size.h/2+'px';el.style.opacity='0';document.body.append(el);
+ const k=to.w?Math.max(.3,to.w/size.w):1,dx=to.x-from.x,dy=to.y-from.y;
+ el.animate([{transform:'translate(0,0) scale(1)',opacity:0},{transform:'translate(0,-10px) scale(1.08)',opacity:1,offset:.18},{transform:`translate(${dx}px,${dy}px) scale(${k})`,opacity:1,offset:.9},{transform:`translate(${dx}px,${dy}px) scale(${k})`,opacity:0}],{duration,delay,easing:'cubic-bezier(.3,.7,.2,1)',fill:'both'}).finished.then(()=>el.remove(),()=>el.remove());}
+function animateBuhua(g){const s=g.s;if(review!==null)return;if(fxGame!==g){fxGame=g;fxLog=s.log.length;fxHand=new Set(s.players[me].hand);return;}
+ const fresh=s.log.slice(fxLog),before=fxHand;fxLog=s.log.length;fxHand=new Set(s.players[me].hand);if(!fresh.some(e=>e.kind==='补花'))return;
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,gap=reduce?250:650,center=document.querySelector('.table-center');
+ for(let seat=0;seat<4;seat++){const mine=fresh.filter(e=>e.seat===seat),steps=[];
+  for(const e of mine){if(e.kind==='补花')steps.push({t:MJ.LABELS.indexOf(e.text),tail:false});else if(e.kind==='摸牌'&&e.text.startsWith('牌尾')&&steps.length&&!steps.at(-1).tail)steps.at(-1).tail=true;}
+  if(!steps.length)continue;
+  const seatEl=$(POS[seat]+'-seat'),minis=[...seatEl.querySelectorAll('.flowers-row .tile.mini')].slice(-steps.length),hand=seatEl.querySelector('.hand-row,.hand-backs,.revealed-hand')||seatEl,origin=rectCenter(hand);
+  // Your new tiles: the ones that arrived from the tail (not a normal head draw).
+  const targets=seat===me?s.players[me].hand.filter(id=>!before.has(id)&&!(id===s.drawn&&s.source==='head')).map(id=>seatEl.querySelector(`[data-tile="${id}"]`)).filter(Boolean):[];
+  const big=seat===me?{w:44,h:60}:{w:30,h:41};
+  steps.forEach((st,i)=>{const delay=i*gap,mini=minis[i];
+   if(mini){mini.style.opacity='0';setTimeout(()=>{mini.style.transition='opacity .2s';mini.style.opacity='';},delay+(reduce?150:520));
+    flyTile(tileSvg(st.t),'fx-tile tile',origin,rectCenter(mini),delay,reduce?250:620,big);}
+   if(st.tail&&center){const j=i-(steps.length-targets.length),target=j>=0?targets[j]:null,to=target?rectCenter(target):origin;
+    flyTile('<span>牌尾</span>','fx-back',rectCenter(center),{...to,w:0},delay+(reduce?100:330),reduce?250:560,{w:26,h:36});
+    if(target){target.style.animationDelay=(delay+(reduce?300:820))+'ms';target.classList.add('fx-pop');setTimeout(()=>target.classList.remove('fx-pop'),delay+1400);}}});
+  holdUntil=Math.max(holdUntil,Date.now()+steps.length*gap+(reduce?300:700));}
+}
+// Shout when a bot knocks: a seal flies in from that bot's side of the table.
+let shoutGame=null,shoutSeen=0,shoutUntil=0;
+function announce(g){if(review!==null)return;if(shoutGame!==g){shoutGame=g;shoutSeen=g.s.log.length;return;}const fresh=g.s.log.slice(shoutSeen);shoutSeen=g.s.log.length;for(const e of fresh)if((e.kind==='敲'||e.kind==='天敲')&&e.seat!==null&&e.seat!==me)shout(e.seat,e.kind);}
+function shout(seat,kind){const table=$('table'),seatEl=$(POS[seat]+'-seat'),field=table.querySelector('.field');if(!table||!seatEl||!field)return;
+ const box=r=>({x:r.left+r.width/2,y:r.top+r.height/2}),t=table.getBoundingClientRect(),from=box(seatEl.getBoundingClientRect()),mid=box(field.getBoundingClientRect());
+ const sx=from.x-t.left,sy=from.y-t.top,cx=mid.x-t.left,cy=mid.y-t.top,mx=sx+(cx-sx)*.6,my=sy+(cy-sy)*.6,angle=Math.atan2(my-sy,mx-sx)*180/Math.PI;
+ const el=document.createElement('div');el.className='shout';el.setAttribute('role','status');el.style.setProperty('--a',angle+'deg');
+ el.innerHTML=`<div class="shout-body"><span class="shout-lines"></span><span class="shout-seal">敲</span><span class="shout-text">${esc(seatName(seat))} · ${kind==='天敲'?'天敲':'敲了'}</span></div>`;table.append(el);
+ const at=(x,y,k)=>`translate(${x}px,${y}px) scale(${k})`,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const frames=reduce?[{transform:at(mx,my,1),opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.85},{transform:at(mx,my,1),opacity:0}]
+  :[{transform:at(sx,sy,.25),opacity:0},{transform:at(mx,my,1.28),opacity:1,offset:.2},{transform:at(mx,my,.94),offset:.3},{transform:at(mx,my,1),offset:.38},{transform:at(mx,my,1),opacity:1,offset:.84},{transform:at(mx+(cx-mx)*.25,my+(cy-my)*.25,1.08),opacity:0}];
+ el.animate(frames,{duration:1700,easing:'cubic-bezier(.2,.8,.2,1)',fill:'both'}).finished.then(()=>el.remove(),()=>el.remove());
+ seatEl.classList.remove('shout-flash');void seatEl.offsetWidth;seatEl.classList.add('shout-flash');setTimeout(()=>seatEl.classList.remove('shout-flash'),1900);
+ shoutUntil=Date.now()+1600;}
+function schedule(wait){if(IS_GUEST)return;clearTimeout(timer);if(paused||review!==null||game.s.result)return;timer=setTimeout(tick,Math.max(wait??delay,shoutUntil-Date.now(),holdUntil-Date.now()));}
+function tick(){try{const s=game.s,humans=humanSeats();if(s.phase==='draw'){game.advance();}else if(s.phase==='response'){if(picks.key!==s.serial)picks={key:s.serial,by:{}};for(const h of humans){if(h===s.response.from)continue;if(game.responseActions(h).some(x=>x.kind!=='pass')&&picks.by[h]===undefined)return;}const by=picks.by;picks={key:-1,by:{}};game.resolveResponses(by);}else if(humans.includes(s.actor)){let a=game.actions(s.actor);if(s.phase==='opening'&&a.length===1&&a[0].kind==='start')game.act(a[0],s.actor);else if(s.phase==='turn'&&s.players[s.actor].qiao&&a.length===1&&a[0].kind==='discard')game.act(a[0],s.actor);else return;}else{let a=MJ.bot(game,s.actor);if(!a)throw new Error('无可行动作');game.act(a);}analysisSerial='';save();render();schedule();}catch(e){fail(e);}}
+function newTable(newSeed){clearTimeout(timer);picks={key:-1,by:{}};archives=[];seed=newSeed||freshSeed();game=new MJ.Game(seed,0);selected=null;armed=false;paused=false;review=null;revealed=false;analysisSerial='';lastResultSerial=-1;if($('modal').open)$('modal').close();save();render();schedule();}
+function nextRound(){if(IS_GUEST){Net.send({type:'next'});return;}let r=game.s.result;if(!r)return;picks={key:-1,by:{}};clearTimeout(timer);archives.push({label:`第 ${game.s.round} 局 · 已结束`,state:structuredClone(game.s),history:game.history.slice()});game=new MJ.Game(seed+'|'+(game.s.round+1),r.nextDealer,game.s.scores,game.s.round+1);selected=null;armed=false;paused=false;review=null;revealed=false;analysisSerial='';if($('modal').open)$('modal').close();save();render();schedule();}
+function resultModal(g){let r=g.s.result,body=`<div class="result-title">${r.winners.length?r.winners.map(i=>esc(seatName(i))).join('、')+' '+{self:'自摸',discard:'捉铳',rob:'抢杠'}[r.mode]:'流局'}</div>`;
+ for(const d of r.details)body+=`<div class="result-tags"><b>${esc(seatName(d.seat))}</b> · ${d.h===0?'无花果（含底十花）':d.h+'奖励花 + 1底花'} · ${d.f}番<br>${d.tags.map(t=>t.name+' '+t.fan+'番').join(' · ')}<br>牌分 ${d.value} + 苍蝇 ${d.fly}${r.mode==='rob'?'，合计乘 3':''} = 单家 ${d.u}</div>`;
+ for(let i=0;i<4;i++)body+=`<div class="result-line"><span>${esc(seatName(i))}</span><strong>${pretty(r.delta[i])}</strong></div>`;
+ if(r.flyId!==null)body+=`<p class="modal-copy">共享苍蝇：${MJ.LABELS[g.t(r.flyId)]}</p>`;
+ body+=`<p class="modal-copy">下一局庄家：${esc(seatName(r.nextDealer))}。流局及骰子均不翻倍。</p><div class="modal-buttons"><button id="result-reveal" class="action-button">查看四家手牌</button><button id="modal-replay" class="action-button host-only">复盘本局</button><button id="modal-next" class="action-button primary">下一局 →</button></div>`;openModal('本局结算',body);}
+function replay(){clearTimeout(timer);paused=true;review=game.history.length-1;selected=null;armed=false;analysisSerial='';if($('modal').open)$('modal').close();render();}
+function showWall(){let g=current(),w=g.s.wall,{head,tail}=wallMarkers(g),set=new Set(w.available),html=`<div class="modal-copy"><p>四面各 18 墩，一墩上下两张。玩家逆时针行牌，牌头沿牌墙顺时针推进。</p><p>本局骰子 ${w.dice.join(' + ')}，${SEATNAME[w.cutSeat]}墙右起数 ${w.cutStack} 墩后开口。采用单次掷骰开口预设，不影响分数。</p></div><div class="wall-legend"><span>黑底：当前牌头</span><span>黑框：当前牌尾</span><span>浅色：已经取走</span></div>`;
+ for(let seat=0;seat<4;seat++){html+=`<div class="wall-map-caption">${SEATNAME[seat]}面前的牌墙 · 从本人视角右向左编号</div><div class="wall-map">`;for(let n=0;n<18;n++){let ts=w.tiles.filter(t=>t.seat===seat&&t.stack===n);html+=`<div class="wall-map-stack">${ts.map(t=>`<span class="wall-map-tile ${set.has(t.id)?'':'gone'} ${head===t.id?'head':''} ${tail===t.id?'tail':''}">${t.layer}</span>`).join('')}<small style="font-size:7px;color:#758767">${n+1}</small></div>`;}html+='</div>';}
+ html+='<p class="modal-copy">摸取牌头：先上后下。补花、杠补和飞苍蝇取牌尾：末墩先上后下，再向前一墩。头尾共享同一副余牌，不设王牌区。</p>';openModal('牌墙 · 头尾与上下层',html);}
+function showRules(){openModal('本桌规则',`<div class="modal-copy"><h3>敲与胡</h3><p>四面子一将，不采用七对、十三幺。必须提前敲，无天胡。平胡两摸三铳，不含底花；有牌型番不限门槛。无花算含底十花，花不足和死听也可敲。</p><h3>敲后杠与处罚</h3><p>敲后杠须不改牌型：杠后剩余手牌仍须听牌，且听口与敲时完全相同。未开门只能且必须暗杠；开门有合法杠必须杠。胡优先杠。过胡或过杠整局不能胡，但仍须合法必杠。暗杠公开牌种，不算开门。</p><h3>计分与三口</h3><p>混碰两番、清碰三番，门清、天敲、杠开、大吊车各一番可叠加。普通奖励花加一底花。每番乘二，苍蝇先加再乘抢杠三倍。</p><p>同一方从同一人取得三口即双向包牌，可有多个包家。自摸每个包家给三家；捉铳放铳者给一家、每个包家再给一家。普通平胡也包。一炮多响不分摊、共享苍蝇。</p><h3>吃碰与牌墙</h3><p>补花：庄家开局先补；其余各家起手花留在手中，轮到自己摸牌或吃碰杠时才补，均从牌尾补。轮到摸牌时先补花，可天敲，再从牌头摸牌；吃碰后先补花再出牌；明杠先补花再杠后补牌。</p><p>吃后无同张或替代端点禁打。可碰未碰，本次牌序不能再碰同种；自己正常摸牌或其他吃碰杠后完成舍牌可解除。墙空最后弃牌只处理胡，无人胡流局。无补牌仍须必杠，杠后无人抢则流局。</p><h3>当前实现</h3><p>使用已确认桌规与资料基本基线。单次掷骰开口、每花 10 分及首庄由你担任为当前练习预设。Bot 以牌效为主，并按手牌倾向做混一色、清一色或碰碰胡；有人敲后按公开信息判断安全牌，离听越远越倾向防守。尚未实现抽样模拟。完整来源及确认记录见同目录 RULES.md、WALL.md。</p></div>`);}
+function settings(){openModal('牌桌设置',`<div class="setting-row"><label for="bot-speed">Bot 行动间隔</label><input id="bot-speed" type="range" min="100" max="1400" step="100" value="${delay}"><span id="speed-value">${delay} ms</span></div><div class="setting-row"><label for="new-seed">新牌桌种子</label><input id="new-seed" type="text" maxlength="64" value="${esc(seed)}"></div><div class="setting-row"><span>存档与牌谱</span><button id="import-button" class="small-button">导入 JSON</button><input id="import-file" type="file" accept="application/json,.json" hidden></div>${archives.length?`<div class="setting-row"><label for="archive-select">历史牌局 / 分支</label><select id="archive-select">${archives.map((a,i)=>`<option value="${i}">${esc(a.label)}</option>`).join('')}</select><button id="archive-open" class="small-button">打开复盘</button></div>`:''}<p class="modal-copy">种子可复现发牌。更改种子并开新桌会重置积分；当前桌规不封顶。Bot 速度仅影响等待，不影响牌墙。</p><div class="modal-buttons"><button id="settings-save" class="action-button">保存设置</button><button id="settings-new" class="action-button primary">用此种子开新桌</button></div>`);}
+function chooseTile(id){let a=game.actions(me).find(a=>a.id===id&&a.kind===(armed?'qiao':'discard'));if(!a||paused||review!==null)return;selected=id;render();}
+function confirmDiscard(){let a=game.actions(me).find(a=>a.id===selected&&a.kind===(armed?'qiao':'discard'));if(a)act(a);}
+function exportGame(){const blob=new Blob([JSON.stringify({format:'qiaoma-local-v1',state:game.s,history:game.history,seed,delay,archives},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`敲麻-第${game.s.round}局-${Date.now()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),500);notify('牌谱已导出，可在设置中导入恢复');}
+document.addEventListener('click',e=>{const el=e.target.closest('button');if(!el)return;const id=el.id;
+ if(el.dataset.action){let a=JSON.parse(el.dataset.action);if(['passwin','passkong'].includes(a.kind)||a.kind==='pass'&&game.s.players[me].qiao&&game.actions(me).some(x=>x.kind==='daiminkan')){if(!confirm('放过后本局不能再胡，但仍须执行后续合法杠。确定放过？'))return;}act(a);return;}
+ if(el.dataset.tile!==undefined){chooseTile(+el.dataset.tile);return;}
+ if(el.dataset.selectType!==undefined){let tid=game.s.players[me].hand.find(x=>game.t(x)===+el.dataset.selectType);if(tid!==undefined)chooseTile(tid);return;}
+ const handlers={
+ 'arm-qiao':()=>{armed=!armed;selected=null;render();},'discard-confirm':confirmDiscard,
+ 'pause-button':()=>{paused=!paused;render();schedule();},'resume-inline':()=>{paused=false;render();schedule();},
+ 'analyze-button':()=>{analyze=true;analysisSerial='';render();},'analysis-hide':()=>{analyze=false;render();},
+ 'replay-button':replay,'modal-replay':replay,'wall-button':showWall,'rules-button':showRules,'settings-button':settings,
+ 'new-button':()=>{if(game.s.result||confirm('开启新牌桌将重置积分和当前牌局。需要保留时请先导出牌谱。'))newTable();},
+ 'next-button':nextRound,'next-inline':nextRound,'modal-next':nextRound,
+ 'modal-close':()=>{if(IS_GUEST&&!game&&$('modal-title').textContent==='加入牌桌')return Net.go?.();$('modal').close();},'result-button':()=>resultModal(game),
+ 'result-reveal':()=>{revealed=true;$('modal').close();render();},'reveal-toggle':()=>{revealed=!revealed;render();},
+ 'replay-prev':()=>{review=Math.max(0,review-1);analysisSerial='';render();},'replay-next':()=>{review=Math.min(game.history.length-1,review+1);analysisSerial='';render();},
+ 'replay-exit':()=>{review=null;revealed=false;paused=false;analysisSerial='';render();schedule();},
+ 'branch-button':()=>{if(review===null)return;archives.push({label:`第 ${game.s.round} 局 · 分支前原牌谱`,state:structuredClone(game.s),history:game.history.slice()});let history=game.history.slice(0,review+1);game=MJ.Game.restore({state:structuredClone(history.at(-1).state),history});review=null;revealed=false;paused=false;analysisSerial='';lastResultSerial=-1;save();render();schedule();notify('已建立新分支，使用该节点剩余牌墙继续');},
+ 'archive-open':()=>{let a=archives[+$('archive-select').value];if(!a)return;archives.push({label:`第 ${game.s.round} 局 · 切换前`,state:structuredClone(game.s),history:game.history.slice()});game=MJ.Game.restore({state:structuredClone(a.state),history:a.history.slice()});save();replay();},
+ 'export-button':exportGame,'import-button':()=>$('import-file').click(),
+ 'settings-save':()=>{delay=+$('bot-speed').value;$('modal').close();save();schedule();notify('已保存 Bot 行动间隔');},
+ 'invite-button':()=>Net.invite(),'invite-copy':()=>Net.copy(),'room-close':()=>{Net.close();$('modal').close();notify('房间已关闭');},'join-go':()=>Net.go?.(),
+ 'settings-new':()=>{delay=+$('bot-speed').value;newTable($('new-seed').value.trim()||undefined);}
+ };handlers[id]?.();});
+document.addEventListener('dblclick',e=>{let el=e.target.closest('[data-tile]');if(el){chooseTile(+el.dataset.tile);confirmDiscard();}});
+document.addEventListener('keydown',e=>{if(e.target.id==='join-name'&&e.key==='Enter'){Net.go?.();return;}if($('modal').open)return;if(e.key==='Enter'&&selected!==null){e.preventDefault();confirmDiscard();}if(e.key==='Escape'&&armed){armed=false;selected=null;render();}});
+document.addEventListener('input',e=>{if(e.target.id==='replay-slider'){review=+e.target.value;analysisSerial='';render();}if(e.target.id==='bot-speed')$('speed-value').textContent=e.target.value+' ms';});
+document.addEventListener('change',async e=>{if(e.target.id!=='import-file')return;let file=e.target.files[0];if(!file)return;try{if(file.size>8*1024*1024)throw new Error('牌谱超过 8MB');let data=JSON.parse(await file.text());if(data.state?.version!==MJ.RULE_VERSION||data.state?.wall?.tiles?.length!==144||data.state.players?.length!==4||!Array.isArray(data.history))throw new Error('不是兼容版本的牌谱');let restored=MJ.Game.restore(data);clearTimeout(timer);game=restored;archives=data.archives||[];seed=data.seed||game.s.seed;delay=data.delay||600;selected=null;armed=false;paused=false;review=null;revealed=false;analysisSerial='';lastResultSerial=-1;$('modal').close();save();render();schedule();notify('已恢复牌谱');}catch(err){notify('无法导入：'+err.message);}});
+if(IS_GUEST){Net.join(ROOM);}else{
+try{let raw=localStorage.getItem('qiaoma.table.v1');if(raw){let data=JSON.parse(raw);const legacy=String(data.seed||data.state?.seed||'').startsWith('上海·练习001');if(data.state?.version===MJ.RULE_VERSION&&!legacy){game=MJ.Game.restore(data);archives=data.archives||[];seed=data.seed||seed;delay=data.delay||delay;}}}catch{storageOK=false;}
+// Every visit deals a fresh random table; a game already in progress is kept in the archive list.
+let resumed=false;const hosting=localStorage.getItem('qiaoma.room');if(game&&hosting&&!game.s.result){/* host reloaded mid-game: keep the table */}else if(game){if(game.history.length>1){archives=archives.filter(a=>!a.resume);archives.push({label:`上次牌桌 · 第 ${game.s.round} 局${game.s.result?' · 已结束':' · 未完成'}`,state:game.s,history:game.history,resume:true});resumed=true;}game=null;seed=freshSeed();}
+if(!game)game=new MJ.Game(seed,0);save();render();schedule();if(resumed)notify('已随机开新桌 · 上次牌局可在 ⚙ 设置中恢复');
+if(localStorage.getItem('qiaoma.room'))Net.host(localStorage.getItem('qiaoma.room'));}
+// Exposed for reproducible local QA; Bot still only receives observe()/legal actions.
+window.qiaoma={get game(){return game},pause:()=>{paused=true;clearTimeout(timer);render();},newTable,render,tileSvg};
+})();
+</script>
+</body></html>
