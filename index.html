@@ -337,6 +337,17 @@ body.p3d .plane .tile.win-tile:after{top:-15px}
 .tile.win-source{box-shadow:0 0 0 2px #c79a2a,0 0 0 5px #c79a2a33;z-index:2}
 .chip.win{background:#c79a2a;color:#fff;font-weight:600}
 .hud-badge:has(.chip.win){box-shadow:0 0 0 2px #c79a2a,0 6px 16px #c79a2a40}
+
+/* portrait: the table tips back less and uses the height; badges sit in one row on top */
+body.p3d.portrait .plane{--tilt:22deg;--persp:1500px}
+body.p3d.portrait.narrow .plane{padding:14px 12px 10px;gap:10px 8px}
+body.p3d.portrait.narrow .plane .west .back-tile,body.p3d.portrait.narrow .plane .east .back-tile{width:26px;height:18px}
+body.p3d.portrait.narrow .south .hand-row{gap:2px}
+body.p3d.portrait.narrow .decision-bar{left:var(--side-pad);right:var(--side-pad);width:auto;max-width:none}
+body.p3d.portrait.narrow .action-buttons{justify-content:stretch}
+body.p3d.portrait.narrow .action-buttons .action-button{flex:1 1 auto}
+#rotate-hint{display:none!important}
+body.p3d.stack .hud-south{bottom:calc(var(--panel-h) + 20px)}
 </style></head>
 <body class="p3d">
 <div id="stage">
@@ -377,6 +388,7 @@ body.p3d .plane .tile.win-tile:after{top:-15px}
 window.STAGE_SCALE=1;
 const px=k=>parseFloat(getComputedStyle(root).getPropertyValue(k))||0;
 function layout(){queued=false;const v=window.visualViewport,W=(v?v.width:innerWidth)-px('--safe-l')-px('--safe-r'),Hfull=v?v.height:innerHeight,H=Hfull-px('--safe-t')-px('--safe-b');
+ const portrait=H>W*1.05;body.classList.toggle('portrait',portrait);body.classList.toggle('landscape',!portrait);
  body.classList.toggle('short',H<520);body.classList.toggle('slim',W<720);
  const ctl=document.querySelector('.table-controls'),inTop=W>=1000,tiny=H<420,host=inTop?document.querySelector('.top-middle'):tiny?document.querySelector('.sidebar'):document.getElementById('scene');body.classList.toggle('tiny',tiny);if(ctl&&host&&ctl.parentElement!==host)host.append(ctl);body.classList.toggle('ctl-in-scene',!inTop);
  const narrow=W<560,stack=narrow,noid=narrow||H<520||W<900;body.classList.toggle('stack',stack);body.classList.toggle('narrow',narrow);body.classList.toggle('noid',noid);
@@ -387,7 +399,8 @@ function layout(){queued=false;const v=window.visualViewport,W=(v?v.width:innerW
  const hand=document.querySelectorAll('#south-seat .hand-row .tile').length||14,melds=document.querySelectorAll('#south-seat .melds-row .tile').length,groups=document.querySelectorAll('#south-seat .melds-row .meld-group').length;
  const room=W-2*side-(stack?0:panel+14)-(noid?0:idw+14);
  const units=hand*1.08+.5+melds*.7+groups*.16+(groups?.4:0);
- const tw=Math.floor(Math.max(22,Math.min(66,room/units,H*.125)));root.style.setProperty('--tw',tw+'px');
+ const tw=Math.floor(Math.max(22,Math.min(66,room/units,H*(portrait?.09:.125))));root.style.setProperty('--tw',tw+'px');
+ const db=document.querySelector('.decision-bar');root.style.setProperty('--panel-h',(db?db.getBoundingClientRect().height:0)+'px');
  const south=document.getElementById('south-seat');root.style.setProperty('--hand-h',(south?south.getBoundingClientRect().height-gap-px('--safe-b'):tw*1.4)+'px');
  // tipped table: measure its projection, then scale it into the scene above the hand
  const scene=document.getElementById('scene'),fit=document.getElementById('plane-fit'),plane=document.getElementById('plane');
@@ -397,7 +410,7 @@ function layout(){queued=false;const v=window.visualViewport,W=(v?v.width:innerW
   // height-bound (landscape): sit close to the hand; width-bound (portrait): centre in the free space
   const ty=kh<=kw?s.height-4-(y0+p.height)*k:top+(availH-p.height*k)/2-y0*k;
   fit.style.transform=`translate(-50%,${ty}px) scale(${k})`;}
- hint.classList.toggle('show',!dismissed&&Hfull>W*1.15&&W<560);}
+ hint.classList.remove('show');}
 window.layoutTable=()=>{if(!queued){queued=true;requestAnimationFrame(layout);}};
 document.getElementById('rotate-dismiss').onclick=()=>{dismissed=true;layout();};
 addEventListener('resize',window.layoutTable);addEventListener('orientationchange',()=>{setTimeout(layout,250);setTimeout(layout,700);});window.visualViewport?.addEventListener('resize',window.layoutTable);
