@@ -156,89 +156,168 @@ body.guest .host-only{display:none!important}
 .invite-code{font-family:ui-monospace,Menlo,monospace;font-size:26px;letter-spacing:6px;text-align:center;margin:8px 0 4px;color:var(--ink)}
 .join-row{display:flex;gap:8px;margin:14px 0 4px}.join-row input{flex:1;padding:10px;border:1px solid var(--border);border-radius:6px}
 
-/* ===================== Landscape stage ===================== */
+.seed-current{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);user-select:all;-webkit-user-select:all}.sound-button{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.sound-button svg{flex:none}.sound-button .x{display:none}
+.sound-button[data-mode="0"] .w1,.sound-button[data-mode="0"] .w2,.sound-button[data-mode="1"] .w2{display:none}
+.sound-button[data-mode="0"] .x{display:block}.sound-button[data-mode="0"]{color:var(--muted)}
+
+
+/* ===================== Responsive 3D table ===================== */
+:root{--safe-l:env(safe-area-inset-left,0px);--safe-r:env(safe-area-inset-right,0px);--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);
+ --top-h:46px;--side-pad:16px;--bottom-gap:18px;--tw:44px;--panel-w:240px;--id-w:120px;--hand-h:80px}
 html,body{height:100%;overflow:hidden;overscroll-behavior:none}
-body{background:#e9e9e6;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-#stage{position:fixed;left:0;top:0;width:960px;height:540px;transform-origin:0 0;background:var(--paper);overflow:hidden;box-shadow:0 0 0 1px var(--border)}
+body.p3d{background:var(--paper);-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body.p3d #stage{position:fixed;inset:0;display:flex;flex-direction:column;padding:var(--safe-t) var(--safe-r) 0 var(--safe-l);background:var(--paper);overflow:hidden}
 
-/* top strip */
-.topbar{height:34px;padding:0 12px 0 10px}
-.brand{gap:8px}.brand-mark{height:24px;width:24px;font-size:15px;border-radius:6px}
-.brand strong{font-size:13px;letter-spacing:2px}.brand small{display:none}
-.top-middle{font-size:11px;gap:6px}.divider{margin:0 6px}
-.topbar nav{gap:2px}.ghost{padding:6px 8px;font-size:11px}.icon-button{font-size:16px;padding:4px 8px}
-.light-button{padding:6px 11px;font-size:11px;gap:8px;border-radius:6px}
+/* top bar */
+body.p3d .topbar{flex:none;height:var(--top-h);padding:0 var(--side-pad);gap:12px;min-width:0}
+body.p3d .brand{gap:9px;flex:none}body.p3d .brand-mark{width:28px;height:28px;font-size:17px;border-radius:7px}
+body.p3d .brand strong{font-size:14px;letter-spacing:2px}body.p3d .brand small{display:none}
+body.p3d .top-middle{font-size:12px;gap:8px;min-width:0;white-space:nowrap}
+body.p3d .top-middle .table-controls{display:flex;gap:6px;margin-left:6px}
+body.p3d .top-middle .mode-chip{display:none}
+body.p3d .small-button{padding:5px 9px;font-size:11px}
+body.p3d .topbar nav{gap:2px;flex:none}body.p3d .ghost{padding:7px 9px;font-size:12px}
+body.p3d .icon-button{font-size:17px;padding:4px 8px}body.p3d .light-button{padding:7px 12px;font-size:12px;border-radius:7px;gap:8px}
 #drawer-button.on{background:var(--ink);color:#fff;border-radius:6px}
+.sound-button{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
 
-/* playfield */
-.workspace{display:block;position:relative;max-width:none;margin:0;padding:0;height:506px}
-.game-column{position:relative;height:100%}
-.table-toolbar{position:absolute;z-index:6;top:10px;right:14px;height:auto}
-.table-toolbar>div:first-child{display:none}
-.table-controls{margin:0;gap:6px}.small-button{padding:5px 9px;font-size:10px}.mode-chip{padding:4px 9px;font-size:9px;background:#fff}
-.mahjong-table{position:absolute;inset:4px 8px 8px;height:auto;padding:8px 12px;border-radius:16px;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:5px 10px;align-items:center}
+/* the playing area */
+body.p3d .workspace{flex:1;position:relative;min-height:0;max-width:none;margin:0;padding:0;display:block;height:auto}
+body.p3d .game-column{position:absolute;inset:0}
+body.p3d .mahjong-table{position:absolute;inset:0;display:flex;flex-direction:column;height:auto;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;overflow:hidden;
+ background:radial-gradient(120% 90% at 50% 78%,#f6f5f1 0%,#ecebe6 60%,#e4e3dd 100%)}
+body.p3d .table-grain,body.p3d .table-line{display:none}
+body.p3d .scene{position:relative;flex:1;min-height:0;align-self:stretch;width:100%}
+body.p3d .mahjong-table{align-items:stretch;justify-content:flex-start}
 
-/* field: rivers around a wide centre. N/S rivers 10×3, W/E rivers 6×4 */
-.field{--rw:23px;--rh:31px;--g:2px;--pad:6px;
+/* 3D table: laid out flat, then tipped back. JS scales .plane-fit to the space. */
+body.p3d .plane-fit{position:absolute;left:50%;top:0;transform-origin:50% 0;will-change:transform}
+body.p3d .plane{display:grid;grid-template-columns:auto auto auto;grid-template-rows:auto auto 10px;gap:14px 16px;align-items:center;justify-items:center;
+ padding:20px 26px 14px;border-radius:28px;background:linear-gradient(180deg,#e3e2dc,#eeede8);box-shadow:inset 0 0 0 1px #0000000f,0 40px 50px -34px #00000040;
+ transform:perspective(var(--persp,1150px)) rotateX(var(--tilt,31deg));transform-origin:50% 100%}
+body.p3d .plane .north{grid-column:2;grid-row:1}
+body.p3d .plane .west{grid-column:1;grid-row:2}
+body.p3d .plane .field{grid-column:2;grid-row:2}
+body.p3d .plane .east{grid-column:3;grid-row:2}
+body.p3d .plane .seat{position:static;inset:auto;transform:none;margin:0}
+body.p3d .plane .player-head,body.p3d .plane .flowers-row{display:none}
+body.p3d .plane .seat-body{margin:0}
+body.p3d .plane .back-tile{width:22px;height:32px}
+body.p3d .plane .back-tile:after{margin:5px 4px;height:20px}
+body.p3d .plane .west .back-tile,body.p3d .plane .east .back-tile{width:32px;height:21px}
+body.p3d .plane .west .back-tile:after,body.p3d .plane .east .back-tile:after{margin:4px 5px;height:11px}
+body.p3d .plane .tile.meld{width:27px;height:37px}
+body.p3d .plane .west .tile.meld,body.p3d .plane .east .tile.meld{width:27px;height:37px;margin:-5px 5px}
+body.p3d .plane .meld-caption{display:none}body.p3d .plane .meld-group{padding-bottom:0}
+body.p3d .plane .revealed-hand .tile{width:27px;height:37px}
+
+/* field: N/S rivers 10×3, W/E rivers 6×4, around a wide centre */
+body.p3d .field{position:relative;--rw:31px;--rh:42px;--g:2px;--pad:8px;
  --Wn:calc(10*var(--rw) + 9*var(--g));--Hn:calc(3*var(--rh) + 2*var(--g));
  --We:calc(6*var(--rw) + 5*var(--g));--He:calc(4*var(--rh) + 3*var(--g));
- width:calc(var(--Wn) + 2*var(--He) + 2*var(--pad));height:calc(var(--We) + 2*var(--Hn) + 2*var(--pad));align-self:center}
-.river{grid-template-columns:repeat(10,var(--rw));width:var(--Wn);height:var(--Hn)}
-.river-west,.river-east{grid-template-columns:repeat(6,var(--rw));width:var(--We);height:var(--He)}
-.river-south{left:calc(var(--He) + var(--pad));top:calc(var(--Hn) + var(--We) + 2*var(--pad))}
-.river-north{left:calc(var(--He) + var(--pad));top:0}
-.river-west{left:calc(var(--He)/2 - var(--We)/2);top:calc(var(--Hn) + var(--pad) + var(--We)/2 - var(--He)/2)}
-.river-east{left:calc(1.5*var(--He) + var(--Wn) + 2*var(--pad) - var(--We)/2);top:calc(var(--Hn) + var(--pad) + var(--We)/2 - var(--He)/2)}
-.table-center{left:calc(var(--He) + var(--pad));top:calc(var(--Hn) + var(--pad));width:var(--Wn);height:var(--We);padding:0;gap:2px}
-.center-emblem{font-size:22px;line-height:24px}
+ width:calc(var(--Wn) + 2*var(--He) + 2*var(--pad));height:calc(var(--We) + 2*var(--Hn) + 2*var(--pad));margin:0}
+body.p3d .river{grid-template-columns:repeat(10,var(--rw));width:var(--Wn);height:var(--Hn)}
+body.p3d .river-west,body.p3d .river-east{grid-template-columns:repeat(6,var(--rw));width:var(--We);height:var(--He)}
+body.p3d .river-south{left:calc(var(--He) + var(--pad));top:calc(var(--Hn) + var(--We) + 2*var(--pad))}
+body.p3d .river-north{left:calc(var(--He) + var(--pad));top:0}
+body.p3d .river-west{left:calc(var(--He)/2 - var(--We)/2);top:calc(var(--Hn) + var(--pad) + var(--We)/2 - var(--He)/2)}
+body.p3d .river-east{left:calc(1.5*var(--He) + var(--Wn) + 2*var(--pad) - var(--We)/2);top:calc(var(--Hn) + var(--pad) + var(--We)/2 - var(--He)/2)}
+body.p3d .table-center{left:calc(var(--He) + var(--pad));top:calc(var(--Hn) + var(--pad));width:var(--Wn);height:var(--We);padding:0;gap:3px;border-radius:14px}
+body.p3d .center-emblem{font-size:30px;line-height:32px}
+body.p3d .remaining{font-size:12px}body.p3d .remaining b{font-size:26px}
+body.p3d .compass{grid-template-columns:repeat(3,26px);grid-template-rows:repeat(3,20px);font-size:13px}
+body.p3d .last-event{font-size:11px;max-width:80%}
+body.p3d .next-button{font-size:13px}
 
-/* opposite seat: one compact line */
-.north{display:flex;align-items:center;justify-content:center;gap:12px}
-.north .seat-body{margin:0}
-.north .flowers-row{margin:0;flex-wrap:nowrap}
-.north .back-tile{width:14px;height:21px}.north .back-tile:after{margin:3px 2px;height:13px}
-.player-role{font-size:9px}.player-name{font-size:12px}
-.seat-score{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:4px}
-.seat-score.pos{color:var(--ink);font-weight:600}
+/* opponents' badges: flat, always legible */
+.hud{position:absolute;inset:0;pointer-events:none;z-index:6}
+.hud-badge{position:absolute;top:8px;display:flex;align-items:center;gap:8px;padding:5px 11px 5px 5px;border-radius:999px;background:#ffffffeb;
+ box-shadow:0 1px 0 #00000008,0 4px 14px #00000014;font-size:12px;white-space:nowrap;transition:box-shadow .2s}
+.hud-badge.turn{box-shadow:0 0 0 2px var(--ink),0 6px 16px #00000024}
+.hud-north{left:50%;transform:translateX(-50%)}.hud-west{left:var(--side-pad)}.hud-east{right:var(--side-pad)}
+.hud-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#f1f0eb;font-size:13px;flex:none}
+.hud-badge.turn .hud-avatar{background:var(--ink);color:#fff}
+.hud-line{display:flex;align-items:baseline;gap:6px}.hud-name{font-weight:600;color:var(--ink)}
+.hud-score{font-variant-numeric:tabular-nums;color:var(--muted);font-size:11px}.hud-score.pos{color:var(--ink);font-weight:600}
+.hud-chips{display:flex;gap:4px;margin-top:2px}
+.chip{font-size:10px;line-height:15px;padding:0 6px;border-radius:999px;background:#efeee9;color:#55554f}
+.chip.qiao{background:var(--ink);color:#fff}.chip.tian{background:#9a7a2c;color:#fff}.chip.pen{background:#fff;color:#8a3b30;box-shadow:inset 0 0 0 1px #8a3b3066}
+.chip.dealer{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}.chip.human{background:#e7eee9;color:#2f5f4a}
 
-/* side seats */
-.west .back-tile,.east .back-tile{width:22px;height:15px}
-.west .hand-backs,.east .hand-backs,.west .revealed-hand,.east .revealed-hand{gap:1px}
-.west .seat-body,.east .seat-body{margin-top:6px}
+/* your seat: flat, in front of the table */
+body.p3d .south{flex:none;position:relative;inset:auto;transform:none;width:auto;z-index:4;display:flex;align-items:flex-end;gap:14px;margin:0;
+ padding:6px calc(var(--panel-w) + var(--side-pad) + 14px) calc(var(--bottom-gap) + var(--safe-b)) calc(var(--side-pad))}
+body.p3d .south .player-head{flex:none;width:var(--id-w);display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin:0}
+body.p3d .south .human-meta{gap:4px}body.p3d .south .flower-chip{display:none}
+body.p3d .south .flowers-row{flex-wrap:wrap;margin:0;gap:2px}body.p3d .south .flower-label{font-size:10px;white-space:nowrap}
+body.p3d .south .tile.mini{width:13px;height:18px}
+body.p3d .south .seat-body{flex:1;min-width:0;margin:0;display:flex;flex-direction:row;align-items:flex-end;justify-content:center;gap:calc(var(--tw)*.35)}
+body.p3d .south .hand-row{display:flex;flex-wrap:nowrap;gap:calc(var(--tw)*.06);margin:0;min-height:0}
+body.p3d .south .hand-row .tile{width:var(--tw);height:calc(var(--tw)*1.38);padding:calc(var(--tw)*.05);border-radius:calc(var(--tw)*.11);flex:none}
+body.p3d .south .hand-row .tile.drawn{margin-left:calc(var(--tw)*.3)}
+body.p3d .south .hand-row .tile.selected{transform:translateY(calc(var(--tw)*-.28))}
+body.p3d .south .melds-row{display:flex;flex-wrap:nowrap;gap:calc(var(--tw)*.14);margin:0}
+body.p3d .south .tile.meld{width:calc(var(--tw)*.68);height:calc(var(--tw)*.94);border-radius:calc(var(--tw)*.08)}
+body.p3d .south .meld-group{padding-bottom:12px}
 
-/* your seat: identity | hand + melds | (room for the action panel) */
-.south{display:grid;grid-template-columns:130px minmax(0,1fr) 210px;align-items:end;gap:0 8px}
-.south .player-head{flex-direction:column;align-items:flex-start;gap:5px}
-.south .human-meta{gap:4px}.south .flower-chip{display:none}
-.south .flowers-row{flex-wrap:nowrap;margin:0}.south .flower-label{font-size:9px;white-space:nowrap}
-.south .tile.mini{width:12px;height:17px}
-.south .seat-body{margin:0;gap:10px;justify-content:center;align-items:flex-end;flex-direction:row}
-.south .hand-row{margin:0;min-height:0;gap:3px;flex-wrap:nowrap}
-.south .hand-row .tile{width:38px;height:53px;padding:2px;border-radius:4px}
-.tile.drawn{margin-left:9px}
-.human .melds-row{gap:5px}.human .meld-group{padding-bottom:9px}
-.south .tile.meld{width:21px;height:29px}
+/* actions: beside the hand when there is room, above it otherwise */
+body.p3d .decision-bar{position:absolute;z-index:8;right:var(--side-pad);bottom:calc(var(--bottom-gap) + var(--safe-b));width:var(--panel-w);
+ margin:0;min-height:0;padding:10px 12px;flex-direction:column;align-items:stretch;gap:8px;border-radius:12px;background:#fff;box-shadow:0 8px 24px #0000001c}
+body.p3d .decision-copy{gap:8px;align-items:flex-start}
+body.p3d .decision-copy strong{font-size:13px;display:block}
+body.p3d .decision-copy span:not(.status-dot){font-size:11px;line-height:1.4;display:block;margin-top:2px}
+body.p3d .action-buttons{justify-content:flex-end;gap:6px;flex-wrap:wrap}
+body.p3d .action-button{padding:9px 13px;font-size:13px;border-radius:7px}
+body.p3d .action-buttons:empty{display:none}
+body.p3d.stack .decision-bar{bottom:calc(var(--bottom-gap) + var(--safe-b) + var(--hand-h) + 10px);width:auto;max-width:min(360px,calc(100vw - 2*var(--side-pad)))}
+body.p3d.stack .south{padding-right:var(--side-pad)}
+body.p3d.narrow .south{flex-direction:column;align-items:stretch;gap:6px}
+body.p3d.narrow .south .player-head{width:auto;flex-direction:row;align-items:center;gap:10px}
 
-/* action panel floats bottom-right, over the reserved column */
-.decision-bar{position:absolute;z-index:7;right:18px;bottom:14px;width:214px;margin:0;min-height:0;padding:9px 10px;flex-direction:column;align-items:stretch;gap:7px;border-radius:10px;box-shadow:0 6px 20px #0000001a}
-.decision-copy{gap:7px;align-items:flex-start}
-.decision-copy strong{font-size:12px;display:block}
-.decision-copy span:not(.status-dot){font-size:9.5px;line-height:1.35;display:block;margin-top:2px}
-.action-buttons{justify-content:flex-end;gap:5px}
-.action-button{padding:8px 11px;font-size:12px;border-radius:6px}
-.action-buttons:empty{display:none}
+body.p3d .replay-bar{position:absolute;z-index:9;left:50%;transform:translateX(-50%);top:54px;margin:0;padding:6px 8px;gap:6px;width:auto;background:#fff;border-radius:10px;box-shadow:0 6px 20px #0000001c}
 
-.replay-bar{position:absolute;z-index:7;left:16px;top:10px;margin:0;padding:6px 8px;gap:6px;width:auto}
-
-/* drawer: analysis, scores, log, export */
-.sidebar{position:absolute;z-index:20;top:34px;right:0;bottom:0;width:290px;padding:10px;gap:10px;overflow:auto;background:var(--paper);border-left:1px solid var(--border);box-shadow:-10px 0 30px #0000001a;transform:translateX(104%);transition:transform .22s ease;display:flex;flex-direction:column}
+/* drawer */
+body.p3d .sidebar{position:absolute;z-index:20;top:calc(var(--top-h) + var(--safe-t));right:0;bottom:0;width:min(320px,88vw);padding:10px 10px calc(10px + var(--safe-b));gap:10px;overflow:auto;
+ background:var(--paper);border-left:1px solid var(--border);box-shadow:-10px 0 30px #0000001a;transform:translateX(calc(100% + var(--safe-r) + 24px));transition:transform .22s ease;display:flex;flex-direction:column}
 body.drawer .sidebar{transform:none}
-.sidebar .side-card{flex-shrink:0}
-.sidebar .bottom-note{flex-direction:column;gap:6px;margin:0;font-size:10px;padding:0 4px}
-.sidebar .bottom-note button{font-size:10px;text-align:left}
+body.p3d .sidebar .side-card{flex-shrink:0}
+body.p3d .sidebar .bottom-note{flex-direction:column;gap:6px;margin:0;font-size:11px;padding:0 4px}
+body.p3d .sidebar .bottom-note button{font-size:11px;text-align:left}
+
+
+body.p3d.noid .south .player-head{display:none}
+.hud-south{left:var(--side-pad);bottom:6px;top:auto;display:none}
+body.p3d.noid .hud-south{display:flex}
+body.p3d.short .decision-bar{padding:8px 10px;gap:6px}
+body.p3d.short .decision-copy strong{font-size:12px}
+body.p3d.short .decision-copy span:not(.status-dot){font-size:10px}
+body.p3d.short .action-button{padding:7px 10px;font-size:12px}
+
+body.p3d .top-middle{overflow:hidden}
+body.p3d.ctl-in-scene #scene>.table-controls{position:absolute;z-index:7;left:var(--side-pad);top:62px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin:0}
+body.p3d.ctl-in-scene #scene>.table-controls .small-button{background:#ffffffeb;box-shadow:0 2px 8px #00000014}
+body.p3d.slim.ctl-in-scene #scene>.table-controls{top:52px}
+
+body.p3d .mode-chip{display:none!important}
+body.p3d.short .plane{--tilt:40deg;--persp:820px}
+body.p3d.short .plane{grid-template-rows:auto auto 4px;padding:14px 22px 8px}
+
+body.p3d .sidebar>.table-controls{display:flex;gap:6px;margin:0 0 2px;order:-1}
+body.p3d.tiny .hud-badge{padding:4px 10px;gap:6px}
+body.p3d.tiny .hud-avatar{display:none}
+body.p3d.tiny .hud-badge>div{display:flex;align-items:center;gap:8px}
+body.p3d.tiny .hud-chips{margin:0}
+/* small screens */
+body.p3d.short{--top-h:38px}
+body.p3d.short .brand-mark{width:24px;height:24px;font-size:15px}
+body.p3d.short .ghost{padding:6px 7px;font-size:11px}
+body.p3d.slim .brand strong,body.p3d.slim #net-status,body.p3d.slim .top-middle .divider{display:none}
+body.p3d.slim #wall-button,body.p3d.slim #rules-button,body.p3d.slim .sound-label{display:none}
+body.p3d.slim .hud-badge{font-size:11px;padding-right:8px}body.p3d.slim .hud-avatar{width:24px;height:24px;font-size:11px}
 
 dialog{max-height:calc(100dvh - 24px);overflow:auto}
-@media(max-height:480px){dialog{padding:14px 18px}.result-line{padding:5px 0}.result-tags{margin:6px 0}.modal-buttons{margin-top:8px}.modal-copy p{margin:6px 0}.result-title{font-size:20px}}
+@media(max-height:480px){dialog{padding:14px 18px}.modal-copy p{margin:6px 0}.result-title{font-size:20px}.result-line{padding:5px 0}.modal-buttons{margin-top:8px}}
 @media(hover:none){.tile.playable:hover{transform:none}}
 
 #rotate-hint{position:fixed;inset:0;z-index:200;background:var(--paper);display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:30px;color:var(--ink)}
@@ -247,35 +326,27 @@ dialog{max-height:calc(100dvh - 24px);overflow:auto}
 @keyframes rot{0%,30%{transform:rotate(0)}55%,100%{transform:rotate(-90deg)}}
 #rotate-hint p{margin:0;font-size:15px;letter-spacing:1px}#rotate-hint small{color:var(--muted)}
 #rotate-hint button{background:none;color:var(--muted);text-decoration:underline;font-size:12px}
-.seed-current{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);user-select:all;-webkit-user-select:all}.sound-button{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
-.sound-button svg{flex:none}.sound-button .x{display:none}
-.sound-button[data-mode="0"] .w1,.sound-button[data-mode="0"] .w2,.sound-button[data-mode="1"] .w2{display:none}
-.sound-button[data-mode="0"] .x{display:block}.sound-button[data-mode="0"]{color:var(--muted)}
-
-:root{--safe-l:env(safe-area-inset-left,0px);--safe-r:env(safe-area-inset-right,0px);--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);--tw:38px}
-/* the hand follows the width the stage has */
-.south{grid-template-columns:140px minmax(0,1fr) 224px}
-.south .hand-row .tile{width:var(--tw);height:calc(var(--tw)*1.39)}
-.south .hand-row .tile.drawn{margin-left:calc(var(--tw)*.25)}
-/* opposite seat's flowers stay small so they never run under the table buttons */
-.north .tile.mini{width:12px;height:17px}.north .flowers-row{gap:2px}
-.east .tile.mini,.west .tile.mini{width:13px;height:18px}
-/* wide stage (phones in landscape): rivers a touch smaller so the taller hand row fits */
-#stage.wide .field{--rw:22px;--rh:30px}
-#stage.wide .south .tile.meld{width:24px;height:33px}
-#stage.wide .decision-bar{width:218px;right:20px}
 #a2hs{position:fixed;z-index:150;left:50%;top:calc(var(--safe-t) + 6px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;max-width:min(560px,92vw);padding:8px 10px 8px 14px;border-radius:10px;background:var(--ink);color:#fff;font-size:12px;line-height:1.4;box-shadow:0 8px 24px #0003}
 #a2hs[hidden]{display:none}#a2hs b{font-weight:600}
 #a2hs button{flex:none;background:#fff;color:var(--ink);border-radius:6px;padding:5px 9px;font-size:12px}
+
+.tile.win-tile{position:relative;margin-left:10px;box-shadow:0 0 0 2px #c79a2a,0 0 0 6px #c79a2a2e,0 10px 18px -6px #c79a2a99;transform:translateY(-5px)}
+.tile.win-tile:after{content:'胡';position:absolute;left:50%;top:-17px;transform:translateX(-50%);font-size:10px;line-height:15px;padding:0 6px;border-radius:999px;background:#c79a2a;color:#fff;font-weight:600;letter-spacing:1px}
+body.p3d .plane .tile.win-tile{margin-left:6px;transform:none}
+body.p3d .plane .tile.win-tile:after{top:-15px}
+.tile.win-source{box-shadow:0 0 0 2px #c79a2a,0 0 0 5px #c79a2a33;z-index:2}
+.chip.win{background:#c79a2a;color:#fff;font-weight:600}
+.hud-badge:has(.chip.win){box-shadow:0 0 0 2px #c79a2a,0 6px 16px #c79a2a40}
 </style></head>
-<body>
+<body class="p3d">
 <div id="stage">
-<header class="topbar"><a class="brand" href="#" aria-label="敲麻练习桌"><span class="brand-mark">敲</span><span><strong>上海敲麻</strong><small>两人联机 · 两位 Bot</small></span></a><div class="top-middle"><span class="live-dot" id="net-dot"></span><span id="net-status">本地牌桌</span><span class="divider"></span><span id="round-label">第 01 局</span></div><nav><button id="drawer-button" class="ghost">积分 · 记录</button><button id="invite-button" class="ghost host-only">邀请好友</button><button id="wall-button" class="ghost">牌墙</button><button id="rules-button" class="ghost">桌规</button><button id="sound-button" class="ghost sound-button" data-mode="2"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor" stroke="none"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="sound-label">声音全开</span></button><button id="settings-button" class="icon-button host-only" aria-label="设置">⚙</button><button id="new-button" class="light-button host-only">新开一桌 <span>↗</span></button></nav></header>
+<header class="topbar"><a class="brand" href="#" aria-label="敲麻练习桌"><span class="brand-mark">敲</span><span><strong>上海敲麻</strong><small>两人联机 · 两位 Bot</small></span></a><div class="top-middle"><span class="live-dot" id="net-dot"></span><span id="net-status">本地牌桌</span><span class="divider"></span><span id="round-label">第 01 局</span><div class="table-controls"><button id="pause-button" class="small-button host-only">Ⅱ 暂停</button><button id="replay-button" class="small-button host-only">↶ 复盘</button><span class="mode-chip" id="mode-chip">真人 × 1 · Bot × 3</span></div></div><nav><button id="drawer-button" class="ghost">积分 · 记录</button><button id="invite-button" class="ghost host-only">邀请好友</button><button id="wall-button" class="ghost">牌墙</button><button id="rules-button" class="ghost">桌规</button><button id="sound-button" class="ghost sound-button" data-mode="2"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor" stroke="none"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="sound-label">声音全开</span></button><button id="settings-button" class="icon-button host-only" aria-label="设置">⚙</button><button id="new-button" class="light-button host-only">新开一桌 <span>↗</span></button></nav></header>
 <main class="workspace">
 <section class="game-column" aria-label="四人麻将牌桌">
-<div class="table-toolbar"><div><span class="eyebrow">SHANGHAI MAHJONG</span><h1>练牌，也练判断。</h1></div><div class="table-controls"><button id="pause-button" class="small-button host-only">Ⅱ 暂停</button><button id="replay-button" class="small-button host-only">↶ 复盘</button><span class="mode-chip" id="mode-chip">真人 × 1 · Bot × 3</span></div></div>
+
 <div class="mahjong-table" id="table">
 <div class="table-grain"></div><div class="table-line"></div>
+<div class="scene" id="scene"><div id="hud" class="hud" aria-live="polite"></div><div class="plane-fit" id="plane-fit"><div class="plane" id="plane">
 <div id="north-seat" class="seat opponent north"></div>
 <div id="west-seat" class="seat opponent west"></div>
 <div id="east-seat" class="seat opponent east"></div>
@@ -283,7 +354,7 @@ dialog{max-height:calc(100dvh - 24px);overflow:auto}
 <div id="wall-top" class="wall-strip wall-top"></div><div id="wall-left" class="wall-strip wall-left"></div><div id="wall-right" class="wall-strip wall-right"></div><div id="wall-bottom" class="wall-strip wall-bottom"></div>
 <div id="river-north" class="river river-north"></div><div id="river-west" class="river river-west"></div><div id="river-east" class="river river-east"></div><div id="river-south" class="river river-south"></div>
 <div class="table-center"><span class="center-emblem">敲</span><span id="remaining" class="remaining"><b>—</b> 张余牌</span><div class="compass"><span>对</span><span>上</span><span id="turn-marker">东</span><span>下</span><span>你</span></div><span id="last-event" class="last-event">开局补花</span><button id="next-button" class="next-button" hidden>开始下一局 →</button></div>
-</div>
+</div></div></div></div>
 <div id="south-seat" class="seat human south"></div>
 </div>
 <div class="decision-bar"><div class="decision-copy"><span id="decision-dot" class="status-dot"></span><div><strong id="decision-title">正在准备牌桌</strong><span id="decision-subtitle">按已确认的上海敲麻桌规练习</span></div></div><div id="actions" class="action-buttons"></div></div>
@@ -302,22 +373,35 @@ dialog{max-height:calc(100dvh - 24px);overflow:auto}
 <div id="rotate-hint"><div class="phone"></div><p>把手机横过来玩</p><small>牌桌是横版的</small><button id="rotate-dismiss">就这样继续</button></div>
 <dialog id="modal"><div class="modal-head"><h2 id="modal-title"></h2><button id="modal-close" class="icon-button" aria-label="关闭对话框">×</button></div><div id="modal-body"></div></dialog>
 <div id="toast" class="toast" role="status" hidden></div>
-<script>(()=>{const H=540,MINW=960,MAXW=1400,stage=document.getElementById('stage'),hint=document.getElementById('rotate-hint'),root=document.documentElement;let dismissed=false;
-// safe-area insets come from CSS env(); read them through custom properties
-const inset=k=>parseFloat(getComputedStyle(root).getPropertyValue('--safe-'+k))||0;
-function fit(){const v=window.visualViewport,full={w:v?v.width:innerWidth,h:v?v.height:innerHeight};
- const l=inset('l'),r=inset('r'),t=inset('t'),b=inset('b'),vw=full.w-l-r,vh=full.h-t-b;
- // widen the stage to the screen's shape, so a wide phone isn't letterboxed
- const W=Math.round(Math.min(MAXW,Math.max(MINW,H*vw/vh))),s=Math.min(vw/W,vh/H);
- stage.style.width=W+'px';root.style.setProperty('--stage-w',W+'px');
- // hand tiles grow with the width left between the identity column and the action panel
- const handRoom=W-16-24-140-224-24,tw=Math.max(38,Math.min(56,Math.floor(handRoom/14.7)-3));root.style.setProperty('--tw',tw+'px');
- stage.classList.toggle('wide',W>=1060);window.STAGE_SCALE=s;
- stage.style.transform=`translate(${l+Math.max(0,(vw-W*s)/2)}px,${t+Math.max(0,(vh-H*s)/2)}px) scale(${s})`;
- hint.classList.toggle('show',!dismissed&&full.h>full.w&&full.w<760);}
-document.getElementById('rotate-dismiss').onclick=()=>{dismissed=true;fit();};
-addEventListener('resize',fit);addEventListener('orientationchange',()=>{setTimeout(fit,250);setTimeout(fit,700);});window.visualViewport?.addEventListener('resize',fit);fit();
-// iOS Safari keeps its bars on screen; from the home screen the table gets the whole display
+<script>(()=>{const root=document.documentElement,body=document.body,hint=document.getElementById('rotate-hint');let dismissed=false,queued=false;
+window.STAGE_SCALE=1;
+const px=k=>parseFloat(getComputedStyle(root).getPropertyValue(k))||0;
+function layout(){queued=false;const v=window.visualViewport,W=(v?v.width:innerWidth)-px('--safe-l')-px('--safe-r'),Hfull=v?v.height:innerHeight,H=Hfull-px('--safe-t')-px('--safe-b');
+ body.classList.toggle('short',H<520);body.classList.toggle('slim',W<720);
+ const ctl=document.querySelector('.table-controls'),inTop=W>=1000,tiny=H<420,host=inTop?document.querySelector('.top-middle'):tiny?document.querySelector('.sidebar'):document.getElementById('scene');body.classList.toggle('tiny',tiny);if(ctl&&host&&ctl.parentElement!==host)host.append(ctl);body.classList.toggle('ctl-in-scene',!inTop);
+ const narrow=W<560,stack=narrow,noid=narrow||H<520||W<900;body.classList.toggle('stack',stack);body.classList.toggle('narrow',narrow);body.classList.toggle('noid',noid);
+ const side=W<720?10:16,gap=Math.round(Math.max(16,Math.min(32,H*.045)));root.style.setProperty('--side-pad',side+'px');root.style.setProperty('--bottom-gap',gap+'px');
+ const panel=stack?0:Math.round(Math.max(H<520?168:200,Math.min(270,W*.2))),idw=noid?0:Math.round(Math.max(96,Math.min(130,W*.1)));
+ root.style.setProperty('--panel-w',(stack?Math.min(360,W-2*side):panel)+'px');root.style.setProperty('--id-w',idw+'px');
+ // hand tile: fit the hand + melds into the width left over, but never taller than ~17% of the screen
+ const hand=document.querySelectorAll('#south-seat .hand-row .tile').length||14,melds=document.querySelectorAll('#south-seat .melds-row .tile').length,groups=document.querySelectorAll('#south-seat .melds-row .meld-group').length;
+ const room=W-2*side-(stack?0:panel+14)-(noid?0:idw+14);
+ const units=hand*1.08+.5+melds*.7+groups*.16+(groups?.4:0);
+ const tw=Math.floor(Math.max(22,Math.min(66,room/units,H*.125)));root.style.setProperty('--tw',tw+'px');
+ const south=document.getElementById('south-seat');root.style.setProperty('--hand-h',(south?south.getBoundingClientRect().height-gap-px('--safe-b'):tw*1.4)+'px');
+ // tipped table: measure its projection, then scale it into the scene above the hand
+ const scene=document.getElementById('scene'),fit=document.getElementById('plane-fit'),plane=document.getElementById('plane');
+ if(scene&&fit&&plane){fit.style.transform='translateX(-50%) scale(1)';const s=scene.getBoundingClientRect(),p=plane.getBoundingClientRect();
+  const hud=document.querySelector('.hud-north'),top=hud?hud.getBoundingClientRect().bottom-s.top+6:46,availW=s.width-2*side,availH=s.height-top-4;
+  const kw=availW/p.width,kh=availH/p.height,k=Math.max(.2,Math.min(kw,kh,1.4)),y0=p.top-s.top;
+  // height-bound (landscape): sit close to the hand; width-bound (portrait): centre in the free space
+  const ty=kh<=kw?s.height-4-(y0+p.height)*k:top+(availH-p.height*k)/2-y0*k;
+  fit.style.transform=`translate(-50%,${ty}px) scale(${k})`;}
+ hint.classList.toggle('show',!dismissed&&Hfull>W*1.15&&W<560);}
+window.layoutTable=()=>{if(!queued){queued=true;requestAnimationFrame(layout);}};
+document.getElementById('rotate-dismiss').onclick=()=>{dismissed=true;layout();};
+addEventListener('resize',window.layoutTable);addEventListener('orientationchange',()=>{setTimeout(layout,250);setTimeout(layout,700);});window.visualViewport?.addEventListener('resize',window.layoutTable);
+document.fonts?.ready.then(()=>layout());
 const ios=/iP(hone|od|ad)/.test(navigator.platform)||(/Mac/.test(navigator.platform)&&navigator.maxTouchPoints>1),standalone=navigator.standalone||matchMedia('(display-mode: standalone)').matches;
 if(ios&&!standalone&&!localStorage.getItem('qiaoma.a2hs')){const tip=document.getElementById('a2hs');tip.hidden=false;tip.querySelector('button').onclick=()=>{tip.hidden=true;try{localStorage.setItem('qiaoma.a2hs','1');}catch{}};}
 })();</script>
@@ -446,7 +530,7 @@ class Game{
  if(mode==='self'){for(const other of partners.length?partners:[0,1,2,3].filter(x=>x!==seat))charges[other]+=u*(partners.length?3:1);}else{charges[from]+=u;for(const other of partners)charges[other]+=u;}
  for(let i=0;i<4;i++){delta[i]-=charges[i];delta[seat]+=charges[i];}details.push({seat,...v,fly:bonus,u,charges});}
  for(let i=0;i<4;i++){s.scores[i]+=delta[i];if(!Number.isSafeInteger(s.scores[i]))throw new Error('积分超出安全整数');}
- s.result={mode,winners,from,details,delta,flyId,nextDealer:winners.length===0?s.dealer:winners.length>1?from:winners[0]};s.phase='ended';s.response=null;s.pending=null;this.note('结算',winners.length?'本局已结算':'流局，不计荒番');this.record('本局结束');}
+ const winId=winners.length?(mode==='self'?s.drawn:s.response?.id??null):null;s.result={mode,winners,from,details,delta,flyId,winId,nextDealer:winners.length===0?s.dealer:winners.length>1?from:winners[0]};s.phase='ended';s.response=null;s.pending=null;this.note('结算',winners.length?'本局已结算':'流局，不计荒番');this.record('本局结束');}
  assert(){let s=this.s,ids=[...s.wall.available];for(const p of s.players){ids.push(...p.hand,...p.flowers,...p.melds.flatMap(m=>m.ids),...p.river.filter(r=>!r.claimed).map(r=>r.id));}if(s.result?.flyId!==null&&s.result?.flyId!==undefined)ids.push(s.result.flyId);
  // A robbed added tile stays in declarer's concealed hand as the unique event owner.
  if(ids.length!==144||new Set(ids).size!==144)throw new Error(`实体牌不守恒 ${ids.length}/${new Set(ids).size}`);
@@ -633,6 +717,16 @@ function sfx(g){const s=g.s;if(review!==null)return;
  sfxResult=!!s.result;
  // someone else's tile I can claim: a gentle ping so it isn't missed
  if(s.phase==='response'&&!s.result&&s.response&&s.response.from!==me&&sfxPing!==s.serial&&!paused){sfxPing=s.serial;if(g.actions(me).some(x=>x.kind!=='pass'))SFX.play('ping',.12);}}
+
+// Flat badges for the three other seats: what you need from far away, readable at any size.
+function renderHud(g){const el=$('hud');if(!el)return;const s=g.s,where=['south','east','north','west'];let html='';
+ for(let seat=0;seat<4;seat++){const p=s.players[seat],r=rel(seat),turn=s.actor===seat&&!s.result&&s.phase!=='response';
+  const human=seat!==me&&(seat===0||(seat===GUEST_SEAT&&(Net.guestOnline||IS_GUEST)));
+  const chips=[s.dealer===seat?'<span class="chip dealer">庄</span>':'',`<span class="chip">${p.flowers.length}花</span>`,
+   p.qiao?`<span class="chip ${p.tian?'tian':'qiao'}">${p.tian?'天敲':'已敲'}</span>`:'',p.passedWin||p.passedKong?'<span class="chip pen">停胡</span>':'',s.result&&s.result.winners.includes(seat)&&s.result.winId!=null?`<span class="chip win">${s.result.mode==='self'?'自摸':s.result.mode==='rob'?'抢杠':'胡'} ${esc(MJ.LABELS[g.t(s.result.winId)])}</span>`:'',
+   human?'<span class="chip human">真人</span>':''].join('');
+  html+=`<div class="hud-badge hud-${where[r]} ${turn?'turn':''}"><span class="hud-avatar">${seat===me?'我':esc(NAMES[seat][0])}</span><div><div class="hud-line"><span class="hud-name">${esc(seatName(seat))}</span><span class="hud-score ${s.scores[seat]>0?'pos':''}">${pretty(s.scores[seat])}</span></div><div class="hud-chips">${chips}</div></div></div>`;}
+ el.innerHTML=html;}
 function freshSeed(){const n=new Uint32Array(1);crypto.getRandomValues(n);return `上海·练习${n[0].toString(36).padStart(6,'0')}`;}
 function tileSvg(t){
  // Traditional face layouts; drawn on a 40×56 grid.
@@ -681,15 +775,20 @@ function notify(message){$('toast').textContent=message;$('toast').hidden=false;
 function save(){if(IS_GUEST)return;Net.push();try{localStorage.setItem('qiaoma.table.v1',JSON.stringify({state:game.s,history:game.history,seed,fixedSeed,delay,archives}));$('save-status').textContent='已自动保存于本机';storageOK=true;}catch{$('save-status').textContent='本机存储不可用，请导出牌谱';storageOK=false;}}
 function pretty(n){return n>0?'+'+n:n.toString();}
 function openModal(title,body){$('modal-title').textContent=title;$('modal-body').innerHTML=body;if(!$('modal').open)$('modal').showModal();}
-function renderSeat(seat,g){let s=g.s,p=s.players[seat],isYou=seat===me,turn=s.actor===seat&&!s.result,show=isYou||(s.result&&revealed)||(review!==null&&revealed),tags=`${s.dealer===seat?'<span class="seat-tag">庄</span>':''}${p.qiao?`<span class="seat-tag qiao">${p.tian?'天敲':'已敲'}</span>`:''}${p.passedWin||p.passedKong?'<span class="seat-tag penalty">停胡</span>':''}`;
+
+// At the end of a hand: the winner's tiles end with the winning tile, marked. For 捉铳/抢杠 that tile is
+// shown here as well as (marked) where it came from.
+function winLayout(seat,g,ids){const r=g.s.result;if(!r||!r.winners.includes(seat)||r.winId==null)return {ids,win:null};
+ return {ids:ids.filter(id=>id!==r.winId),win:r.winId};}
+function renderSeat(seat,g){let s=g.s,p=s.players[seat],isYou=seat===me,turn=s.actor===seat&&!s.result,show=isYou||!!s.result||(review!==null&&revealed&&!!game.s.result),tags=`${s.dealer===seat?'<span class="seat-tag">庄</span>':''}${p.qiao?`<span class="seat-tag qiao">${p.tian?'天敲':'已敲'}</span>`:''}${p.passedWin||p.passedKong?'<span class="seat-tag penalty">停胡</span>':''}`;
  const flowers=`<div class="flowers-row"><span class="flower-label">${p.flowers.length?p.flowers.length+' 花':'无亮花'}</span>${p.flowers.map(id=>tile(id,g,'mini','tabindex="-1"')).join('')}</div>`;
  const melds=`<div class="melds-row">${p.melds.map(m=>`<div class="meld-group">${m.ids.map(id=>tile(id,g,'meld','tabindex="-1"')).join('')}<span class="meld-caption">${{chi:'吃',pon:'碰',daiminkan:'明杠',ankan:'暗杠',kakan:'上杠'}[m.kind]}${m.from!==seat?' · '+SEATNAME[m.from]:''}</span></div>`).join('')}</div>`;
  let identity=`<span class="avatar ${isYou?'you':''}">${isYou?'我':esc(NAMES[seat][0])}</span><div><div class="player-name">${esc(seatName(seat))}<span class="seat-score ${s.scores[seat]>0?'pos':''}">${pretty(s.scores[seat])}</span> ${tags}</div><div class="player-role">${esc(ROLES[seat])}</div></div>`;
- let html;if(isYou){let legal=review===null&&!s.result?g.actions(me):[],allowed=new Set(legal.filter(a=>a.kind===(armed?'qiao':'discard')).map(a=>a.id));let sorted=p.hand.slice().sort((a,b)=>g.t(a)-g.t(b)||a-b);if(s.actor===me&&s.phase==='turn'&&s.drawn!==null&&p.hand.includes(s.drawn)){sorted=sorted.filter(id=>id!==s.drawn);sorted.push(s.drawn);}
- html=`<div class="player-head"><div class="identity">${identity}</div><div class="human-meta">${flowers}<span class="flower-chip">${p.open?'已开门':'未开门'}</span></div></div><div class="seat-body"><div class="hand-row">${sorted.map(id=>tile(id,g,`${allowed.has(id)?'playable':''} ${selected===id?'selected':''} ${s.phase==='turn'&&s.actor===me&&id===s.drawn?'drawn':''} ${armed&&!allowed.has(id)?'dim':''} ${analyze&&analysisRows[0]?.t===g.t(id)?'recommended':''}`,`data-tile="${id}" ${allowed.has(id)?'':'aria-disabled="true"'}`)).join('')}</div>${melds}</div>`;
- }else{let hand=show?`<div class="revealed-hand">${p.hand.slice().sort((a,b)=>g.t(a)-g.t(b)).map(id=>tile(id,g,'meld','tabindex="-1"')).join('')}</div>`:`<div class="hand-backs" aria-label="${p.hand.length}张隐藏手牌">${p.hand.map(()=>'<span class="back-tile"></span>').join('')}</div>`;html=`<div class="player-head">${identity}</div><div class="seat-body">${hand}${melds}</div>${flowers}`;}
+ let html;if(isYou){let legal=review===null&&!s.result?g.actions(me):[],allowed=new Set(legal.filter(a=>a.kind===(armed?'qiao':'discard')).map(a=>a.id));let sorted=p.hand.slice().sort((a,b)=>g.t(a)-g.t(b)||a-b);if(s.actor===me&&s.phase==='turn'&&s.drawn!==null&&p.hand.includes(s.drawn)){sorted=sorted.filter(id=>id!==s.drawn);sorted.push(s.drawn);}const myWin=winLayout(me,g,sorted);sorted=myWin.ids;
+ html=`<div class="player-head"><div class="identity">${identity}</div><div class="human-meta">${flowers}<span class="flower-chip">${p.open?'已开门':'未开门'}</span></div></div><div class="seat-body"><div class="hand-row">${sorted.map(id=>tile(id,g,`${allowed.has(id)?'playable':''} ${selected===id?'selected':''} ${s.phase==='turn'&&s.actor===me&&id===s.drawn?'drawn':''} ${armed&&!allowed.has(id)?'dim':''} ${analyze&&analysisRows[0]?.t===g.t(id)?'recommended':''}`,`data-tile="${id}" ${allowed.has(id)?'':'aria-disabled="true"'}`)).join('')}${myWin.win!=null?tile(myWin.win,g,'win-tile','tabindex="-1" aria-label="胡牌"'):''}</div>${melds}</div>`;
+ }else{const ow=winLayout(seat,g,p.hand.slice().sort((a,b)=>g.t(a)-g.t(b)));let hand=show?`<div class="revealed-hand">${ow.ids.map(id=>tile(id,g,'meld','tabindex="-1"')).join('')}${ow.win!=null?tile(ow.win,g,'meld win-tile','tabindex="-1" aria-label="胡牌"'):''}</div>`:`<div class="hand-backs" aria-label="${p.hand.length}张隐藏手牌">${p.hand.map(()=>'<span class="back-tile"></span>').join('')}</div>`;html=`<div class="player-head">${identity}</div><div class="seat-body">${hand}${melds}</div>${flowers}`;}
  let el=$(POS[seat]+'-seat');el.innerHTML=html;el.classList.toggle('active-seat',turn);
- const river=$('river-'+POS[seat]);river.innerHTML=`<span class="river-label">${SEATNAME[seat]}牌河</span>${p.river.map(r=>tile(r.id,g,`small ${r.claimed?'discarded':''} ${s.lastDiscard?.id===r.id&&!r.claimed?'last':''} ${r.qiao?'qiao-discard':''}`,'tabindex="-1"')).join('')}`;
+ const river=$('river-'+POS[seat]);river.innerHTML=`<span class="river-label">${SEATNAME[seat]}牌河</span>${p.river.map(r=>tile(r.id,g,`small ${r.claimed?'discarded':''} ${s.lastDiscard?.id===r.id&&!r.claimed?'last':''} ${s.result&&s.result.mode!=='self'&&s.result.winId===r.id?'win-source':''} ${r.qiao?'qiao-discard':''}`,'tabindex="-1"')).join('')}`;
 }
 function wallMarkers(g){const w=g.s.wall;let head=w.available[0],tail=null;if(w.available.length){let last=w.tiles[w.available.at(-1)],prev=w.tiles[w.available.at(-2)];tail=prev&&prev.seat===last.seat&&prev.stack===last.stack?prev.id:last.id;}return {head,tail};}
 function renderWall(g){let w=g.s.wall,{head,tail}=wallMarkers(g),set=new Set(w.available);for(const [seat,pos] of [0,1,2,3].map(x=>[x,['bottom','right','top','left'][rel(x)]])){let stacks=[];for(let n=0;n<18;n++){let ids=w.tiles.filter(t=>t.seat===seat&&t.stack===n).map(t=>t.id),left=ids.filter(id=>set.has(id)).length;stacks.push(`<span class="wall-stack ${left===0?'empty':left===1?'half':''} ${ids.includes(head)?'head':''} ${ids.includes(tail)?'tail':''}" title="${SEATNAME[seat]}墙第${n+1}墩 · ${left}张${ids.includes(head)?' · 牌头':''}${ids.includes(tail)?' · 牌尾':''}"></span>`);}$( 'wall-'+pos).innerHTML=stacks.join('');}}
@@ -701,7 +800,7 @@ function picked(seat){return picks.key===game.s.serial&&picks.by[seat]!==undefin
 function humanAct(a,seat){try{const s=game.s;if(s.result)return;if(!game.actions(seat).some(x=>JSON.stringify(x)===JSON.stringify(a)))throw new Error('非法动作');if(s.phase==='response'){if(picks.key!==s.serial)picks={key:s.serial,by:{}};picks.by[seat]=a;}else game.act(a,seat);if(seat===0){selected=null;armed=false;}analysisSerial='';save();render();schedule(s.phase==='response'?50:undefined);}catch(e){if(seat===0)fail(e);else{console.warn(e);Net.push();}}}
 function renderActions(g){const s=g.s,container=$('actions');let actions=review===null?g.actions(me):[];const button=(label,a,cls='')=>`<button class="action-button ${cls}" data-action="${esc(JSON.stringify(a))}">${label}</button>`;
  let title=s.actor!==me&&!s.result&&s.phase!=='response'?`等待${seatName(s.actor)}`:'等待其他玩家',subtitle=Net.guestOnline||IS_GUEST?'两位真人对坐 · 上下家为 Bot':'对手仅依据自己的手牌与公开信息决策',html='';
- if(review!==null){title='复盘 · '+game.history[review].label;subtitle='公平分析使用当时信息；可切换查看四家手牌';html='<button class="action-button" id="reveal-toggle">'+(revealed?'隐藏对手牌':'查看四家手牌')+'</button>';}
+ if(review!==null){title='复盘 · '+game.history[review].label;if(game.s.result){subtitle='公平分析使用当时信息；可切换查看四家手牌';html='<button class="action-button" id="reveal-toggle">'+(revealed?'隐藏对手牌':'查看四家手牌')+'</button>';}else{subtitle='本局进行中：只显示你当时能看到的信息';html='';}}
  else if(s.result){title=s.result.winners.length?'本局结束':'本局流局';subtitle=IS_GUEST?'任意一方都可以开始下一局':'点击复盘回看判断，或开始下一局';html='<button class="action-button" id="result-button">结算详情</button><button class="action-button primary" id="next-inline">下一局 →</button>';}
  else if(paused){title='牌桌已暂停';subtitle='点击继续，Bot 才会行动';html='<button class="action-button primary" id="resume-inline">继续牌局</button>';}
  else if(actions.some(a=>a.kind!=='pass'&&a.kind!=='start')){
@@ -728,7 +827,7 @@ function render(){if(!game)return;let g=current(),s=g.s;$('round-label').textCon
  $('relations').textContent=s.relations.length?'三口关系：'+s.relations.map(r=>r.split('-').map(i=>seatName(+i)).join(' ↔ ')).join(' / '):'尚无三口包牌关系';
  let log=s.log.filter(e=>e.kind!=='摸牌').slice(-18).reverse();$('log-count').textContent=s.log.filter(e=>e.kind!=='摸牌').length+' 条';$('event-log').innerHTML=log.map(e=>`<div class="log-entry"><span class="log-point"></span><b>${e.seat!==null?esc(seatName(e.seat))+' · ':''}${e.kind}</b><span>${esc(e.text)}</span></div>`).join('');
  $('replay-bar').hidden=review===null;if(review!==null){$('replay-slider').max=game.history.length-1;$('replay-slider').value=review;$('replay-label').textContent=`${review+1}/${game.history.length}`;$('branch-button').disabled=!!s.result;}
- announce(g);animateBuhua(g);sfx(g);if(s.result&&review===null&&lastResultSerial!==s.serial){lastResultSerial=s.serial;resultModal(g);}
+ announce(g);animateBuhua(g);sfx(g);renderHud(g);window.layoutTable?.();if(s.result&&review===null&&lastResultSerial!==s.serial){lastResultSerial=s.serial;resultModal(g);}
 }
 function fail(e){paused=true;clearTimeout(timer);console.error(e);notify('牌局校验暂停：'+e.message);$('decision-title').textContent='校验发现问题，牌桌已暂停';$('decision-subtitle').textContent=e.message;}
 // 补花 animation: the flower flies into the player's flower pile, then a replacement flies in from the wall tail.
@@ -770,7 +869,7 @@ function shout(seat,kind){const table=$('table'),seatEl=$(POS[seat]+'-seat'),fie
  seatEl.classList.remove('shout-flash');void seatEl.offsetWidth;seatEl.classList.add('shout-flash');setTimeout(()=>seatEl.classList.remove('shout-flash'),1900);
  shoutUntil=Date.now()+1600;}
 function schedule(wait){if(IS_GUEST)return;clearTimeout(timer);if(paused||review!==null||game.s.result)return;timer=setTimeout(tick,Math.max(wait??delay,shoutUntil-Date.now(),holdUntil-Date.now()));}
-function tick(){try{const s=game.s,humans=humanSeats();if(s.phase==='draw'){game.advance();}else if(s.phase==='response'){if(picks.key!==s.serial)picks={key:s.serial,by:{}};for(const h of humans){if(h===s.response.from)continue;if(game.responseActions(h).some(x=>x.kind!=='pass')&&picks.by[h]===undefined)return;}const by=picks.by;picks={key:-1,by:{}};game.resolveResponses(by);}else if(humans.includes(s.actor)){let a=game.actions(s.actor);if(s.phase==='opening'&&a.length===1&&a[0].kind==='start')game.act(a[0],s.actor);else if(s.phase==='turn'&&s.players[s.actor].qiao&&a.length===1&&a[0].kind==='discard')game.act(a[0],s.actor);else return;}else{let a=MJ.bot(game,s.actor);if(!a)throw new Error('无可行动作');game.act(a);}analysisSerial='';save();render();schedule();}catch(e){fail(e);}}
+function tick(){try{const s=game.s,humans=humanSeats();if(s.result)return;if(s.phase==='draw'){game.advance();}else if(s.phase==='response'){if(picks.key!==s.serial)picks={key:s.serial,by:{}};for(const h of humans){if(h===s.response.from)continue;if(game.responseActions(h).some(x=>x.kind!=='pass')&&picks.by[h]===undefined)return;}const by=picks.by;picks={key:-1,by:{}};game.resolveResponses(by);}else if(humans.includes(s.actor)){let a=game.actions(s.actor);if(s.phase==='opening'&&a.length===1&&a[0].kind==='start')game.act(a[0],s.actor);else if(s.phase==='turn'&&s.players[s.actor].qiao&&a.length===1&&a[0].kind==='discard')game.act(a[0],s.actor);else return;}else{let a=MJ.bot(game,s.actor);if(!a)throw new Error('无可行动作');game.act(a);}analysisSerial='';save();render();schedule();}catch(e){fail(e);}}
 function newTable(newSeed){clearTimeout(timer);picks={key:-1,by:{}};archives=[];fixedSeed=!!newSeed;seed=newSeed||freshSeed();game=new MJ.Game(seed,0);selected=null;armed=false;paused=false;review=null;revealed=false;analysisSerial='';lastResultSerial=-1;if($('modal').open)$('modal').close();save();render();schedule();}
 function nextRound(){if(IS_GUEST){Net.send({type:'next'});return;}let r=game.s.result;if(!r)return;picks={key:-1,by:{}};clearTimeout(timer);archives.push({label:`第 ${game.s.round} 局 · 已结束`,state:structuredClone(game.s),history:game.history.slice()});game=new MJ.Game(fixedSeed?seed+'|'+(game.s.round+1):freshSeed(),r.nextDealer,game.s.scores,game.s.round+1);selected=null;armed=false;paused=false;review=null;revealed=false;analysisSerial='';if($('modal').open)$('modal').close();save();render();schedule();}
 function resultModal(g){let r=g.s.result,body=`<div class="result-title">${r.winners.length?r.winners.map(i=>esc(seatName(i))).join('、')+' '+{self:'自摸',discard:'捉铳',rob:'抢杠'}[r.mode]:'流局'}</div>`;
@@ -778,7 +877,7 @@ function resultModal(g){let r=g.s.result,body=`<div class="result-title">${r.win
  for(let i=0;i<4;i++)body+=`<div class="result-line"><span>${esc(seatName(i))}</span><strong>${pretty(r.delta[i])}</strong></div>`;
  if(r.flyId!==null)body+=`<p class="modal-copy">共享苍蝇：${MJ.LABELS[g.t(r.flyId)]}</p>`;
  body+=`<p class="modal-copy">下一局庄家：${esc(seatName(r.nextDealer))}。流局及骰子均不翻倍。</p><div class="modal-buttons"><button id="result-reveal" class="action-button">查看四家手牌</button><button id="modal-replay" class="action-button host-only">复盘本局</button><button id="modal-next" class="action-button primary">下一局 →</button></div>`;openModal('本局结算',body);}
-function replay(){clearTimeout(timer);paused=true;review=game.history.length-1;selected=null;armed=false;analysisSerial='';if($('modal').open)$('modal').close();render();}
+function replay(){if(Net.guestOnline&&!game.s.result){notify('联机进行中不能复盘，本局结束后再看');return;}clearTimeout(timer);paused=true;review=game.history.length-1;selected=null;armed=false;analysisSerial='';if($('modal').open)$('modal').close();render();}
 function showWall(){let g=current(),w=g.s.wall,{head,tail}=wallMarkers(g),set=new Set(w.available),html=`<div class="modal-copy"><p>四面各 18 墩，一墩上下两张。玩家逆时针行牌，牌头沿牌墙顺时针推进。</p><p>本局骰子 ${w.dice.join(' + ')}，${SEATNAME[w.cutSeat]}墙右起数 ${w.cutStack} 墩后开口。采用单次掷骰开口预设，不影响分数。</p></div><div class="wall-legend"><span>黑底：当前牌头</span><span>黑框：当前牌尾</span><span>浅色：已经取走</span></div>`;
  for(let seat=0;seat<4;seat++){html+=`<div class="wall-map-caption">${SEATNAME[seat]}面前的牌墙 · 从本人视角右向左编号</div><div class="wall-map">`;for(let n=0;n<18;n++){let ts=w.tiles.filter(t=>t.seat===seat&&t.stack===n);html+=`<div class="wall-map-stack">${ts.map(t=>`<span class="wall-map-tile ${set.has(t.id)?'':'gone'} ${head===t.id?'head':''} ${tail===t.id?'tail':''}">${t.layer}</span>`).join('')}<small style="font-size:7px;color:#758767">${n+1}</small></div>`;}html+='</div>';}
  html+='<p class="modal-copy">摸取牌头：先上后下。补花、杠补和飞苍蝇取牌尾：末墩先上后下，再向前一墩。头尾共享同一副余牌，不设王牌区。</p>';openModal('牌墙 · 头尾与上下层',html);}
@@ -799,12 +898,12 @@ document.addEventListener('click',e=>{const el=e.target.closest('button');if(!el
  'new-button':()=>{if(game.s.result||confirm('开启新牌桌将重置积分和当前牌局。需要保留时请先导出牌谱。'))newTable();},
  'next-button':nextRound,'next-inline':nextRound,'modal-next':nextRound,
  'modal-close':()=>{if(IS_GUEST&&!game&&$('modal-title').textContent==='加入牌桌')return Net.go?.();$('modal').close();},'result-button':()=>resultModal(game),
- 'result-reveal':()=>{revealed=true;$('modal').close();render();},'reveal-toggle':()=>{revealed=!revealed;render();},
+ 'result-reveal':()=>{revealed=true;$('modal').close();render();},'reveal-toggle':()=>{if(!game.s.result){notify('本局结束后才能查看四家手牌');return;}revealed=!revealed;render();},
  'replay-prev':()=>{review=Math.max(0,review-1);analysisSerial='';render();},'replay-next':()=>{review=Math.min(game.history.length-1,review+1);analysisSerial='';render();},
  'replay-exit':()=>{review=null;revealed=false;paused=false;analysisSerial='';render();schedule();},
- 'branch-button':()=>{if(review===null)return;archives.push({label:`第 ${game.s.round} 局 · 分支前原牌谱`,state:structuredClone(game.s),history:game.history.slice()});let history=game.history.slice(0,review+1);game=MJ.Game.restore({state:structuredClone(history.at(-1).state),history});review=null;revealed=false;paused=false;analysisSerial='';lastResultSerial=-1;save();render();schedule();notify('已建立新分支，使用该节点剩余牌墙继续');},
+ 'branch-button':()=>{if(review===null)return;if(!game.s.result){notify('本局结束后才能从复盘节点开分支');return;}if(Net.guestOnline){notify('联机时不能开分支');return;}archives.push({label:`第 ${game.s.round} 局 · 分支前原牌谱`,state:structuredClone(game.s),history:game.history.slice()});let history=game.history.slice(0,review+1);game=MJ.Game.restore({state:structuredClone(history.at(-1).state),history});review=null;revealed=false;paused=false;analysisSerial='';lastResultSerial=-1;save();render();schedule();notify('已建立新分支，使用该节点剩余牌墙继续');},
  'archive-open':()=>{let a=archives[+$('archive-select').value];if(!a)return;archives.push({label:`第 ${game.s.round} 局 · 切换前`,state:structuredClone(game.s),history:game.history.slice()});game=MJ.Game.restore({state:structuredClone(a.state),history:a.history.slice()});save();replay();},
- 'export-button':exportGame,'import-button':()=>$('import-file').click(),
+ 'export-button':()=>{if(!game.s.result){notify('本局结束后才能导出牌谱');return;}exportGame();},'import-button':()=>$('import-file').click(),
  'settings-save':()=>{delay=+$('bot-speed').value;$('modal').close();save();schedule();notify('已保存 Bot 行动间隔');},
  'invite-button':()=>Net.invite(),'sound-button':()=>SFX.cycle(),'drawer-button':()=>{document.body.classList.toggle('drawer');el.classList.toggle('on',document.body.classList.contains('drawer'));},'invite-copy':()=>Net.copy(),'room-close':()=>{Net.close();$('modal').close();notify('房间已关闭');},'join-go':()=>Net.go?.(),
  'settings-new':()=>{delay=+$('bot-speed').value;newTable($('new-seed').value.trim()||undefined);}
@@ -820,7 +919,7 @@ let resumed=false;const hosting=localStorage.getItem('qiaoma.room');if(game&&hos
 if(!game)game=new MJ.Game(seed,0);save();render();schedule();if(resumed)notify('已随机开新桌 · 上次牌局可在 ⚙ 设置中恢复');
 if(localStorage.getItem('qiaoma.room'))Net.host(localStorage.getItem('qiaoma.room'));}
 // Exposed for reproducible local QA; Bot still only receives observe()/legal actions.
-SFX.paint();
+SFX.paint();window.layoutTable?.();
 window.qiaoma={get SFX(){return SFX},get game(){return game},pause:()=>{paused=true;clearTimeout(timer);render();},newTable,render,tileSvg};
 })();
 </script>
