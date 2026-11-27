@@ -635,7 +635,7 @@ const POS=new Proxy(POS_,{get:(o,k)=>/^\d$/.test(k)?o[rel(+k)]:o[k]}),SEATNAME=n
 let game,selected=null,armed=false,paused=false,timer=null,review=null,analyze=false,analysisSerial='',analysisRows=[],revealed=false,lastResultSerial=-1,seed=freshSeed(),fixedSeed=false,delay=600,storageOK=true,toastTimer,archives=[];
 
 // ---------- Online play: host browser is authoritative, guest is a thin client over a WebRTC data channel ----------
-const Net=(()=>{let peer=null,conn=null,code=null,retry=null;const api={guestOnline:false,connected:false};
+const Net=(()=>{let peer=null,conn=null,code=null,retry=null,hostTimer=null,hostError='';const api={guestOnline:false,connected:false};
  const status=(text,state)=>{$('net-status').textContent=text;$('net-dot').className='live-dot '+(state||'');};
  const chip=()=>{$('mode-chip').textContent=api.guestOnline||IS_GUEST?'真人 × 2 · Bot × 2':'真人 × 1 · Bot × 3';};
  const idFor=c=>'qiaoma-'+c.toLowerCase();
@@ -660,15 +660,17 @@ const Net=(()=>{let peer=null,conn=null,code=null,retry=null;const api={guestOnl
   c.seen=Date.now();clearInterval(api.beat);api.beat=setInterval(()=>{if(conn===c&&api.guestOnline&&Date.now()-c.seen>8000){try{c.close();}catch{}c.emit?.('close');}},2000);
   c.on('close',()=>{if(conn!==c)return;conn=null;api.guestOnline=false;ROLES[GUEST_SEAT]='BOT 02 · 暂代好友';chip();status(`房间 ${code} · 好友已离开，Bot 暂代`,'wait');notify('好友断线了，Bot 暂时替他出牌；好友重新打开链接即可回到座位');render();schedule();});
   c.on('error',e=>console.warn(e));}
- api.host=(want)=>{if(typeof Peer==='undefined'){notify('联机组件加载失败，请检查网络后刷新');return;}if(peer&&!peer.destroyed)return;code=want||newCode();status(`正在开房 ${code}…`,'wait');
-  peer=new Peer(idFor(code));
-  peer.on('open',()=>{localStorage.setItem('qiaoma.room',code);status(`房间 ${code} · 等待好友`,'wait');render();});
-  peer.on('connection',attachHost);
-  peer.on('disconnected',()=>{status(`房间 ${code} · 信令断开，重连中`,'wait');setTimeout(()=>peer&&!peer.destroyed&&peer.reconnect(),1500);});
-  peer.on('error',e=>{if(e.type==='unavailable-id'){peer.destroy();peer=null;if(want){notify('上次的房间号已被占用，已换一个新房间号');api.host();}else api.host();return;}console.warn(e);if(e.type==='network'||e.type==='server-error')status('联机服务暂不可用','off');});};
- api.close=()=>{localStorage.removeItem('qiaoma.room');conn?.close();peer?.destroy();peer=null;conn=null;api.guestOnline=false;ROLES[GUEST_SEAT]='BOT 02 · 暂代好友';chip();status('本地牌桌','');render();schedule();};
- api.invite=()=>{if(!peer||peer.destroyed)api.host();const body=()=>code&&peer?.open?`<div class="modal-copy"><p>把链接发给好友，打开即可坐到你对家。上下家仍由 Bot 坐。</p></div><div class="invite-code">${code}</div><div class="invite-link"><input id="invite-url" readonly value="${esc(link())}"><button id="invite-copy" class="action-button primary">复制链接</button></div><p class="modal-copy">${api.guestOnline?`${esc(NAMES[GUEST_SEAT])} 已在座。`:'好友进来之前，对家由 Bot 暂代。'}牌局在你的浏览器里运行，请保持这个页面开着。</p><div class="modal-buttons"><button id="room-close" class="action-button danger">关闭房间</button></div>`:'<p class="modal-copy">正在连接联机服务…</p>';
-  openModal('邀请好友',body());if(!(code&&peer?.open)){const wait=setInterval(()=>{if(!$('modal').open||$('modal-title').textContent!=='邀请好友'){clearInterval(wait);return;}if(peer?.open){clearInterval(wait);$('modal-body').innerHTML=body();}},300);}};
+ function hostFailed(p,message){if(peer!==p)return;clearTimeout(hostTimer);hostError=message;peer=null;p?.destroy();status(message,'off');}
+ api.host=(want)=>{if(typeof Peer==='undefined'){hostError='联机组件加载失败，请刷新页面重试';notify(hostError);return;}if(peer&&!peer.destroyed)return;hostError='';code=want||code||newCode();status(`正在开房 ${code}…`,'wait');
+  const p=peer=new Peer(idFor(code));
+  hostTimer=setTimeout(()=>{if(peer===p&&!p.open)hostFailed(p,'连接联机服务超时，请重试或切换网络');},12000);
+  p.on('open',()=>{if(peer!==p)return;clearTimeout(hostTimer);hostError='';localStorage.setItem('qiaoma.room',code);status(`房间 ${code} · 等待好友`,'wait');render();});
+  p.on('connection',attachHost);
+  p.on('disconnected',()=>{if(peer!==p)return;status(`房间 ${code} · 信令断开，重连中`,'wait');setTimeout(()=>{if(peer===p&&!p.destroyed&&p.disconnected){p.reconnect();clearTimeout(hostTimer);hostTimer=setTimeout(()=>{if(peer===p&&!p.open)hostFailed(p,'联机服务重连超时，请重新邀请');},12000);}},1500);});
+  p.on('error',e=>{if(peer!==p)return;if(e.type==='unavailable-id'){clearTimeout(hostTimer);peer=null;p.destroy();code=null;notify('房间号已被占用，正在换一个新房间号');api.host();return;}console.warn(e);if(['network','server-error','socket-error','socket-closed','disconnected','ssl-unavailable'].includes(e.type))hostFailed(p,`联机服务连接失败（${e.type}），请重试或切换网络`);});};
+ api.close=()=>{clearTimeout(hostTimer);hostError='';localStorage.removeItem('qiaoma.room');conn?.close();peer?.destroy();peer=null;conn=null;api.guestOnline=false;ROLES[GUEST_SEAT]='BOT 02 · 暂代好友';chip();status('本地牌桌','');render();schedule();};
+ api.invite=()=>{if(!peer||peer.destroyed)api.host();const body=()=>code&&peer?.open?`<div class="modal-copy"><p>把链接发给好友，打开即可坐到你对家。上下家仍由 Bot 坐。</p></div><div class="invite-code">${code}</div><div class="invite-link"><input id="invite-url" readonly value="${esc(link())}"><button id="invite-copy" class="action-button primary">复制链接</button></div><p class="modal-copy">${api.guestOnline?`${esc(NAMES[GUEST_SEAT])} 已在座。`:'好友进来之前，对家由 Bot 暂代。'}牌局在你的浏览器里运行，请保持这个页面开着。</p><div class="modal-buttons"><button id="room-close" class="action-button danger">关闭房间</button></div>`:hostError?`<p class="modal-copy">${esc(hostError)}</p><div class="modal-buttons"><button id="invite-retry" class="action-button primary">重新连接</button></div>`:'<p class="modal-copy">正在连接联机服务…（最多等待 12 秒）</p>';
+  openModal('邀请好友',body());if(!(code&&peer?.open)){const wait=setInterval(()=>{if(!$('modal').open||$('modal-title').textContent!=='邀请好友'){clearInterval(wait);return;}if(peer?.open||hostError){clearInterval(wait);$('modal-body').innerHTML=body();}},300);}};
  api.copy=async()=>{try{await navigator.clipboard.writeText(link());notify('链接已复制');}catch{$('invite-url').select();notify('请手动复制链接');}};
  // ---- guest ----
  function connect(){if(!peer||peer.destroyed)return;status(`正在连接房间 ${ROOM}…`,'wait');const c=peer.connect(idFor(ROOM),{reliable:true});conn=c;
@@ -936,7 +938,7 @@ document.addEventListener('click',e=>{const el=e.target.closest('button');if(!el
  'archive-open':()=>{let a=archives[+$('archive-select').value];if(!a)return;archives.push({label:`第 ${game.s.round} 局 · 切换前`,state:structuredClone(game.s),history:game.history.slice()});game=MJ.Game.restore({state:structuredClone(a.state),history:a.history.slice()});save();replay();},
  'export-button':()=>{if(!game.s.result){notify('本局结束后才能导出牌谱');return;}exportGame();},'import-button':()=>$('import-file').click(),
  'settings-save':()=>{delay=+$('bot-speed').value;$('modal').close();save();schedule();notify('已保存 Bot 行动间隔');},
- 'invite-button':()=>Net.invite(),'sound-button':()=>SFX.cycle(),'drawer-button':()=>{document.body.classList.toggle('drawer');el.classList.toggle('on',document.body.classList.contains('drawer'));},'invite-copy':()=>Net.copy(),'room-close':()=>{Net.close();$('modal').close();notify('房间已关闭');},'join-go':()=>Net.go?.(),
+ 'invite-button':()=>Net.invite(),'invite-retry':()=>Net.invite(),'sound-button':()=>SFX.cycle(),'drawer-button':()=>{document.body.classList.toggle('drawer');el.classList.toggle('on',document.body.classList.contains('drawer'));},'invite-copy':()=>Net.copy(),'room-close':()=>{Net.close();$('modal').close();notify('房间已关闭');},'join-go':()=>Net.go?.(),
  'settings-new':()=>{delay=+$('bot-speed').value;newTable($('new-seed').value.trim()||undefined);}
  };handlers[id]?.();});
 document.addEventListener('dblclick',e=>{let el=e.target.closest('[data-tile]');if(el){chooseTile(+el.dataset.tile);confirmDiscard();}});
