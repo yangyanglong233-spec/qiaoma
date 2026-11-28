@@ -110,7 +110,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline-color:var(
 .analysis-table tr.best td{color:var(--ink);font-weight:600}
 .wait-pill{background:#f1f1ee;color:var(--ink)}
 .analysis-title button,.reveal-control{color:var(--muted)}
-.toast{background:var(--ink);color:#fff;border-color:var(--ink)}
+.toast{background:var(--ink);color:#fff;border-color:var(--ink);top:calc(env(safe-area-inset-top,0px) + 64px);bottom:auto;pointer-events:none;max-width:min(90vw,420px)}
 dialog{background:#fff;border-color:var(--border)}dialog::backdrop{background:#0000004d;backdrop-filter:none}
 .modal-copy{color:#555}.modal-copy h3{color:var(--ink)}
 .wall-map-stack{background:#f1f1ee}.wall-map-tile{background:#d3d3ce;color:#444}
@@ -800,7 +800,7 @@ function tileSvg(t){
 }
 function tile(id,g,classes='',attrs=''){return `<button type="button" class="tile ${classes}" aria-label="${esc(MJ.LABELS[g.t(id)])}" title="${esc(MJ.LABELS[g.t(id)])}" ${attrs}>${tileSvg(g.t(id))}</button>`;}
 function current(){return review===null?game:MJ.Game.restore({state:structuredClone(game.history[review].state),history:[]});}
-function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3200);}
+function notify(message){const toast=$('toast');if(!toast.hidden&&toast.textContent===message)return;toast.textContent=message;toast.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.hidden=true,2400);}
 function save(){if(IS_GUEST)return;Net.push();try{localStorage.setItem('qiaoma.table.v1',JSON.stringify({state:game.s,history:game.history,seed,fixedSeed,delay,archives}));$('save-status').textContent='已自动保存于本机';storageOK=true;}catch{$('save-status').textContent='本机存储不可用，请导出牌谱';storageOK=false;}}
 function pretty(n){return n>0?'+'+n:n.toString();}
 function openModal(title,body){$('modal-title').textContent=title;$('modal-body').innerHTML=body;if(!$('modal').open)$('modal').showModal();}
